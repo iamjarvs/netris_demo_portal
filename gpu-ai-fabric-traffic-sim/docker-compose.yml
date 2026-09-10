@@ -1,0 +1,61 @@
+services:
+  pretend-gpu-01:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pretend-gpu-01
+    hostname: pretend-gpu-01
+    environment:
+      - NUM_RAILS=8
+      - NODE_ROLE=worker
+    networks:
+      ai-backend-fabric:
+        ipv4_address: 172.28.0.11
+
+  pretend-gpu-02:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pretend-gpu-02
+    hostname: pretend-gpu-02
+    environment:
+      - NUM_RAILS=8
+      - NODE_ROLE=worker
+    networks:
+      ai-backend-fabric:
+        ipv4_address: 172.28.0.12
+
+  pretend-gpu-03:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pretend-gpu-03
+    hostname: pretend-gpu-03
+    environment:
+      - NUM_RAILS=8
+      - NODE_ROLE=worker
+    networks:
+      ai-backend-fabric:
+        ipv4_address: 172.28.0.13
+
+  pretend-gpu-04:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pretend-gpu-04
+    hostname: pretend-gpu-04
+    environment:
+      - NUM_RAILS=8
+      - NODE_ROLE=storage_target
+    networks:
+      ai-backend-fabric:
+        ipv4_address: 172.28.0.14
+
+networks:
+  ai-backend-fabric:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/24
+          gateway: 172.28.0.1

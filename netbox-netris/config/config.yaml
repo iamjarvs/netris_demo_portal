@@ -1,0 +1,89 @@
+# All tunable parameters for the NetBox <-> Netris sync service.
+# Secrets (passwords, tokens, URLs with credentials) live in .env, not here - never put
+# a password/token in this file.
+
+sync:
+  # How often each direction polls, in seconds.
+  netbox_poll_interval_seconds: 60
+  netris_poll_interval_seconds: 60
+  # Safety-net full reconciliation pass (currently a no-op hook, see sync_pull.py/sync_push.py
+  # for the follow-up TODO - both directions already do a full pass every poll cycle for now).
+  full_reconcile_interval_seconds: 1800
+
+  # Only NetBox prefixes/aggregates with this boolean custom field checked get pushed to
+  # Netris - a checkbox on the object's edit form, not a tag. Sync is opt-in, not "push
+  # every prefix in NetBox". This service creates the custom field itself on startup.
+  push_custom_field: "push_to_netris"
+
+  # Dropdown custom field for picking which Netris VPC a prefix/aggregate should be
+  # pushed into. Its options are populated from Netris's real VPC list (GET /api/v2/vpc)
+  # and refreshed every poll cycle - never hard-coded, never goes stale. Leave the field
+  # blank on an object to fall back to Netris's Default VPC (the old behavior).
+  vpc_custom_field: "netris_vpc"
+
+  # Tag written onto Netris subnets/allocations that this service created (marks origin, and
+  # stops us from ever treating a Netris-native subnet as something to overwrite).
+  netbox_origin_tag_on_netris: "source-netbox"
+
+  # Tag written onto NetBox IP Addresses that this service created from a Netris reservation.
+  netris_origin_tag_on_netbox: "source-netris"
+
+  # Best-effort: maintain a "netris_id" custom field on NetBox Prefix/Aggregate/IPAddress so the
+  # correlation is visible in the NetBox UI, not just in this service's internal mapping DB.
+  # Purely cosmetic - safe to turn off if it doesn't match your NetBox version's custom-field API.
+  enrich_netbox_custom_fields: true
+
+  # Mirror Netris's EXISTING IPAM plan (allocations + subnets it already has) into NetBox,
+  # every poll cycle - not just once. This is what makes NetBox show your real address
+  # space on every restart instead of empty/fake data, so adding a genuinely new prefix
+  # during a demo reads as an addition to something real. Mirrored objects are tagged
+  # `netris_origin_tag_on_netbox` and deliberately left UNCHECKED for `push_custom_field`,
+  # so the push direction never picks them back up and tries to send them back to Netris.
+  import_existing_netris_ipam: true
+
+  # Idempotently create a small FAKE representative AI-cluster IPAM plan (tenant, site,
+  # aggregate, role-tagged subnets) in NetBox on first startup, instead of/alongside the
+  # real data above. Off by default - turn on only if you want a from-scratch sandbox with
+  # no dependency on a live Netris controller (e.g. offline testing).
+  seed_netbox_on_startup: false
+
+  # Deletion handling - all three default to non-destructive. See docs/netbox-netris-arch.png.
+  on_netbox_prefix_removed: "flag_for_review"   # flag_for_review | delete_in_netris
+  on_netris_reservation_removed: "deprecate"    # deprecate | delete_in_netbox
+  on_netris_subnet_removed: "deprecate"         # deprecate | delete_in_netbox (aggregates have
+                                                 # no deprecated state, so removed allocations are
+                                                 # always just flagged in the logs either way)
+
+# NetBox Site/Tenant <-> Netris Site/Tenant mapping. Anything NOT listed here is skipped
+# (logged as a warning) rather than guessed - Netris Sites carry real fabric config (ASN,
+# switch fabric type) that a sync tool shouldn't be provisioning on its own.
+#
+# Pre-filled from your live controller (adam-ctl.netris.io) as of 2026-09-09:
+#   Netris sites:   3 = Datacenter-A, 5 = Datacenter-B
+#   Netris tenants: 1 = Admin, 2 = DevOps
+mapping:
+  sites:
+    datacenter-a: 3
+    # datacenter-b: 5
+  tenants:
+    ai-cluster-demo: 2
+    admin: 1
+    # ai-cluster-demo: 1   # alternative: map to the Admin tenant instead
+
+  # Netris genuinely requires a tenant on every allocation/subnet (confirmed empirically -
+  # it 403s without one, this isn't optional). Rather than skip a push whenever a NetBox
+  # tenant isn't in the list above, fall back to this Netris tenant id. Leave unset (null)
+  # to keep the strict behavior - skip with a warning instead of guessing.
+  default_tenant_id: null
+
+# NetBox Prefix role (slug) -> Netris subnet "purpose" enum. Netris only supports:
+# common | load-balancer | loopback | management | nat | bgp. Anything not listed here
+# falls back to "common".
+role_to_purpose:
+  loopback: loopback
+  management: management
+  bgp-underlay: bgp
+  oob: management
+
+logging:
+  level: INFO

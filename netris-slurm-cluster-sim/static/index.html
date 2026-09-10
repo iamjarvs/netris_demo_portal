@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netris + Slurm GPU AI Fabric Orchestrator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <div class="logo-group">
+          <div class="logo-badge">NETRIS</div>
+          <span class="logo-divider">/</span>
+          <span class="logo-sub">Slurm AI Fabric Orchestrator</span>
+        </div>
+        <div class="controller-status" id="controllerStatus">
+          <span class="status-dot green"></span>
+          <span class="status-text">Netris Controller: <strong>adam-ctl.netris.io</strong></span>
+          <span class="status-vpc-badge">VPC: Demo (ID: 20)</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="autopilot-toggle-group">
+          <span class="toggle-label">Autopilot:</span>
+          <button class="btn-toggle active" id="autopilotToggle" onclick="toggleAutopilot()">
+            <span class="toggle-knob"></span>
+            <span class="toggle-text">ON</span>
+          </button>
+        </div>
+        <button class="btn btn-primary" onclick="openSubmitModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Submit Job
+        </button>
+        <button class="btn btn-danger" onclick="triggerTeardown()" title="Deprovision all active Netris clusters and reset pool">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Teardown All
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Metrics Banner -->
+    <section class="metrics-bar">
+      <div class="metric-card">
+        <div class="metric-icon purple">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-title">Slurm GPU Pool</span>
+          <div class="metric-val-group">
+            <span class="metric-value" id="statNodes">--</span>
+            <span class="metric-sub" id="statGpus">-- GPUs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-title">Free / Available</span>
+          <div class="metric-val-group">
+            <span class="metric-value text-green" id="statIdleNodes">--</span>
+            <span class="metric-sub" id="statIdleGpus">-- GPUs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-title">Allocated / Running</span>
+          <div class="metric-val-group">
+            <span class="metric-value text-blue" id="statAllocNodes">--</span>
+            <span class="metric-sub" id="statAllocGpus">-- GPUs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon cyan">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-title">Active Netris Clusters</span>
+          <div class="metric-val-group">
+            <span class="metric-value text-cyan" id="statActiveClusters">--</span>
+            <span class="metric-sub">Auto L3VPN V-Nets</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon orange">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-title">Fabric RoCEv2 Throughput</span>
+          <div class="metric-val-group">
+            <span class="metric-value text-orange" id="statBandwidth">--</span>
+            <span class="metric-sub">Gbps (8 Rails/Node)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <main class="main-grid">
+      <!-- Left Column: Node Matrix + Slurm Jobs -->
+      <div class="grid-col-left">
+        <!-- 8-Rail RoCEv2 AI Fabric Telemetry Panel -->
+        <div class="panel telemetry-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">8-Rail RoCEv2 AI Fabric Telemetry</h2>
+              <span class="panel-subtitle" id="telemetryFabricSubtitle">Lossless RoCEv2 AI Fabric • 8 Rails / HGX Node • Congestion &amp; Flow Control</span>
+            </div>
+            <div class="telemetry-badges">
+              <span class="badge badge-telemetry" id="badgePfc">PFC: 0/s</span>
+              <span class="badge badge-telemetry" id="badgeCnp">CNP: 0/s</span>
+              <span class="badge badge-telemetry text-green" id="badgeLatency">RTT: 1.38 µs</span>
+              <span class="badge badge-telemetry text-cyan" id="badgeLossless">Zero Drops (100% Lossless)</span>
+            </div>
+          </div>
+          <div class="rails-container" id="railsContainer">
+            <!-- 8 Rail throughput bars injected dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- GPU Node Matrix -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">HPC HGX GPU Partition</h2>
+              <span class="panel-subtitle">NVIDIA HGX Nodes with 8-Rail RoCEv2 Spectrum-X Fabric</span>
+            </div>
+            <div class="legend">
+              <span class="legend-item"><span class="legend-dot green"></span> IDLE</span>
+              <span class="legend-item"><span class="legend-dot yellow"></span> PROVISIONING</span>
+              <span class="legend-item"><span class="legend-dot purple"></span> RUNNING</span>
+              <span class="legend-item"><span class="legend-dot red"></span> TEARDOWN</span>
+            </div>
+          </div>
+          <div class="node-grid" id="nodeGrid">
+            <!-- Node cards injected here -->
+          </div>
+        </div>
+
+        <!-- Active Slurm Queue -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Active Slurm Workloads</h2>
+              <span class="panel-subtitle">Dynamic Jobs with Dedicated Netris Server Clusters</span>
+            </div>
+            <span class="badge" id="activeJobsCountBadge">0 Running</span>
+          </div>
+          <div class="jobs-table-container">
+            <table class="data-table" id="jobsTable">
+              <thead>
+                <tr>
+                  <th>Job ID</th>
+                  <th>Model / Workload</th>
+                  <th>Nodes / GPUs</th>
+                  <th>Pattern</th>
+                  <th>Netris Cluster</th>
+                  <th>Progress</th>
+                  <th>Throughput</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="jobsTableBody">
+                <tr><td colspan="8" class="text-center empty-state">No jobs currently executing.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Completed Jobs History -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Completed Jobs History</h2>
+              <span class="panel-subtitle">Past Jobs with Automated Netris Cluster Teardown</span>
+            </div>
+          </div>
+          <div class="jobs-table-container history-table">
+            <table class="data-table" id="historyTable">
+              <thead>
+                <tr>
+                  <th>Job ID</th>
+                  <th>Model</th>
+                  <th>Nodes</th>
+                  <th>Duration</th>
+                  <th>Cluster Lifecycle</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <tr><td colspan="6" class="text-center empty-state">No historical runs yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Netris Controller Sync + Live Audit Stream -->
+      <div class="grid-col-right">
+        <!-- Live Netris Controller State -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Netris Controller Live Sync</h2>
+              <span class="panel-subtitle">Real-Time Server Clusters (GET /api/v2/server-cluster)</span>
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="refreshNetrisClusters()" title="Fetch latest from Netris Controller">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Sync
+            </button>
+          </div>
+          <div class="netris-clusters-container" id="netrisClustersContainer">
+            <!-- Active Netris clusters cards -->
+          </div>
+        </div>
+
+        <!-- Live Audit & Event Stream -->
+        <div class="panel flex-1">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Live Orchestration Audit Log</h2>
+              <span class="panel-subtitle">Real-Time Coordination Feed: Slurm ⇄ Netris Controller</span>
+            </div>
+            <button class="btn btn-sm btn-ghost" onclick="clearEventLog()">Clear</button>
+          </div>
+          <div class="audit-stream" id="auditStream">
+            <!-- Streaming log rows injected here -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Submit Custom Job Modal -->
+  <div class="modal-backdrop" id="submitModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Submit Slurm AI Workload</h3>
+        <button class="modal-close" onclick="closeSubmitModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Workload Name / Model</label>
+          <select id="modalModelSelect" class="form-control" onchange="onModelSelectChange()">
+            <option value="LLaMA-3-70B-Pretrain" data-nodes="4" data-dur="480" data-pattern="Ring-AllReduce">LLaMA-3-70B-Pretrain (4 Nodes, 8m / 480s, Ring-AllReduce)</option>
+            <option value="DeepSeek-MoE-Align" data-nodes="8" data-dur="600" data-pattern="MoE-AllToAll">DeepSeek-MoE-Align (8 Nodes, 10m / 600s, MoE-AllToAll)</option>
+            <option value="Mixtral-8x7B-FineTune" data-nodes="2" data-dur="420" data-pattern="Tensor-Parallel">Mixtral-8x7B-FineTune (2 Nodes, 7m / 420s, Tensor-Parallel)</option>
+            <option value="SDXL-Diffusion-Batch" data-nodes="2" data-dur="450" data-pattern="Ring-AllReduce">SDXL-Diffusion-Batch (2 Nodes, 7.5m / 450s, Ring-AllReduce)</option>
+            <option value="AlphaFold-3-Structure" data-nodes="4" data-dur="540" data-pattern="MoE-AllToAll">AlphaFold-3-Structure (4 Nodes, 9m / 540s, MoE-AllToAll)</option>
+            <option value="Whisper-v3-Inference" data-nodes="2" data-dur="420" data-pattern="Pipeline-Parallel">Whisper-v3-Inference (2 Nodes, 7m / 420s, Pipeline-Parallel)</option>
+            <option value="Custom">Custom Workload...</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="customNameGroup" style="display: none;">
+          <label>Custom Job Name</label>
+          <input type="text" id="modalCustomName" class="form-control" placeholder="e.g. GPT-4-Distillation">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label>Required Nodes</label>
+            <select id="modalNodesSelect" class="form-control">
+              <option value="2">2 Nodes (16 GPUs)</option>
+              <option value="4" selected>4 Nodes (32 GPUs)</option>
+              <option value="8">8 Nodes (64 GPUs)</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label>Training Duration (Seconds, Min 420s / 7 mins)</label>
+            <input type="number" id="modalDurationInput" class="form-control" value="420" min="420" step="30">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Collective Traffic Pattern</label>
+          <select id="modalPatternSelect" class="form-control">
+            <option value="Ring-AllReduce">Ring-AllReduce (NVIDIA NCCL)</option>
+            <option value="MoE-AllToAll">MoE All-to-All (Mixture-of-Experts)</option>
+            <option value="Tensor-Parallel">Tensor-Parallel (Megatron-LM)</option>
+            <option value="Pipeline-Parallel">Pipeline-Parallel (Stage-to-Stage)</option>
+          </select>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">Realistic Netris Fabric Lifecycle:</div>
+          <ul class="info-list">
+            <li><strong>Provisioning (~2 mins)</strong>: Netris programs switch leaf ports, RoCEv2 PFC/ETS, and BGP EVPN</li>
+            <li><strong>Training Run (Min 7 mins)</strong>: Distributed GPU collective traffic across 8x RoCEv2 rails</li>
+            <li><strong>Teardown (~2 mins)</strong>: Netris withdraws routes, dismantles V-Net, and frees switch ports</li>
+            <li><strong>Total Duration</strong>: ~11+ mins per job, matching enterprise supercomputing workflows</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeSubmitModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitCustomJob()">Deploy & Run Job</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

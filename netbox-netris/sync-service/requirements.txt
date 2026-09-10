@@ -1,0 +1,11 @@
+fastapi>=0.110,<1.0
+uvicorn[standard]>=0.29,<1.0
+# pynetbox 7.8.0 (latest as of writing) only explicitly claims "Supports NetBox 4.6" -
+# there's no pynetbox release yet that's been tested against 4.7 (which shipped after
+# it). It's a thin, mostly-generic REST wrapper though, so this should still work for
+# the plain CRUD calls this service makes - flagging as an assumption, not a certainty.
+pynetbox>=7.7,<8.0
+requests>=2.31,<3.0
+APScheduler>=3.10,<4.0
+SQLAlchemy>=2.0,<3.0
+PyYAML>=6.0,<7.0

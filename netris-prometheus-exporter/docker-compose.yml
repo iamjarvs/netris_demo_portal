@@ -1,0 +1,54 @@
+services:
+  netris-exporter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netris-exporter
+    restart: unless-stopped
+    env_file:
+      - path: netris.var
+        required: false
+      - path: config.env
+        required: false
+    environment:
+      - SIMULATION_MODE=${SIMULATION_MODE:-false}
+      - SIM_DATA_FILE=${SIM_DATA_FILE:-sim_data/telemetry_recording.json}
+    volumes:
+      - ./sim_data:/app/sim_data:ro
+    ports:
+      - "${EXPORTER_PORT:-9101}:9101"
+
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    container_name: netris-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/data:/prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    depends_on:
+      - netris-exporter
+
+  grafana:
+    image: grafana/grafana:10.3.3
+    container_name: netris-grafana
+    restart: unless-stopped
+    env_file:
+      - config.env
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_PANELS_DISABLE_SANITIZE_HTML=true
+      - GF_USERS_DEFAULT_THEME=dark
+      - GF_SECURITY_ADMIN_TITLE=Netris Observability
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/netris-fabric-overview.json
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/dashboards/json:/var/lib/grafana/dashboards:ro
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    depends_on:
+      - prometheus

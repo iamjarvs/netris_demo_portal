@@ -1,0 +1,137 @@
+name: netbox-netris
+
+x-netbox-env: &netbox-env
+  DB_HOST: postgres
+  DB_NAME: netbox
+  DB_USER: netbox
+  DB_PASSWORD: ${POSTGRES_PASSWORD}
+  REDIS_HOST: redis
+  REDIS_DATABASE: "0"
+  REDIS_PASSWORD: ${NETBOX_REDIS_PASSWORD}
+  REDIS_SSL: "false"
+  REDIS_INSECURE_SKIP_TLS_VERIFY: "false"
+  REDIS_CACHE_HOST: redis-cache
+  REDIS_CACHE_DATABASE: "1"
+  REDIS_CACHE_PASSWORD: ${NETBOX_REDIS_CACHE_PASSWORD}
+  REDIS_CACHE_SSL: "false"
+  REDIS_CACHE_INSECURE_SKIP_TLS_VERIFY: "false"
+  SECRET_KEY: ${NETBOX_SECRET_KEY}
+  API_TOKEN_PEPPER_1: ${NETBOX_API_TOKEN_PEPPER}
+  SKIP_SUPERUSER: "false"
+  SUPERUSER_NAME: admin
+  SUPERUSER_EMAIL: admin@example.local
+  SUPERUSER_PASSWORD: ${NETBOX_SUPERUSER_PASSWORD}
+  ALLOWED_HOSTS: "*"
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: netbox
+      POSTGRES_USER: netbox
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      # postgres:18 mounts the whole data root here, not .../data as older postgres images did
+      - ./data/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -t 2 -d netbox -U netbox"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 20s
+
+  redis:
+    image: valkey/valkey:9.1-alpine
+    restart: unless-stopped
+    command: ["sh", "-c", "valkey-server --appendonly yes --requirepass $$REDIS_PASSWORD"]
+    environment:
+      REDIS_PASSWORD: ${NETBOX_REDIS_PASSWORD}
+    volumes:
+      - ./data/redis:/data
+    healthcheck: &redis-healthcheck
+      test: '[ $$(valkey-cli --pass "$${REDIS_PASSWORD}" ping) = ''PONG'' ]'
+      start_period: 5s
+      timeout: 3s
+      interval: 1s
+      retries: 5
+
+  redis-cache:
+    image: valkey/valkey:9.1-alpine
+    restart: unless-stopped
+    command: ["sh", "-c", "valkey-server --requirepass $$REDIS_PASSWORD"]
+    environment:
+      REDIS_PASSWORD: ${NETBOX_REDIS_CACHE_PASSWORD}
+    volumes:
+      - ./data/redis-cache:/data
+    healthcheck: *redis-healthcheck
+
+  netbox:
+    image: netboxcommunity/netbox:v4.7-5.1.0
+    restart: unless-stopped
+    user: "netbox:root"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+    environment:
+      <<: *netbox-env
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./data/netbox-media:/opt/netbox/netbox/media:rw
+      - ./data/netbox-reports:/opt/netbox/netbox/reports:rw
+      - ./data/netbox-scripts:/opt/netbox/netbox/scripts:rw
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/login/"]
+      interval: 15s
+      timeout: 3s
+      retries: 12
+      start_period: 90s
+
+  netbox-worker:
+    image: netboxcommunity/netbox:v4.7-5.1.0
+    restart: unless-stopped
+    user: "netbox:root"
+    entrypoint: /opt/netbox/venv/bin/python
+    command: ["/opt/netbox/netbox/manage.py", "rqworker"]
+    depends_on:
+      netbox:
+        condition: service_healthy
+    environment:
+      <<: *netbox-env
+    volumes:
+      - ./data/netbox-media:/opt/netbox/netbox/media:rw
+      - ./data/netbox-reports:/opt/netbox/netbox/reports:rw
+      - ./data/netbox-scripts:/opt/netbox/netbox/scripts:rw
+    healthcheck:
+      test: ["CMD-SHELL", "ps -aux | grep -v grep | grep -q rqworker || exit 1"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+
+  sync-service:
+    build: ./sync-service
+    restart: unless-stopped
+    depends_on:
+      netbox:
+        condition: service_healthy
+    environment:
+      NETBOX_URL: http://netbox:8080
+      NETBOX_SUPERUSER_NAME: admin
+      NETBOX_SUPERUSER_PASSWORD: ${NETBOX_SUPERUSER_PASSWORD}
+      NETRIS_URL: ${NETRIS_URL}
+      NETRIS_USER: ${NETRIS_USER}
+      NETRIS_PASSWORD: ${NETRIS_PASSWORD}
+      SYNC_CONFIG_PATH: /app/config/config.yaml
+      SYNC_DB_PATH: /app/data/mapping.db
+      NETBOX_TOKEN_CACHE_PATH: /app/data/netbox_token
+    volumes:
+      - ./config:/app/config:ro
+      - ./data/sync-service:/app/data
+    ports:
+      - "8090:8080"

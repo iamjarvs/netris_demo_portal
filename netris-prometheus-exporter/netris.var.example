@@ -1,0 +1,10 @@
+# ==============================================================================
+# Netris Controller Connection Variables (Template)
+# ==============================================================================
+# Copy this file to netris.var and customize with your controller credentials.
+
+NETRIS_URL="https://adam-ctl.netris.io"
+NETRIS_USERNAME="netris"
+NETRIS_PASSWORD="your-controller-password-here"
+NETRIS_AUTH_SCHEME_ID=1
+NETRIS_VERIFY_SSL=false

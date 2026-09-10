@@ -1,0 +1,1062 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "refresh": "15s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "netris",
+    "fabric",
+    "observability",
+    "ai-factory",
+    "east-west",
+    "north-south"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "fabric_type",
+        "label": "Fabric Plane",
+        "type": "custom",
+        "query": "east_west : East-West (Compute / GPU Mesh), north_south : North-South (Border & SoftGates), oob : Out-of-Band (Management)",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "East-West (Compute / GPU Mesh)",
+            "value": "east_west"
+          },
+          {
+            "selected": false,
+            "text": "North-South (Border & SoftGates)",
+            "value": "north_south"
+          },
+          {
+            "selected": false,
+            "text": "Out-of-Band (Management)",
+            "value": "oob"
+          }
+        ],
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Netris Fabric Observability",
+  "uid": "netris-fabric-overview",
+  "version": 10,
+  "panels": [
+    {
+      "id": 999,
+      "type": "text",
+      "title": "",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 16px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 19px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; font-family: Inter, -apple-system, sans-serif;\">\n        <span>FABRIC OBSERVABILITY</span>\n        <span style=\"font-size: 11px; background: rgba(0, 163, 255, 0.15); color: #00D2FF; border: 1px solid rgba(0, 163, 255, 0.35); padding: 2px 8px; border-radius: 12px; font-weight: 600;\">AI FACTORY EDITION</span>\n      </div>\n      <div style=\"color: #94A3B8; font-size: 12px; margin-top: 2px;\">\n        Cloud-Native Datacenter &bull; Dual-Plane Architecture: East-West Compute Mesh &amp; North-South Edge Border\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 10px; flex-wrap: wrap;\">\n    <div style=\"background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.5); color: #A78BFA; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;\">\n      EAST-WEST: <span style=\"color: #FFFFFF;\">RoCEv2 Compute Mesh</span>\n    </div>\n    <div style=\"background: rgba(0, 163, 255, 0.15); border: 1px solid rgba(0, 163, 255, 0.5); color: #38BDF8; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;\">\n      NORTH-SOUTH: <span style=\"color: #FFFFFF;\">SoftGate Border / Transit</span>\n    </div>\n    <div style=\"background: rgba(118, 185, 0, 0.1); border: 1px solid rgba(118, 185, 0, 0.4); color: #76B900; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;\">\n      ASSURANCE: <span style=\"color: #76B900; font-weight: 700;\">ONLINE</span>\n    </div>\n  </div>\n</div>"
+      },
+      "transparent": true
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 100,
+      "title": "Netris Controller & Fabric Fleet Overview",
+      "type": "row"
+    },
+    {
+      "id": 1,
+      "title": "Controller Reachability",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "netris_up",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "OFFLINE",
+                  "color": "#FF3366"
+                },
+                "1": {
+                  "text": "ONLINE",
+                  "color": "#76B900"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#76B900",
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Total Managed Switches",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=~\"leaf|spine|oob_leaf\"})) or vector(0)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#FF3366"
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Spine Switches",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 6,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"spine\"})) or vector(0)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8B5CF6"
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Leaf Switches",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=~\"leaf|oob_leaf\"})) or vector(0)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#00A3FF"
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "SoftGate Border Nodes",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"softgate\"}) or vector(0)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#FF3B69"
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "HGX GPU Servers",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 15,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"server\"}) or vector(0)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#76B900"
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "East-West Bandwidth (Compute)",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#8B5CF6"
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "North-South Bandwidth (Border)",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#00A3FF"
+          }
+        }
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 200,
+      "title": "Dual-Plane Traffic Separation: East-West (Compute Mesh) vs North-South (Edge Border)",
+      "type": "row"
+    },
+    {
+      "id": 44,
+      "title": "East-West Compute Mesh Throughput (RoCE / GPU / Leaf-Spine)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
+          "legendFormat": "East-West {{device_role}} (RX Ingress)",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"east_west\"})",
+          "legendFormat": "East-West {{device_role}} (TX Egress)",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "bps"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 45,
+      "title": "North-South Edge & Border Throughput (SoftGates / External Transits)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
+          "legendFormat": "North-South {{device_role}} (RX Ingress)",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"north_south\"})",
+          "legendFormat": "North-South {{device_role}} (TX Egress)",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "bps"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 41,
+      "title": "HGX GPU Server Downlink Bandwidth (East-West AI Cluster)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "targets": [
+        {
+          "expr": "sum by (remote_device) (netris_interface_receive_bits_per_second{port_role=\"server_facing\", remote_type=\"server\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{remote_device}} (RX from Server)",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by (remote_device) (netris_interface_transmit_bits_per_second{port_role=\"server_facing\", remote_type=\"server\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{remote_device}} (TX to Server)",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "bps"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 42,
+      "title": "Spine Core Interlink Bandwidth (Fabric Backbone)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name) (netris_interface_receive_bits_per_second{port_role=\"fabric_interconnect\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{device_name}} Backbone",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "bps"
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 25
+      },
+      "id": 300,
+      "title": "Hardware Telemetry & Node Resource Trends (Filtered by Fabric Plane)",
+      "type": "row"
+    },
+    {
+      "id": 50,
+      "title": "Switch / SoftGate CPU 1m Load Average Trends Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
+      "targets": [
+        {
+          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
+          "legendFormat": "{{device_name}} ({{fabric_type}}/{{device_role}})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#EAB308",
+                "value": 2
+              },
+              {
+                "color": "#FF3366",
+                "value": 4
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 51,
+      "title": "Switch / SoftGate Memory (RAM) % Utilization Trends Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
+      "targets": [
+        {
+          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
+          "legendFormat": "{{device_name}} ({{fabric_type}}/{{device_role}})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#EAB308",
+                "value": 70
+              },
+              {
+                "color": "#FF3366",
+                "value": 85
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 30,
+      "title": "Instantaneous Node CPU Load",
+      "type": "bargauge",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "targets": [
+        {
+          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#EAB308",
+                "value": 2
+              },
+              {
+                "color": "#FF3366",
+                "value": 4
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 31,
+      "title": "Instantaneous Node Memory (RAM) % Used",
+      "type": "bargauge",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 34
+      },
+      "targets": [
+        {
+          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#EAB308",
+                "value": 75
+              },
+              {
+                "color": "#FF3366",
+                "value": 85
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "id": 400,
+      "title": "Fabric Assurance, Continuous Active Validation & Link Stability",
+      "type": "row"
+    },
+    {
+      "id": 60,
+      "title": "Interface Error & Drop Event Spikes Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name) (netris_port_error_status{fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{device_name}} Errors/Drops",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "lineWidth": 1,
+            "fillOpacity": 30,
+            "spanNulls": true
+          },
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF3366",
+                "value": 1
+              }
+            ]
+          }
+        }
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "Continuous Active Assurance: LLDP Cabling Validation",
+      "type": "table",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 41
+      },
+      "targets": [
+        {
+          "expr": "netris_topology_wiring_valid",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "MISWIRED",
+                        "color": "#FF3366"
+                      },
+                      "1": {
+                        "text": "VALID",
+                        "color": "#76B900"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "title": "External BGP (E-BGP) Peering Status (North-South Edge Transit)",
+      "type": "table",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "targets": [
+        {
+          "expr": "netris_ebgp_session_state",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "DOWN",
+                        "color": "#FF3366"
+                      },
+                      "1": {
+                        "text": "ESTABLISHED",
+                        "color": "#76B900"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "title": "Hardware Subcomponents Health (PSU, Fan, Temp, Services)",
+      "type": "table",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "targets": [
+        {
+          "expr": "netris_node_component_health{fabric_type=~\"${fabric_type:regex}\"}",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "CRITICAL",
+                        "color": "#FF3366"
+                      },
+                      "1": {
+                        "text": "OK",
+                        "color": "#76B900"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "id": 500,
+      "title": "Server Clusters & Enriched Port Telemetry",
+      "type": "row"
+    },
+    {
+      "id": 20,
+      "title": "Ports Enriched by Server Cluster",
+      "type": "piechart",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 56
+      },
+      "targets": [
+        {
+          "expr": "count by (server_cluster) (netris_port_status{server_cluster!=\"none\", fabric_type=~\"${fabric_type:regex}\"})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      }
+    },
+    {
+      "id": 21,
+      "title": "Server-Facing Ports (HGX GPU Links)",
+      "type": "table",
+      "gridPos": {
+        "h": 8,
+        "w": 18,
+        "x": 6,
+        "y": 56
+      },
+      "targets": [
+        {
+          "expr": "netris_port_status{port_role=\"server_facing\", fabric_type=~\"${fabric_type:regex}\"}",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "DOWN",
+                        "color": "#FF3366"
+                      },
+                      "1": {
+                        "text": "UP",
+                        "color": "#76B900"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

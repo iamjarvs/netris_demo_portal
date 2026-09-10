@@ -1,0 +1,146 @@
+...@assets/netris-style
+style.fill: transparent
+
+title: {
+  label: "NetBox ↔ Netris IPAM Sync — Architecture & Data Flow"
+  shape: text
+  style.font-size: 24
+  style.font-color: "#94A3B8"
+  style.fill: transparent
+  style.stroke: transparent
+  near: top-center
+}
+
+netbox: {
+  label: ""
+  style.fill: "#1E293B"
+  style.stroke: "#FF3366"
+  style.stroke-width: 2
+  style.border-radius: 8
+  direction: down
+
+  heading: {
+    label: "NetBox — Planning source of truth"
+    class: node-accent
+  }
+  ipam: {
+    label: "IPAM\nAggregates / Prefixes / VLANs"
+    class: node-muted
+  }
+  dcim: {
+    label: "DCIM\nSites / Devices / Interfaces"
+    class: node-muted
+  }
+  ipaddrs: {
+    label: "IP Addresses\n(tag: source:netris = as-built record)"
+    class: node-muted
+  }
+  webhooks: {
+    label: "Native Outbound Webhooks"
+    class: node-accent
+  }
+}
+
+sync: {
+  label: ""
+  style.fill: "#1E293B"
+  style.stroke: "#FF3366"
+  style.stroke-width: 2
+  style.border-radius: 8
+  direction: down
+
+  heading: {
+    label: "NetBox ↔ Netris Sync Service"
+    class: node-accent
+  }
+  receiver: {
+    label: "Webhook Receiver\n(push, near-real-time)"
+    class: node-muted
+  }
+  poller: {
+    label: "Netris Poller / Reconciler\n(pull, every 1–5 min)"
+    class: node-muted
+  }
+  state: {
+    label: "Mapping DB\nNetBox ID ↔ Netris ID · idempotency · sync run history"
+    class: node-muted
+  }
+}
+
+netris: {
+  label: ""
+  style.fill: "#1E293B"
+  style.stroke: "#FF3366"
+  style.stroke-width: 2
+  style.border-radius: 8
+  direction: down
+
+  heading: {
+    label: "Netris Controller — As-built source of truth"
+    class: node-accent
+  }
+  ipam: {
+    label: "IPAM\nAllocations / Subnets / Hosts"
+    class: node-muted
+  }
+  reservations: {
+    label: "IP Reservation Ledger\nconsumer: vnet / bgp / hw / nat / roh / l4lb"
+    class: node-muted
+  }
+  inventory: {
+    label: "Hardware Inventory\nSwitches / Servers / DPUs"
+    class: node-muted
+  }
+  deploy: {
+    label: "AI Cluster Deployment\nZTP · VNet · BGP · DPU provisioning"
+    class: node-nvidia
+  }
+}
+
+legend: {
+  label: ""
+  style.fill: transparent
+  style.stroke: transparent
+  direction: right
+
+  l1: {
+    label: "Plan push (NetBox → Netris)"
+    shape: rectangle
+    width: 260
+    height: 40
+    style.fill: "#FF3366"
+    style.stroke: "#D6265A"
+    style.font-color: "#FFFFFF"
+    style.border-radius: 6
+  }
+  l2: {
+    label: "As-built pull (Netris → NetBox)"
+    shape: rectangle
+    width: 270
+    height: 40
+    style.fill: "#00A3FF"
+    style.stroke: "#0077BB"
+    style.font-color: "#FFFFFF"
+    style.border-radius: 6
+  }
+  l3: {
+    label: "Live assignment (Netris-internal)"
+    shape: rectangle
+    width: 260
+    height: 40
+    style.fill: "#76B900"
+    style.stroke: "#5C9200"
+    style.font-color: "#FFFFFF"
+    style.border-radius: 6
+  }
+}
+
+netbox.webhooks -> sync.receiver: "prefix/subnet\ncreated or changed" {class: edge-control}
+sync.receiver -> netris.ipam: "POST/PUT\nallocation or subnet" {class: edge-control}
+
+netris.deploy -> netris.reservations: "assigns IP to\nnode / interface" {class: edge-nvidia}
+netris.deploy -> netris.inventory: {class: edge-nvidia}
+
+sync.poller -> netris.reservations: "GET reservations\n+ hw inventory" {class: edge-data}
+sync.poller -> netris.ipam: "GET subnets / hosts" {class: edge-data}
+sync.poller -> netbox.ipaddrs: "create/update IP Address\nlinked to Device/Interface" {class: edge-data}
