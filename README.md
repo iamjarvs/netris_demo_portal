@@ -21,6 +21,10 @@ This repository unites telemetry generation, multi-rail RoCEv2 traffic simulatio
 
 ```mermaid
 graph TB
+    subgraph ManagementHub ["0. Central Management & Control Portal"]
+        CommandCenter["Demo Command Center (demo-portal/)<br/>• TailAdmin v2 Light Theme (Port 8800)<br/>• Process Management, Liveness & Config Sync<br/>• Pop-Out Launch to Native Project Windows"]
+    end
+
     subgraph Planning ["1. Planning & Source of Truth"]
         NetBox["NetBox DCIM / IPAM<br/>(Subnets, Allocations, Pools)"]
         SyncService["NetBox ↔ Netris Sync<br/>(netbox-netris/)"]
@@ -46,6 +50,7 @@ graph TB
         Dashboards["Grafana Dashboards<br/>(Fabric Overview, Heatmaps, Active Assurance)"]
     end
 
+    CommandCenter -.->|Coordinates & Launches| Planning & ControlPlane & Orchestration & ComputeFabric & Observability
     NetBox <==>|Bi-directional Sync| SyncService
     SyncService <==>|API v2| NetrisCTL
     Portal ==>|Tenant Order & Day-2 Services| NetrisCTL
@@ -65,6 +70,7 @@ Each tool resides in its own dedicated, self-contained subfolder with an indepen
 
 | Tool Directory | Category | Target Audience | Primary Capability | Quick Launch |
 |---|---|---|---|---|
+| [`demo-portal/`](demo-portal/README.md) | **Management & Control** | Solutions Architects, SEs | **Centralized Control Portal** (TailAdmin v2 light theme) to start, stop, monitor, configure shared Netris credentials, and pop out all demo tools in their own windows. | `./demo-portal/start.sh` |
 | [`gpu-ai-fabric-traffic-sim/`](gpu-ai-fabric-traffic-sim/README.md) | Cluster Traffic Sim | Network Architects, Performance Engineers | Containerized multi-rail RoCEv2 iPerf3 traffic generator simulating Ring-AllReduce, MoE All-to-All, and Incast with DSCP priority tagging across mock GPU nodes. | `docker compose up -d` |
 | [`netris-controller-gpu-traffic-sim/`](netris-controller-gpu-traffic-sim/README.md) | Hardware Traffic Sim | NeoCloud Operators, Data Center Teams | Controller-hosted pre-sales automation that discovers VPC GPU hosts from Netris DB, pushes offline native iPerf3 packages over SSH, and injects continuous RoCEv2 traffic across physical leaf/spine switches. | `./deploy.sh` |
 | [`netris-prometheus-exporter/`](netris-prometheus-exporter/README.md) | Telemetry & Observability | DevOps, SREs, NOC Operators | Prometheus exporter with semantic port/tenant enrichment, 90-minute historical TSDB pre-population, and turnkey Grafana dashboards. Operates live or 100% offline. | `./start.sh --sim` |
@@ -161,6 +167,11 @@ netris-demo-tools/
 │   ├── static/                             # Pre-compiled production UI bundle
 │   ├── requirements.txt
 │   └── README.md
+├── demo-portal/                            # Centralized management portal & control plane (Port 8800)
+│   ├── app/                                # FastAPI backend, process manager, config sync
+│   ├── static/                             # TailAdmin v2 React light-theme UI bundle
+│   ├── start.sh                            # One-click launcher (http://localhost:8800)
+│   └── README.md
 │
 └── chatsim/                                # Meridian Console AI chat & GPU rail demo prop
     ├── server.py                           # Flask server
@@ -182,6 +193,10 @@ netris-demo-tools/
 ### Quick Tool Launch Cheatsheet
 
 ```bash
+# 0. Launch the Unified Demo Command Center (Port 8800):
+cd demo-portal && ./start.sh
+
+# Or launch tools individually:
 # 1. Launch Prometheus & Grafana with 90-min pre-populated demo data:
 cd netris-prometheus-exporter && ./start.sh --sim
 
