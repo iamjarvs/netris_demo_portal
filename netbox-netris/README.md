@@ -92,7 +92,7 @@ Once it's up:
 
 | What | Where |
 |---|---|
-| NetBox UI | http://localhost:8000 (user `admin`, password in `.env` → `NETBOX_SUPERUSER_PASSWORD`) |
+| NetBox UI | http://localhost:8001 (user `admin`, password in `.env` → `NETBOX_SUPERUSER_PASSWORD`) |
 | Sync service status | http://localhost:8090/status |
 | Sync service health | http://localhost:8090/health |
 | Logs | `docker compose logs -f sync-service` |

@@ -67,8 +67,6 @@ def backfill(minutes: int = 90, step: int = 60, sim_data_path: str = "sim_data/t
     if not os.path.exists(sim_data_path):
         if os.path.exists(sim_data_path + ".gz"):
             sim_data_path = sim_data_path + ".gz"
-        elif sim_data_path.endswith(".gz") and os.path.exists(sim_data_path[:-3]):
-            sim_data_path = sim_data_path[:-3]
         else:
             logger.error("Simulation data file '%s' not found! Please run './record.sh' first.", sim_data_path)
             sys.exit(1)

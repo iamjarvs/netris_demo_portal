@@ -1,0 +1,762 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "netris"
+      ],
+      "title": "Netris Observability Suite",
+      "type": "dashboards"
+    }
+  ],
+  "liveNow": false,
+  "refresh": "15s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "netris",
+    "graphite",
+    "telemetry",
+    "optics",
+    "traffic",
+    "conntrack"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "fabric_type",
+        "label": "Fabric Plane",
+        "type": "custom",
+        "query": "east_west : East-West (Compute / GPU Mesh), north_south : North-South (Border & SoftGates), oob : Out-of-Band (Management)",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "East-West (Compute / GPU Mesh)",
+            "value": "east_west"
+          },
+          {
+            "selected": false,
+            "text": "North-South (Border & SoftGates)",
+            "value": "north_south"
+          },
+          {
+            "selected": false,
+            "text": "Out-of-Band (Management)",
+            "value": "oob"
+          }
+        ],
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*"
+      },
+      {
+        "name": "device_name",
+        "label": "Device",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(netris_device_info{fabric_type=~\"${fabric_type:regex}\"}, device_name)",
+        "query": {
+          "query": "label_values(netris_device_info{fabric_type=~\"${fabric_type:regex}\"}, device_name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "sort": 1,
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        }
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Netris - Graphite Time-Series Engine (Performance & Optics)",
+  "uid": "netris-graphite-telemetry",
+  "version": 1,
+  "panels": [
+    {
+      "id": 999,
+      "type": "text",
+      "title": "",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 16px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; font-family: Inter, -apple-system, sans-serif;\">\n        <span>FABRIC OBSERVABILITY</span>\n        <span style=\"font-size: 11px; background: rgba(0, 163, 255, 0.15); color: #00D2FF; border: 1px solid rgba(0, 163, 255, 0.35); padding: 2px 8px; border-radius: 12px; font-weight: 600;\">MULTI-DATABASE EDITION</span>\n      </div>\n      <div style=\"color: #94A3B8; font-size: 12px; margin-top: 2px;\">\n        Graphite / Whisper Engine &bull; High-Frequency Streaming Traffic, Packet Rates, Optics dBm &amp; Conntrack\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 10px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 Fabric Overview</a> <a href=\"/d/netris-graphite-telemetry\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83d\udcca Graphite Telemetry</a> <a href=\"/d/netris-mariadb-state\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83d\uddc4\ufe0f MariaDB State & SLA</a> <a href=\"/d/netris-mongodb-sensors\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83c\udf21\ufe0f MongoDB Sensors</a>\n  </div>\n</div>"
+      },
+      "transparent": true
+    },
+    {
+      "id": 100,
+      "title": "Graphite Streaming Traffic & Packet Rate (PPS) Engine",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "id": 101,
+      "title": "Total Ingress Throughput",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=~\"${fabric_type:regex}\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#00F5D4"
+          },
+          "unit": "bps"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 102,
+      "title": "Total Egress Throughput",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_interface_transmit_bits_per_second{fabric_type=~\"${fabric_type:regex}\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#38BDF8"
+          },
+          "unit": "bps"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 103,
+      "title": "Total Ingress Packet Rate",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_interface_receive_packets_per_second{fabric_type=~\"${fabric_type:regex}\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#A78BFA"
+          },
+          "unit": "pps"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 104,
+      "title": "Total Egress Packet Rate",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_interface_transmit_packets_per_second{fabric_type=~\"${fabric_type:regex}\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#F472B6"
+          },
+          "unit": "pps"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 105,
+      "title": "Interface Throughput by Device (Bits/sec)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name) (netris_interface_receive_bits_per_second{device_name=~\"$device_name\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{device_name}} Ingress",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_name) (netris_interface_transmit_bits_per_second{device_name=~\"$device_name\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{device_name}} Egress",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 106,
+      "title": "Interface Packet Rates by Device (Packets/sec)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name) (netris_interface_receive_packets_per_second{device_name=~\"$device_name\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{device_name}} Ingress PPS",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_name) (netris_interface_transmit_packets_per_second{device_name=~\"$device_name\", fabric_type=~\"${fabric_type:regex}\"})",
+          "legendFormat": "{{device_name}} Egress PPS",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "pps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 107,
+      "title": "Interface Discards & Errors per Second",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name, port) (netris_interface_receive_errors_per_second{device_name=~\"$device_name\"}) > 0",
+          "legendFormat": "{{device_name}} {{port}} RX Errors",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_name, port) (netris_interface_transmit_errors_per_second{device_name=~\"$device_name\"}) > 0",
+          "legendFormat": "{{device_name}} {{port}} TX Errors",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "pps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 108,
+      "title": "Top Links by RX/TX Bandwidth Utilization %",
+      "type": "table",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "targets": [
+        {
+          "expr": "topk(15, netris_port_utilization_rx_percent{device_name=~\"$device_name\"})",
+          "format": "table",
+          "instant": true,
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 200,
+      "title": "Optical Transceiver Physical Layer Telemetry (dBm & Laser Bias)",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      }
+    },
+    {
+      "id": 201,
+      "title": "Minimum Optical RX Power",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "min(netris_optical_power_rx_dbm{device_name=~\"$device_name\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "dBm",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": -14
+              },
+              {
+                "color": "#76B900",
+                "value": -10
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 202,
+      "title": "Total Monitored Optical Lanes",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "count(netris_optical_power_rx_dbm{device_name=~\"$device_name\"})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#00F5D4"
+          },
+          "unit": "short"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 203,
+      "title": "Optical Power RX (dBm) Trends Across Lanes",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "targets": [
+        {
+          "expr": "netris_optical_power_rx_dbm{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}} {{port}} [{{lane}}]",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "dBm",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 204,
+      "title": "Transceiver Optical Power Diagnostic Audit",
+      "type": "table",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "targets": [
+        {
+          "expr": "netris_optical_power_rx_dbm{device_name=~\"$device_name\"}",
+          "format": "table",
+          "instant": true,
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "dBm"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 300,
+      "title": "Switch & SoftGate Compute Telemetry & NAT Connection Tracking",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      }
+    },
+    {
+      "id": 301,
+      "title": "Per-Core CPU Utilization Breakdown (%)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 37
+      },
+      "targets": [
+        {
+          "expr": "netris_node_cpu_percent{device_name=~\"$device_name\", mode!=\"idle\"}",
+          "legendFormat": "{{device_name}} {{cpu}} ({{mode}})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 302,
+      "title": "System Memory Breakdown (Bytes)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 37
+      },
+      "targets": [
+        {
+          "expr": "netris_node_memory_bytes{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}} ({{kind}})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 303,
+      "title": "SoftGate Active Conntrack Sessions",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 45
+      },
+      "targets": [
+        {
+          "expr": "netris_softgate_conntrack_entries",
+          "legendFormat": "{{device_name}} Sessions",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 304,
+      "title": "SoftGate Conntrack Table Utilization %",
+      "type": "bargauge",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 45
+      },
+      "targets": [
+        {
+          "expr": "netris_softgate_conntrack_percent",
+          "legendFormat": "{{device_name}}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 65
+              },
+              {
+                "color": "#FF3366",
+                "value": 85
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ]
+}

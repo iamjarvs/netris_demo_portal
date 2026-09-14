@@ -6,7 +6,19 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "netris"
+      ],
+      "title": "Netris Observability Suite",
+      "type": "dashboards"
+    }
+  ],
   "liveNow": false,
   "refresh": "15s",
   "schemaVersion": 38,
@@ -17,7 +29,8 @@
     "observability",
     "ai-factory",
     "east-west",
-    "north-south"
+    "north-south",
+    "overview"
   ],
   "templating": {
     "list": [
@@ -60,14 +73,14 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Netris Fabric Observability",
   "uid": "netris-fabric-overview",
-  "version": 10,
+  "version": 11,
   "panels": [
     {
       "id": 999,
@@ -81,21 +94,20 @@
       },
       "options": {
         "mode": "html",
-        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 16px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 19px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; font-family: Inter, -apple-system, sans-serif;\">\n        <span>FABRIC OBSERVABILITY</span>\n        <span style=\"font-size: 11px; background: rgba(0, 163, 255, 0.15); color: #00D2FF; border: 1px solid rgba(0, 163, 255, 0.35); padding: 2px 8px; border-radius: 12px; font-weight: 600;\">AI FACTORY EDITION</span>\n      </div>\n      <div style=\"color: #94A3B8; font-size: 12px; margin-top: 2px;\">\n        Cloud-Native Datacenter &bull; Dual-Plane Architecture: East-West Compute Mesh &amp; North-South Edge Border\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 10px; flex-wrap: wrap;\">\n    <div style=\"background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.5); color: #A78BFA; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;\">\n      EAST-WEST: <span style=\"color: #FFFFFF;\">RoCEv2 Compute Mesh</span>\n    </div>\n    <div style=\"background: rgba(0, 163, 255, 0.15); border: 1px solid rgba(0, 163, 255, 0.5); color: #38BDF8; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;\">\n      NORTH-SOUTH: <span style=\"color: #FFFFFF;\">SoftGate Border / Transit</span>\n    </div>\n    <div style=\"background: rgba(118, 185, 0, 0.1); border: 1px solid rgba(118, 185, 0, 0.4); color: #76B900; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;\">\n      ASSURANCE: <span style=\"color: #76B900; font-weight: 700;\">ONLINE</span>\n    </div>\n  </div>\n</div>"
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 16px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; font-family: Inter, -apple-system, sans-serif;\">\n        <span>FABRIC OBSERVABILITY</span>\n        <span style=\"font-size: 11px; background: rgba(0, 163, 255, 0.15); color: #00D2FF; border: 1px solid rgba(0, 163, 255, 0.35); padding: 2px 8px; border-radius: 12px; font-weight: 600;\">MULTI-DATABASE EDITION</span>\n      </div>\n      <div style=\"color: #94A3B8; font-size: 12px; margin-top: 2px;\">\n        Unified Cross-Engine Fabric Observability &bull; Executive KPIs across Traffic, State &amp; Hardware\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 10px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83c\udfe0 Fabric Overview</a> <a href=\"/d/netris-graphite-telemetry\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcca Graphite Telemetry</a> <a href=\"/d/netris-mariadb-state\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83d\uddc4\ufe0f MariaDB State & SLA</a> <a href=\"/d/netris-mongodb-sensors\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83c\udf21\ufe0f MongoDB Sensors</a>\n  </div>\n</div>"
       },
       "transparent": true
     },
     {
-      "collapsed": false,
+      "id": 100,
+      "title": "Netris Controller & Fabric Fleet Overview",
+      "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 3
-      },
-      "id": 100,
-      "title": "Netris Controller & Fabric Fleet Overview",
-      "type": "row"
+      }
     },
     {
       "id": 1,
@@ -110,21 +122,28 @@
       "targets": [
         {
           "expr": "netris_up",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [
             {
               "type": "value",
               "options": {
                 "0": {
-                  "text": "OFFLINE",
+                  "text": "DOWN",
                   "color": "#FF3366"
                 },
                 "1": {
-                  "text": "ONLINE",
+                  "text": "UP",
                   "color": "#76B900"
                 }
               }
@@ -144,6 +163,10 @@
             ]
           }
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -159,16 +182,25 @@
       "targets": [
         {
           "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=~\"leaf|spine|oob_leaf\"})) or vector(0)",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#FF3366"
-          }
+            "fixedColor": "#00F5D4"
+          },
+          "unit": "short"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -184,16 +216,25 @@
       "targets": [
         {
           "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"spine\"})) or vector(0)",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#8B5CF6"
-          }
+            "fixedColor": "#A78BFA"
+          },
+          "unit": "short"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -209,16 +250,25 @@
       "targets": [
         {
           "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=~\"leaf|oob_leaf\"})) or vector(0)",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#00A3FF"
-          }
+            "fixedColor": "#38BDF8"
+          },
+          "unit": "short"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -234,16 +284,25 @@
       "targets": [
         {
           "expr": "count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"softgate\"}) or vector(0)",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "fixed",
-            "fixedColor": "#FF3B69"
-          }
+            "fixedColor": "#FF9900"
+          },
+          "unit": "short"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -259,7 +318,11 @@
       "targets": [
         {
           "expr": "count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"server\"}) or vector(0)",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
@@ -267,8 +330,13 @@
           "color": {
             "mode": "fixed",
             "fixedColor": "#76B900"
-          }
+          },
+          "unit": "short"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -284,17 +352,25 @@
       "targets": [
         {
           "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "bps",
           "color": {
             "mode": "fixed",
-            "fixedColor": "#8B5CF6"
-          }
+            "fixedColor": "#A78BFA"
+          },
+          "unit": "bps"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -310,398 +386,116 @@
       "targets": [
         {
           "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "bps",
           "color": {
             "mode": "fixed",
-            "fixedColor": "#00A3FF"
-          }
+            "fixedColor": "#00D2FF"
+          },
+          "unit": "bps"
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
-      "collapsed": false,
+      "id": 150,
+      "title": "Tri-Engine Health & Multi-Site SLA Assurance (Graphite \u00b7 MariaDB \u00b7 MongoDB)",
+      "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 8
-      },
-      "id": 200,
-      "title": "Dual-Plane Traffic Separation: East-West (Compute Mesh) vs North-South (Edge Border)",
-      "type": "row"
+      }
     },
     {
-      "id": 44,
-      "title": "East-West Compute Mesh Throughput (RoCE / GPU / Leaf-Spine)",
-      "type": "timeseries",
+      "id": 151,
+      "title": "Multi-Site VPN SLA Score (MariaDB)",
+      "type": "stat",
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 4,
+        "w": 4,
         "x": 0,
         "y": 9
       },
       "targets": [
         {
-          "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
-          "legendFormat": "East-West {{device_role}} (RX Ingress)",
-          "refId": "A"
-        },
-        {
-          "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"east_west\"})",
-          "legendFormat": "East-West {{device_role}} (TX Egress)",
-          "refId": "B"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bps"
-        }
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      }
-    },
-    {
-      "id": 45,
-      "title": "North-South Edge & Border Throughput (SoftGates / External Transits)",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
-          "legendFormat": "North-South {{device_role}} (RX Ingress)",
-          "refId": "A"
-        },
-        {
-          "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"north_south\"})",
-          "legendFormat": "North-South {{device_role}} (TX Egress)",
-          "refId": "B"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bps"
-        }
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      }
-    },
-    {
-      "id": 41,
-      "title": "HGX GPU Server Downlink Bandwidth (East-West AI Cluster)",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 17
-      },
-      "targets": [
-        {
-          "expr": "sum by (remote_device) (netris_interface_receive_bits_per_second{port_role=\"server_facing\", remote_type=\"server\", fabric_type=~\"${fabric_type:regex}\"})",
-          "legendFormat": "{{remote_device}} (RX from Server)",
-          "refId": "A"
-        },
-        {
-          "expr": "sum by (remote_device) (netris_interface_transmit_bits_per_second{port_role=\"server_facing\", remote_type=\"server\", fabric_type=~\"${fabric_type:regex}\"})",
-          "legendFormat": "{{remote_device}} (TX to Server)",
-          "refId": "B"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bps"
-        }
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      }
-    },
-    {
-      "id": 42,
-      "title": "Spine Core Interlink Bandwidth (Fabric Backbone)",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 17
-      },
-      "targets": [
-        {
-          "expr": "sum by (device_name) (netris_interface_receive_bits_per_second{port_role=\"fabric_interconnect\", fabric_type=~\"${fabric_type:regex}\"})",
-          "legendFormat": "{{device_name}} Backbone",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "bps"
-        }
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      }
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "id": 300,
-      "title": "Hardware Telemetry & Node Resource Trends (Filtered by Fabric Plane)",
-      "type": "row"
-    },
-    {
-      "id": 50,
-      "title": "Switch / SoftGate CPU 1m Load Average Trends Over Time",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 26
-      },
-      "targets": [
-        {
-          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
-          "legendFormat": "{{device_name}} ({{fabric_type}}/{{device_role}})",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 10,
-            "gradientMode": "opacity",
-            "showPoints": "never",
-            "spanNulls": true
-          },
-          "unit": "short",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#EAB308",
-                "value": 2
-              },
-              {
-                "color": "#FF3366",
-                "value": 4
-              }
-            ]
+          "expr": "avg(netris_mesh_vpn_quality_score) or vector(100)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
           }
         }
-      },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      }
-    },
-    {
-      "id": 51,
-      "title": "Switch / SoftGate Memory (RAM) % Utilization Trends Over Time",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 26
-      },
-      "targets": [
-        {
-          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
-          "legendFormat": "{{device_name}} ({{fabric_type}}/{{device_role}})",
-          "refId": "A"
-        }
       ],
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 10,
-            "gradientMode": "opacity",
-            "showPoints": "never",
-            "spanNulls": true
+          "color": {
+            "mode": "thresholds"
           },
-          "unit": "percent",
+          "unit": "none",
+          "min": 0,
+          "max": 100,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#76B900",
+                "color": "#FF3366",
                 "value": null
               },
               {
-                "color": "#EAB308",
+                "color": "#FF9900",
                 "value": 70
               },
               {
-                "color": "#FF3366",
-                "value": 85
+                "color": "#76B900",
+                "value": 90
               }
             ]
           }
         }
       },
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
-      "id": 30,
-      "title": "Instantaneous Node CPU Load",
-      "type": "bargauge",
+      "id": 152,
+      "title": "Mesh Tunnel Latency RTT (MariaDB)",
+      "type": "stat",
       "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 34
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 9
       },
       "targets": [
         {
-          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
-          "refId": "A"
+          "expr": "avg(netris_mesh_vpn_rtt_seconds) * 1000",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "ms",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -710,37 +504,82 @@
                 "value": null
               },
               {
-                "color": "#EAB308",
-                "value": 2
+                "color": "#FF9900",
+                "value": 30
               },
               {
                 "color": "#FF3366",
-                "value": 4
+                "value": 60
               }
             ]
           }
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
-      "id": 31,
-      "title": "Instantaneous Node Memory (RAM) % Used",
-      "type": "bargauge",
+      "id": 153,
+      "title": "Active SoftGate Conntrack (Graphite)",
+      "type": "stat",
       "gridPos": {
-        "h": 6,
-        "w": 12,
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 9
+      },
+      "targets": [
+        {
+          "expr": "sum(netris_softgate_conntrack_entries)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#38BDF8"
+          },
+          "unit": "short"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 154,
+      "title": "Peak ASIC Temperature (MongoDB)",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
         "x": 12,
-        "y": 34
+        "y": 9
       },
       "targets": [
         {
-          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
-          "refId": "A"
+          "expr": "max(netris_sensor_temperature_celsius{sensor_type=\"asic\"}) or max(netris_sensor_temperature_celsius)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "celsius",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -749,54 +588,46 @@
                 "value": null
               },
               {
-                "color": "#EAB308",
-                "value": 75
+                "color": "#FF9900",
+                "value": 65
               },
               {
                 "color": "#FF3366",
-                "value": 85
+                "value": 75
               }
             ]
           }
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
-      "collapsed": false,
+      "id": 155,
+      "title": "Signal Degradation Links (MongoDB)",
+      "type": "stat",
       "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 40
-      },
-      "id": 400,
-      "title": "Fabric Assurance, Continuous Active Validation & Link Stability",
-      "type": "row"
-    },
-    {
-      "id": 60,
-      "title": "Interface Error & Drop Event Spikes Over Time",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 41
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 9
       },
       "targets": [
         {
-          "expr": "sum by (device_name) (netris_port_error_status{fabric_type=~\"${fabric_type:regex}\"})",
-          "legendFormat": "{{device_name}} Errors/Drops",
-          "refId": "A"
+          "expr": "(count(netris_port_bit_error_rate > 1e-12)) or vector(0)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "drawStyle": "bars",
-            "lineWidth": 1,
-            "fillOpacity": 30,
-            "spanNulls": true
+          "color": {
+            "mode": "thresholds"
           },
           "unit": "short",
           "thresholds": {
@@ -814,16 +645,481 @@
           }
         }
       },
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 156,
+      "title": "Active L4LB VIPs (MariaDB)",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 9
+      },
+      "targets": [
+        {
+          "expr": "(count(netris_l4lb_vip_health_status == 1)) or vector(0)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#00F5D4"
+          },
+          "unit": "short"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 200,
+      "title": "Dual-Plane Traffic Separation: East-West (Compute Mesh) vs North-South (Edge Border)",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      }
+    },
+    {
+      "id": 44,
+      "title": "East-West Compute Mesh Throughput (RoCE / GPU / Leaf-Spine)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
+          "legendFormat": "{{device_role}} (Ingress)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"east_west\"})",
+          "legendFormat": "{{device_role}} (Egress)",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 45,
+      "title": "North-South Edge & Border Throughput (SoftGates / External Transits)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
+          "legendFormat": "{{device_role}} (Ingress)",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"north_south\"})",
+          "legendFormat": "{{device_role}} (Egress)",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 41,
+      "title": "HGX GPU Server Downlink Bandwidth (East-West AI Cluster)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 22
+      },
+      "targets": [
+        {
+          "expr": "sum by (server_cluster) (netris_interface_receive_bits_per_second{port_role=\"server_facing\", server_cluster!=\"none\"})",
+          "legendFormat": "{{server_cluster}} Ingress",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (server_cluster) (netris_interface_transmit_bits_per_second{port_role=\"server_facing\", server_cluster!=\"none\"})",
+          "legendFormat": "{{server_cluster}} Egress",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 42,
+      "title": "Spine Core Interlink Bandwidth (Fabric Backbone)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name) (netris_interface_receive_bits_per_second{device_role=\"spine\"})",
+          "legendFormat": "{{device_name}} Ingress",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_name) (netris_interface_transmit_bits_per_second{device_role=\"spine\"})",
+          "legendFormat": "{{device_name}} Egress",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 300,
+      "title": "Hardware Telemetry & Node Resource Trends (Filtered by Fabric Plane)",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      }
+    },
+    {
+      "id": 50,
+      "title": "Switch / SoftGate CPU 1m Load Average Trends Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
+          "legendFormat": "{{device_name}} ({{device_role}})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 51,
+      "title": "Switch / SoftGate Memory (RAM) % Utilization Trends Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 31
+      },
+      "targets": [
+        {
+          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
+          "legendFormat": "{{device_name}} ({{device_role}})",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 75
+              },
+              {
+                "color": "#FF3366",
+                "value": 90
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 30,
+      "title": "Instantaneous Node CPU Load",
+      "type": "bargauge",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 39
+      },
+      "targets": [
+        {
+          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
+          "legendFormat": "{{device_name}}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 2
+              },
+              {
+                "color": "#FF3366",
+                "value": 4
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 31,
+      "title": "Instantaneous Node Memory (RAM) % Used",
+      "type": "bargauge",
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "targets": [
+        {
+          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
+          "legendFormat": "{{device_name}}",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 75
+              },
+              {
+                "color": "#FF3366",
+                "value": 90
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 400,
+      "title": "Fabric Assurance, Continuous Active Validation & Link Stability",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      }
+    },
+    {
+      "id": 60,
+      "title": "Interface Error & Drop Event Spikes Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 47
+      },
+      "targets": [
+        {
+          "expr": "sum by (device_name) (netris_interface_receive_errors_per_second) > 0",
+          "legendFormat": "{{device_name}} Ingress Errors",
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        },
+        {
+          "expr": "sum by (device_name) (netris_interface_transmit_errors_per_second) > 0",
+          "legendFormat": "{{device_name}} Egress Errors",
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "pps",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -831,17 +1127,21 @@
       "title": "Continuous Active Assurance: LLDP Cabling Validation",
       "type": "table",
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 41
+        "y": 47
       },
       "targets": [
         {
-          "expr": "netris_topology_wiring_valid",
+          "expr": "netris_topology_wiring_valid == 1",
           "format": "table",
           "instant": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
@@ -863,7 +1163,7 @@
                         "color": "#FF3366"
                       },
                       "1": {
-                        "text": "VALID",
+                        "text": "VERIFIED",
                         "color": "#76B900"
                       }
                     }
@@ -873,6 +1173,10 @@
             ]
           }
         ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -883,14 +1187,18 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 55
       },
       "targets": [
         {
           "expr": "netris_ebgp_session_state",
           "format": "table",
           "instant": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
@@ -922,6 +1230,10 @@
             ]
           }
         ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -932,14 +1244,18 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 55
       },
       "targets": [
         {
           "expr": "netris_node_component_health{fabric_type=~\"${fabric_type:regex}\"}",
           "format": "table",
           "instant": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
@@ -957,11 +1273,11 @@
                     "type": "value",
                     "options": {
                       "0": {
-                        "text": "CRITICAL",
+                        "text": "FAILED",
                         "color": "#FF3366"
                       },
                       "1": {
-                        "text": "OK",
+                        "text": "HEALTHY",
                         "color": "#76B900"
                       }
                     }
@@ -971,19 +1287,22 @@
             ]
           }
         ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
-      "collapsed": false,
+      "id": 500,
+      "title": "Server Clusters & Enriched Port Telemetry",
+      "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
-      },
-      "id": 500,
-      "title": "Server Clusters & Enriched Port Telemetry",
-      "type": "row"
+        "y": 62
+      }
     },
     {
       "id": 20,
@@ -993,12 +1312,16 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 56
+        "y": 63
       },
       "targets": [
         {
           "expr": "count by (server_cluster) (netris_port_status{server_cluster!=\"none\", fabric_type=~\"${fabric_type:regex}\"})",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
@@ -1007,6 +1330,10 @@
             "mode": "palette-classic"
           }
         }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     },
     {
@@ -1017,14 +1344,18 @@
         "h": 8,
         "w": 18,
         "x": 6,
-        "y": 56
+        "y": 63
       },
       "targets": [
         {
           "expr": "netris_port_status{port_role=\"server_facing\", fabric_type=~\"${fabric_type:regex}\"}",
           "format": "table",
           "instant": true,
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          }
         }
       ],
       "fieldConfig": {
@@ -1056,6 +1387,10 @@
             ]
           }
         ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
       }
     }
   ]

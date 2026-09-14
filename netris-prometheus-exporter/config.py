@@ -32,9 +32,19 @@ class Config:
     exporter_port: int = int(os.getenv("EXPORTER_PORT", "9101"))
     log_level: str = os.getenv("LOG_LEVEL", "INFO").upper()
 
-    # Streaming Telemetry Parameters
+    # Streaming Telemetry Parameters (Graphite Engine)
     enable_streaming_traffic: bool = os.getenv("ENABLE_STREAMING_TRAFFIC", "true").lower() in ("true", "1", "yes")
+    enable_streaming_pps: bool = os.getenv("ENABLE_STREAMING_PPS", "true").lower() in ("true", "1", "yes")
+    enable_streaming_errors: bool = os.getenv("ENABLE_STREAMING_ERRORS", "true").lower() in ("true", "1", "yes")
+    enable_streaming_optics: bool = os.getenv("ENABLE_STREAMING_OPTICS", "true").lower() in ("true", "1", "yes")
+    enable_streaming_system: bool = os.getenv("ENABLE_STREAMING_SYSTEM", "true").lower() in ("true", "1", "yes")
     streaming_traffic_active_only: bool = os.getenv("STREAMING_TRAFFIC_ACTIVE_ONLY", "true").lower() in ("true", "1", "yes")
+
+    # Fabric State & Capacity Parameters (MariaDB Engine)
+    enable_mariadb_telemetry: bool = os.getenv("ENABLE_MARIADB_TELEMETRY", "true").lower() in ("true", "1", "yes")
+
+    # Environmental & Hardware Sensor Parameters (MongoDB / Telescope Engine)
+    enable_mongodb_sensors: bool = os.getenv("ENABLE_MONGODB_SENSORS", "true").lower() in ("true", "1", "yes")
 
     # Offline Simulation Replay Parameters
     simulation_mode: bool = os.getenv("SIMULATION_MODE", "false").lower() in ("true", "1", "yes")
@@ -42,3 +52,4 @@ class Config:
 
 
 config = Config()
+

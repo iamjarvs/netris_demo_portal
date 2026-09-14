@@ -49,8 +49,11 @@ netris.var
 data/postgres/
 data/redis/
 data/redis-cache/
-prometheus/data/
+**/prometheus/data/
 scratch/
+demo-portal/data/
+netris-prometheus-exporter/sim_data/*.json
+!netris-prometheus-exporter/sim_data/*.json.gz
 
 # Operating System & IDEs
 .DS_Store

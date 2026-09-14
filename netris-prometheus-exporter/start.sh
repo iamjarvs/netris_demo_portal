@@ -124,6 +124,8 @@ fi
 # Determine python interpreter
 if [ -f ".venv/bin/python" ]; then
     PYTHON_CMD=".venv/bin/python"
+elif [ -f "../demo-portal/.venv/bin/python" ]; then
+    PYTHON_CMD="../demo-portal/.venv/bin/python"
 else
     PYTHON_CMD="python3"
 fi
@@ -138,16 +140,10 @@ if [ "$MODE" = "sim" ]; then
     echo -e "[*] Netris Controller:        ${BOLD}Bypassed (No network connection required)${NC}"
 
     if [ ! -f "$SIM_DATA_FILE" ]; then
-        if [ -f "${SIM_DATA_FILE}.gz" ]; then
-            SIM_DATA_FILE="${SIM_DATA_FILE}.gz"
-        elif [[ "$SIM_DATA_FILE" == *.gz ]] && [ -f "${SIM_DATA_FILE%.gz}" ]; then
-            SIM_DATA_FILE="${SIM_DATA_FILE%.gz}"
-        else
-            echo -e "${RED}[-] Error: Recording file '${SIM_DATA_FILE}' does not exist!${NC}"
-            echo -e "${YELLOW}[!] To generate a simulation recording, connect to Netris and run:${NC}"
-            echo -e "    ${BOLD}./record.sh 60 15${NC} (or ./start.sh --record 60 15)"
-            exit 1
-        fi
+        echo -e "${RED}[-] Error: Recording file '${SIM_DATA_FILE}' does not exist!${NC}"
+        echo -e "${YELLOW}[!] To generate a simulation recording, connect to Netris and run:${NC}"
+        echo -e "    ${BOLD}./record.sh 60 15${NC} (or ./start.sh --record 60 15)"
+        exit 1
     fi
 
     # Historical Backfill (Pre-populates Prometheus TSDB blocks)

@@ -3,17 +3,17 @@ title: "Netris AI Cloud & Fabric Demo Toolkit"
 source: "Netris Solutions Architecture"
 category: "Solutions Architecture"
 product: "Netris Controller"
-tags: [demo-toolkit, ai-fabric, rocev2, slurm, prometheus, grafana, netbox, provider-portal, chatsim, iperf3]
+tags: [demo-toolkit, ai-fabric, rocev2, slurm, prometheus, grafana, netbox, provider-portal, chatsim, iperf3, switch-isolation, fabric-assurance]
 aliases: ["Netris Demo Suite", "AI Fabric Demo Toolkit", "Pre-Sales Toolkit"]
-summary: "Unified pre-sales and solutions architecture demonstration toolkit for Netris Cloud Networking, AI fabrics, IPAM sync, Slurm orchestration, and self-service cloud portals."
-updated: "2026-09-10"
+summary: "Unified pre-sales and solutions architecture demonstration toolkit for Netris Cloud Networking, AI fabrics, IPAM sync, Slurm orchestration, fabric isolation assurance, and self-service cloud portals."
+updated: "2026-09-15"
 ---
 
 # Netris AI Cloud & Fabric Demo Toolkit
 
 A comprehensive, production-grade demonstration and simulation suite designed for **Solutions Architects, Pre-Sales Engineers, and Technical Leaders** showcasing the full power of **Netris Cloud Networking** across modern AI GigaFactories and NeoCloud GPU environments.
 
-This repository unites telemetry generation, multi-rail RoCEv2 traffic simulation, dynamic Slurm HPC orchestration, IPAM synchronization, customer self-service portals, and in-cluster workload props into a single, cohesive ecosystem.
+This repository unites telemetry generation, multi-rail RoCEv2 traffic simulation, dynamic Slurm HPC orchestration, IPAM synchronization, customer self-service portals, physical switch hardware isolation audits, and in-cluster workload props into a single, cohesive ecosystem.
 
 ---
 
@@ -22,7 +22,7 @@ This repository unites telemetry generation, multi-rail RoCEv2 traffic simulatio
 ```mermaid
 graph TB
     subgraph ManagementHub ["0. Central Management & Control Portal"]
-        CommandCenter["Demo Command Center (demo-portal/)<br/>• TailAdmin v2 Light Theme (Port 8800)<br/>• Process Management, Liveness & Config Sync<br/>• Pop-Out Launch to Native Project Windows"]
+        CommandCenter["Demo Command Center (demo-portal/)<br/>• TailAdmin v2 Light Theme (Port 8800)<br/>• Process Management, Liveness & Config Sync<br/>• Pop-Out Launch to Native Project Windows<br/>• In-Browser xterm.js Terminal & Prometheus Recorder"]
     end
 
     subgraph Planning ["1. Planning & Source of Truth"]
@@ -45,12 +45,16 @@ graph TB
         TrafficSim["AI Fabric Traffic Generators<br/>(gpu-ai-fabric-traffic-sim/<br/>netris-controller-gpu-traffic-sim/)"]
     end
 
-    subgraph Observability ["5. Enriched Telemetry & Observability"]
-        Exporter["Netris Prometheus Exporter<br/>(netris-prometheus-exporter/)<br/>Semantic Enrichment Engine"]
+    subgraph Assurance ["5. Fabric Hardware Assurance & Isolation"]
+        IsolationTool["Switch Isolation CLI<br/>(switch-isolation-cli/)<br/>Interactive Hardware Table Audit & VPC Drain"]
+    end
+
+    subgraph Observability ["6. Enriched Telemetry & Observability"]
+        Exporter["Netris Prometheus Exporter<br/>(netris-prometheus-exporter/)<br/>Semantic Enrichment & On-Demand Stream Recorder"]
         Dashboards["Grafana Dashboards<br/>(Fabric Overview, Heatmaps, Active Assurance)"]
     end
 
-    CommandCenter -.->|Coordinates & Launches| Planning & ControlPlane & Orchestration & ComputeFabric & Observability
+    CommandCenter -.->|Coordinates & Launches| Planning & ControlPlane & Orchestration & ComputeFabric & Assurance & Observability
     NetBox <==>|Bi-directional Sync| SyncService
     SyncService <==>|API v2| NetrisCTL
     Portal ==>|Tenant Order & Day-2 Services| NetrisCTL
@@ -58,6 +62,7 @@ graph TB
     NetrisCTL ==>|Programs Switch Ports & BGP EVPN| HGX
     HGX -.->|Active GPU Inference| Meridian
     HGX <==>|Multi-Rail RoCEv2 Traffic| TrafficSim
+    IsolationTool ==>|Audit vtysh Tables & Drain Ports| HGX
     NetrisCTL ==>|Switch Octets & Active Assurance| Exporter
     Exporter ==>|Enriched Metrics & 90m Backfill| Dashboards
 ```
@@ -78,10 +83,11 @@ Each tool resides in its own dedicated, self-contained subfolder with an indepen
 | [`netbox-netris/`](netbox-netris/README.md) | IPAM & DCIM Sync | Network Engineers, NetOps | Bi-directional synchronization between NetBox (IPAM source of truth) and Netris Controller, mirroring live assignments and auto-provisioning subnets. | `./start-netbox-integration.sh` |
 | [`provider-portal/`](provider-portal/README.md) | Demo Portal & Self-Service | NeoCloud Executives, Cloud Architects | Full-stack multi-tenant AI Cloud self-service portal (FastAPI + React) demonstrating on-demand GPU cluster environment provisioning and an operator management console (`/ops`). | `uvicorn app.main:app --port 8000` |
 | [`chatsim/`](chatsim/README.md) | Tenant Workload Demo | Business Executives, End Customers | Push-deployed AI chat assistant prop running on GPU nodes, reflecting real tenant identity, Netris VPC context, and active GPU rail utilization (`nvidia-smi`). | `python3 server.py` |
+| [`switch-isolation-cli/`](switch-isolation-cli/README.md) | **Fabric Assurance & Isolation** | Solutions Architects, Security Teams | Interactive terminal utility inspecting live Top-of-Rack leaf switch hardware tables (EVPN/VXLAN & Pure VRF) to indisputably prove multi-tenant ASIC isolation and dynamic VPC draining. | `./run.sh` |
 
 ---
 
-## 3. The 6-Act "End-to-End AI Cloud" Demo Journey
+## 3. The 7-Act "End-to-End AI Cloud" Demo Journey
 
 For an executive pre-sales presentation, follow this seamless narrative demonstrating the entire lifecycle of an AI Cloud powered by Netris:
 
@@ -114,6 +120,10 @@ sequenceDiagram
     Note over SA,Customer: Act 6: Enriched Fabric Observability (netris-prometheus-exporter)
     SA->>Customer: "Open Grafana: Every switch port is enriched with Tenant, VPC, and Server Cluster context."
     SA->>Customer: Review East-West vs North-South heatmaps and Continuous Active Assurance passes.
+
+    Note over SA,Customer: Act 7: Physical Switch Hardware Isolation Proof (switch-isolation-cli)
+    SA->>Customer: "Let's inspect the physical Top-of-Rack leaf ASIC tables directly."
+    SA->>Customer: In-browser terminal audits vtysh EVPN VNIs and Pure VRF routing -> Proves zero hardware leakage.
 ```
 
 ---
@@ -173,6 +183,15 @@ netris-demo-tools/
 │   ├── start.sh                            # One-click launcher (http://localhost:8800)
 │   └── README.md
 │
+├── switch-isolation-cli/                   # Physical switch hardware table audit & VPC isolation tool
+│   ├── isolation_tool.py                   # Multi-stage interactive CLI suite (EVPN/VRF)
+│   ├── isolation_cli.py                    # Standalone interactive audit runner
+│   ├── switch_inspector.py                 # vtysh SSH jump-host table extractor
+│   ├── ping_orchestrator.py                # Inter-tenant and cross-rail ping prober
+│   ├── run.sh                              # Launcher script with auto-venv setup
+│   ├── config.example.json                 # Target Netris & jump-host credentials
+│   └── README.md
+│
 └── chatsim/                                # Meridian Console AI chat & GPU rail demo prop
     ├── server.py                           # Flask server
     ├── meridian/                           # Context loader and GPU discovery
@@ -211,6 +230,9 @@ cd netbox-netris && ./start-netbox-integration.sh
 
 # 5. Launch Local Meridian ChatSim Console:
 cd chatsim && python3 server.py
+
+# 6. Launch Switch Isolation & Hardware Table Assurance CLI:
+cd switch-isolation-cli && ./run.sh
 ```
 
 ---

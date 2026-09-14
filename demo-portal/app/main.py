@@ -39,6 +39,7 @@ if STATIC_DIR.exists():
 
 
 @app.get("/", include_in_schema=False)
+@app.head("/", include_in_schema=False)
 def serve_index():
     index_file = STATIC_DIR / "index.html"
     if index_file.exists():
@@ -47,6 +48,7 @@ def serve_index():
 
 
 @app.get("/healthz")
+@app.head("/healthz")
 def health_check():
     return {"status": "ok", "service": "demo-control-portal"}
 

@@ -108,7 +108,7 @@ def make_dashboard_handler(orchestrator: SlurmOrchestrator, static_dir: str):
                     self._send_json(snap.get("telemetry", {}))
                     return
 
-                if path == "/api/clusters":
+                if path in ("/api/clusters", "/api/cluster"):
                     self._send_json(_get_live_netris_clusters())
                     return
 

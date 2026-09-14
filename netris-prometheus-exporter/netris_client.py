@@ -150,7 +150,24 @@ class NetrisClient:
         data = self.get("/api/tenants")
         return data if isinstance(data, list) else []
 
+    def get_vpn_mesh(self) -> list[dict]:
+        """Returns the list of Mesh VPN links, SLA loss %, RTT latency, and quality scores from MariaDB."""
+        data = self.get("/api/vpn")
+        return data if isinstance(data, list) else []
+
+    def get_l4lb_stats(self) -> list[dict]:
+        """Returns L4 Load Balancer instances and VIP health states."""
+        try:
+            data = self.get("/api/v2/l4lb")
+            if isinstance(data, list):
+                return data
+            data = self.get("/api/l4lb")
+            return data if isinstance(data, list) else []
+        except Exception:
+            return []
+
     # --- Telemetry & Health Endpoints ---
+
 
     def get_hardware_health(self) -> list[dict]:
         """Returns the full list of Continuous Active Assurance health checks.

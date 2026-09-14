@@ -163,18 +163,26 @@ def record(duration: int, interval: int, output_path: str):
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(recording_data, f, indent=2)
 
+    gz_path = output_path + ".gz" if not output_path.endswith(".gz") else output_path
+    if not output_path.endswith(".gz"):
+        import gzip
+        logger.info("Writing compressed archive to %s...", gz_path)
+        with gzip.open(gz_path, "wt", encoding="utf-8") as f:
+            json.dump(recording_data, f)
+
     file_size_mb = os.path.getsize(output_path) / (1024 * 1024)
-    logger.info("Successfully saved recording (%d frames, %.2f MB) to %s.", len(frames), file_size_mb, output_path)
-    print("\n" + "=" * 72)
-    print("           NETRIS TELEMETRY RECORDING SAVED SUCCESSFULLY           ")
-    print("=" * 72)
-    print(f"  📁 Output File:     {os.path.abspath(output_path)}")
-    print(f"  ⏱  Duration:        {total_time:.1f}s ({len(frames)} frames captured)")
-    print(f"  📦 File Size:       {file_size_mb:.2f} MB")
-    print(f"  🏢 Managed Nodes:   {len(metadata['hardware'])} devices")
-    print(f"  🔌 Mapped Links:    {len(metadata['links'])} ports")
-    print(f"  📈 Octet Series:    {len(frames[0].get('graphite_octets', [])) if frames else 0} series per frame")
-    print("=" * 72 + "\n")
+    gz_size_mb = os.path.getsize(gz_path) / (1024 * 1024) if os.path.exists(gz_path) else 0.0
+    logger.info("Successfully saved recording (%d frames, %.2f MB [compressed: %.2f MB]) to %s.", len(frames), file_size_mb, gz_size_mb, output_path)
+    print("\n" + "=" * 72, flush=True)
+    print("           NETRIS TELEMETRY RECORDING SAVED SUCCESSFULLY           ", flush=True)
+    print("=" * 72, flush=True)
+    print(f"  📁 Output File:     {os.path.abspath(output_path)}", flush=True)
+    print(f"  📦 Compressed:      {os.path.abspath(gz_path)} ({gz_size_mb:.2f} MB)", flush=True)
+    print(f"  ⏱  Duration:        {total_time:.1f}s ({len(frames)} frames captured)", flush=True)
+    print(f"  🏢 Managed Nodes:   {len(metadata['hardware'])} devices", flush=True)
+    print(f"  🔌 Mapped Links:    {len(metadata['links'])} ports", flush=True)
+    print(f"  📈 Octet Series:    {len(frames[0].get('graphite_octets', [])) if frames else 0} series per frame", flush=True)
+    print("=" * 72 + "\n", flush=True)
 
 
 if __name__ == "__main__":

@@ -175,43 +175,255 @@ def sync_global_to_all_tools(cfg: GlobalConfig) -> Dict[str, bool]:
             logger.error("Failed to write netris-slurm-cluster-sim config: %s", e)
             results["netris-slurm-cluster-sim"] = False
 
+    # 5. switch-isolation-cli: config.json
+    iso_dir = REPO_ROOT / "switch-isolation-cli"
+    if iso_dir.exists():
+        try:
+            iso_cfg = iso_dir / "config.json"
+            iso_data = {}
+            if iso_cfg.exists():
+                with open(iso_cfg, "r", encoding="utf-8") as f:
+                    iso_data = json.load(f)
+            else:
+                iso_example = iso_dir / "config.example.json"
+                if iso_example.exists():
+                    with open(iso_example, "r", encoding="utf-8") as f:
+                        iso_data = json.load(f)
+                else:
+                    iso_data = {
+                        "ssh_jump_host": "adam-ctl.netris.io",
+                        "ssh_jump_port": 22,
+                        "ssh_jump_user": "ubuntu",
+                        "ssh_jump_password": cfg.netris_password,
+                        "ssh_switch_user": "cumulus",
+                        "ssh_switch_key_path": "/home/ubuntu/.ssh/id_rsa"
+                    }
+
+            iso_data["netris_url"] = cfg.netris_url
+            iso_data["netris_username"] = cfg.netris_username
+            iso_data["netris_password"] = cfg.netris_password
+
+            with open(iso_cfg, "w", encoding="utf-8") as f:
+                json.dump(iso_data, f, indent=2)
+            results["switch-isolation-cli"] = True
+        except Exception as e:
+            logger.error("Failed to write switch-isolation-cli config: %s", e)
+            results["switch-isolation-cli"] = False
+
     return results
 
 
-def get_tool_config_text(tool_id: str) -> Optional[str]:
-    """Retrieve raw config file text for a given tool."""
-    tool_paths = {
-        "netris-prometheus-exporter": REPO_ROOT / "netris-prometheus-exporter" / "netris.var",
-        "netbox-netris": REPO_ROOT / "netbox-netris" / ".env",
-        "provider-portal": REPO_ROOT / "provider-portal" / ".env",
-        "netris-slurm-cluster-sim": REPO_ROOT / "netris-slurm-cluster-sim" / ".env",
-        "chatsim": REPO_ROOT / "chatsim" / ".env",
+TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
+    "netris-prometheus-exporter": {
+        "tool_id": "netris-prometheus-exporter",
+        "tool_name": "Prometheus & Grafana Observability",
+        "files": [
+            {
+                "id": "config.env",
+                "name": "config.env (Telemetry, Ports & Simulation)",
+                "path": REPO_ROOT / "netris-prometheus-exporter" / "config.env",
+                "rel_path": "netris-prometheus-exporter/config.env",
+                "format": "shell",
+                "description": "General settings: refresh intervals, simulation replay data file, and Grafana admin credentials."
+            },
+            {
+                "id": "netris.var",
+                "name": "netris.var (Netris Controller Credentials)",
+                "path": REPO_ROOT / "netris-prometheus-exporter" / "netris.var",
+                "rel_path": "netris-prometheus-exporter/netris.var",
+                "format": "shell",
+                "description": "Netris Controller target URL, API credentials, and TLS verification settings."
+            }
+        ]
+    },
+    "netbox-netris": {
+        "tool_id": "netbox-netris",
+        "tool_name": "NetBox ↔ Netris IPAM Sync",
+        "files": [
+            {
+                "id": ".env",
+                "name": ".env (NetBox & PostgreSQL Secrets)",
+                "path": REPO_ROOT / "netbox-netris" / ".env",
+                "rel_path": "netbox-netris/.env",
+                "format": "shell",
+                "description": "NetBox secret key, generated superuser password, Redis credentials, and Netris connection parameters."
+            },
+            {
+                "id": "config.yaml",
+                "name": "config/config.yaml (IPAM & Sync Rules)",
+                "path": REPO_ROOT / "netbox-netris" / "config" / "config.yaml",
+                "rel_path": "netbox-netris/config/config.yaml",
+                "format": "yaml",
+                "description": "Bidirectional polling frequencies, NetBox custom field mappings, and Site/Tenant translation rules."
+            }
+        ]
+    },
+    "provider-portal": {
+        "tool_id": "provider-portal",
+        "tool_name": "HeliosGrid Provider Portal",
+        "files": [
+            {
+                "id": ".env",
+                "name": ".env (Session Secret, Fernet Key & Seed Users)",
+                "path": REPO_ROOT / "provider-portal" / ".env",
+                "rel_path": "provider-portal/.env",
+                "format": "shell",
+                "description": "Customer and operator logins, session signing key, and sqlite database location."
+            }
+        ]
+    },
+    "netris-slurm-cluster-sim": {
+        "tool_id": "netris-slurm-cluster-sim",
+        "tool_name": "Slurm Dynamic Cluster Orchestrator",
+        "files": [
+            {
+                "id": ".env",
+                "name": ".env (Controller Connection & Defaults)",
+                "path": REPO_ROOT / "netris-slurm-cluster-sim" / ".env",
+                "rel_path": "netris-slurm-cluster-sim/.env",
+                "format": "shell",
+                "description": "Target controller URL, default tenant, and default datacenter site."
+            }
+        ]
+    },
+    "chatsim": {
+        "tool_id": "chatsim",
+        "tool_name": "Meridian ChatSim Console",
+        "files": [
+            {
+                "id": ".env",
+                "name": ".env (Tenant & Port Configuration)",
+                "path": REPO_ROOT / "chatsim" / ".env",
+                "rel_path": "chatsim/.env",
+                "format": "shell",
+                "description": "Simulated tenant branding, GPU topology, and HTTP port binding."
+            }
+        ]
+    },
+    "gpu-ai-fabric-traffic-sim": {
+        "tool_id": "gpu-ai-fabric-traffic-sim",
+        "tool_name": "GPU AI Fabric Traffic Simulator",
+        "files": [
+            {
+                "id": "docker-compose.yml",
+                "name": "docker-compose.yml (Pretend GPU Nodes & Fabric)",
+                "path": REPO_ROOT / "gpu-ai-fabric-traffic-sim" / "docker-compose.yml",
+                "rel_path": "gpu-ai-fabric-traffic-sim/docker-compose.yml",
+                "format": "yaml",
+                "description": "Pretend GPU node containers, 8-rail definitions, and RoCEv2 bridge subnet."
+            }
+        ]
+    },
+    "switch-isolation-cli": {
+        "tool_id": "switch-isolation-cli",
+        "tool_name": "Switch Isolation & Drain Tool",
+        "files": [
+            {
+                "id": "config.json",
+                "name": "config.json (Netris & Jump Host Credentials)",
+                "path": REPO_ROOT / "switch-isolation-cli" / "config.json",
+                "rel_path": "switch-isolation-cli/config.json",
+                "format": "json",
+                "description": "Netris Controller API credentials, SSH jump host connection details, and switch SSH settings."
+            }
+        ]
     }
-    path = tool_paths.get(tool_id)
-    if path and path.exists():
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                return f.read()
-        except Exception as e:
-            logger.warning("Error reading %s: %s", path, e)
-    return None
+}
 
 
-def save_tool_config_text(tool_id: str, content: str) -> bool:
-    """Save raw config file text for a given tool."""
-    tool_paths = {
-        "netris-prometheus-exporter": REPO_ROOT / "netris-prometheus-exporter" / "netris.var",
-        "netbox-netris": REPO_ROOT / "netbox-netris" / ".env",
-        "provider-portal": REPO_ROOT / "provider-portal" / ".env",
-        "netris-slurm-cluster-sim": REPO_ROOT / "netris-slurm-cluster-sim" / ".env",
-        "chatsim": REPO_ROOT / "chatsim" / ".env",
-    }
-    path = tool_paths.get(tool_id)
-    if path:
-        try:
-            with open(path, "w", encoding="utf-8") as f:
-                f.write(content)
-            return True
-        except Exception as e:
-            logger.error("Error saving %s: %s", path, e)
-    return False
+def get_tool_config_catalog() -> List[Dict[str, Any]]:
+    """Return all tools and their registered configuration files."""
+    catalog = []
+    for tool_id, entry in TOOL_CONFIG_REGISTRY.items():
+        files_list = []
+        for f in entry["files"]:
+            files_list.append({
+                "id": f["id"],
+                "name": f["name"],
+                "path": f["rel_path"],
+                "format": f["format"],
+                "description": f.get("description", "")
+            })
+        catalog.append({
+            "tool_id": tool_id,
+            "tool_name": entry["tool_name"],
+            "files": files_list
+        })
+    return catalog
+
+
+def get_file_content(tool_id: str, file_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
+    """Retrieve content and metadata for a specific configuration file."""
+    entry = TOOL_CONFIG_REGISTRY.get(tool_id)
+    if not entry:
+        return None
+    target_file = None
+    if file_id:
+        for f in entry["files"]:
+            if f["id"] == file_id:
+                target_file = f
+                break
+    if not target_file and entry["files"]:
+        target_file = entry["files"][0]
+
+    if not target_file:
+        return None
+
+    path = target_file["path"]
+    if not path.exists():
+        return None
+
+    try:
+        with open(path, "r", encoding="utf-8") as fp:
+            content = fp.read()
+        return {
+            "tool_id": tool_id,
+            "file_id": target_file["id"],
+            "name": target_file["name"],
+            "path": target_file["rel_path"],
+            "format": target_file["format"],
+            "content": content
+        }
+    except Exception as e:
+        logger.error("Error reading file %s: %s", path, e)
+        return None
+
+
+def save_file_content(tool_id: str, file_id: str, content: str) -> tuple[bool, str]:
+    """Save raw content to a specific configuration file on disk."""
+    entry = TOOL_CONFIG_REGISTRY.get(tool_id)
+    if not entry:
+        return False, f"Unknown tool '{tool_id}'"
+    target_file = None
+    for f in entry["files"]:
+        if f["id"] == file_id:
+            target_file = f
+            break
+    if not target_file:
+        return False, f"Unknown file '{file_id}' for tool '{tool_id}'"
+
+    path = target_file["path"]
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fp:
+            fp.write(content)
+        return True, f"Successfully saved {target_file['name']} to disk."
+    except Exception as e:
+        logger.error("Error saving file %s: %s", path, e)
+        return False, str(e)
+
+
+def get_tool_config_text(tool_id: str, file_id: Optional[str] = None) -> Optional[str]:
+    """Retrieve raw config file text for a given tool (backward compatible)."""
+    res = get_file_content(tool_id, file_id)
+    return res["content"] if res else None
+
+
+def save_tool_config_text(tool_id: str, content: str, file_id: Optional[str] = None) -> bool:
+    """Save raw config file text for a given tool (backward compatible)."""
+    entry = TOOL_CONFIG_REGISTRY.get(tool_id)
+    if not entry or not entry["files"]:
+        return False
+    fid = file_id or entry["files"][0]["id"]
+    ok, _ = save_file_content(tool_id, fid, content)
+    return ok

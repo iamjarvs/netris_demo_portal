@@ -43,7 +43,7 @@ done
 echo
 
 echo
-echo "NetBox UI:      http://localhost:8000  (user: admin, password: see NETBOX_SUPERUSER_PASSWORD in .env)"
+echo "NetBox UI:      http://localhost:8001  (user: admin, password: see NETBOX_SUPERUSER_PASSWORD in .env)"
 echo "Sync status:    http://localhost:8090/status"
 echo
 echo "Logs:           docker compose logs -f sync-service"

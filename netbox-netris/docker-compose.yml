@@ -80,7 +80,7 @@ services:
     environment:
       <<: *netbox-env
     ports:
-      - "8000:8080"
+      - "8001:8080"
     volumes:
       - ./data/netbox-media:/opt/netbox/netbox/media:rw
       - ./data/netbox-reports:/opt/netbox/netbox/reports:rw

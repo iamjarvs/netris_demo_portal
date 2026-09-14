@@ -1,0 +1,11 @@
+{
+  "netris_url": "https://adam-ctl.netris.io",
+  "netris_username": "netris",
+  "netris_password": "change-me",
+  "ssh_jump_host": "adam-ctl.netris.io",
+  "ssh_jump_port": 22,
+  "ssh_jump_user": "ubuntu",
+  "ssh_jump_password": "change-me",
+  "ssh_switch_user": "cumulus",
+  "ssh_switch_key_path": "/home/ubuntu/.ssh/id_rsa"
+}
