@@ -1039,6 +1039,32 @@ function App() {
             <Icons.Terminal />
             <span>Process Logs Console</span>
           </button>
+
+          <div className="pt-2">
+            <button
+              onClick={() => setRecordingModalOpen(true)}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition cursor-pointer border ${
+                recordingState?.is_recording
+                  ? 'bg-red-50 text-red-700 font-semibold border-red-200'
+                  : 'text-gray-700 hover:bg-gray-100 border-transparent'
+              }`}
+              title="Open Prometheus live telemetry recorder"
+            >
+              <div className="flex items-center gap-3">
+                <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-red-600 animate-ping' : 'bg-red-500'}`}></span>
+                <span>Prometheus Recorder</span>
+              </div>
+              {recordingState?.is_recording ? (
+                <span className="text-[10px] bg-red-100 text-red-800 font-mono font-bold px-1.5 py-0.5 rounded">
+                  REC
+                </span>
+              ) : (
+                <span className="text-[10px] text-gray-400 font-mono">
+                  {recordingState?.frames_captured ? `${recordingState.frames_captured}f` : 'Idle'}
+                </span>
+              )}
+            </button>
+          </div>
         </nav>
 
         {/* Footer Info */}
@@ -1079,23 +1105,55 @@ function App() {
 
             <button
               onClick={() => handleRunScenario('stop_all')}
-              className="bg-white text-error-600 ring-1 ring-inset ring-red-200 hover:bg-error-50 px-3.5 py-2 rounded-lg text-sm font-medium transition inline-flex items-center gap-2 shadow-theme-xs"
+              className="bg-white text-error-600 ring-1 ring-inset ring-red-200 hover:bg-error-50 px-3.5 py-2 rounded-lg text-sm font-medium transition inline-flex items-center gap-2 shadow-theme-xs cursor-pointer"
               title="Stop all active demo containers and background scripts"
             >
               <Icons.Stop />
               <span>Stop All</span>
             </button>
 
+            {/* Prometheus Telemetry Recording Button in Header */}
+            <button
+              onClick={() => setRecordingModalOpen(true)}
+              className={`ring-1 ring-inset px-3.5 py-2 rounded-lg text-sm font-semibold transition inline-flex items-center gap-2 shadow-theme-xs cursor-pointer ${
+                recordingState?.is_recording
+                  ? 'bg-red-50 ring-red-400 text-red-700 animate-pulse'
+                  : 'bg-white text-gray-700 ring-gray-300 hover:bg-red-50 hover:text-red-700 hover:ring-red-300'
+              }`}
+              title="Record live Netris telemetry for Prometheus offline looping"
+            >
+              <span className={`w-2.5 h-2.5 rounded-full ${recordingState?.is_recording ? 'bg-red-600 animate-ping' : 'bg-red-500'}`}></span>
+              <span>{recordingState?.is_recording ? `Recording Live (${Math.round(recordingState?.elapsed_seconds || 0)}s)` : 'Record Telemetry'}</span>
+            </button>
+
             {/* Refresh Button */}
             <button
               onClick={loadTools}
-              className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 transition shadow-theme-xs"
+              className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 transition shadow-theme-xs cursor-pointer"
               title="Refresh status"
             >
               <Icons.Refresh />
             </button>
           </div>
         </header>
+
+        {/* Global Live Recording Alert Banner */}
+        {recordingState?.is_recording && (
+          <div className="bg-red-600 text-white px-8 py-2.5 flex items-center justify-between text-sm shadow-md">
+            <div className="flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
+              <span className="font-bold tracking-wide uppercase text-xs">Live Telemetry Recording in Progress:</span>
+              <span className="font-mono text-xs font-semibold">{Math.round(recordingState.elapsed_seconds)}s / {recordingState.duration}s ({recordingState.progress_pct}%)</span>
+              <span className="text-red-100 text-xs">· {recordingState.frames_captured} frames captured</span>
+            </div>
+            <button
+              onClick={() => setRecordingModalOpen(true)}
+              className="bg-white text-red-700 hover:bg-red-50 px-3 py-1 rounded text-xs font-bold transition shadow-sm cursor-pointer"
+            >
+              View Progress / Stop Recording
+            </button>
+          </div>
+        )}
 
         {/* Content Area */}
         <div className="p-8 max-w-[1400px] w-full mx-auto space-y-6">
@@ -1334,15 +1392,15 @@ function App() {
                             {tool.id === 'netris-prometheus-exporter' && (
                               <button
                                 onClick={() => setRecordingModalOpen(true)}
-                                className={`p-1.5 rounded-lg border text-xs font-medium transition shadow-2xs inline-flex items-center gap-1.5 cursor-pointer ${
+                                className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1.5 cursor-pointer ${
                                   recordingState?.is_recording
-                                    ? 'bg-red-50 border-red-300 text-red-700 animate-pulse'
-                                    : 'border-gray-200 text-gray-700 hover:bg-gray-100 hover:text-red-600'
+                                    ? 'bg-red-600 border-red-700 text-white animate-pulse'
+                                    : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100 hover:border-red-300'
                                 }`}
                                 title="Record live Netris telemetry for offline simulation looping"
                               >
-                                <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-red-600 animate-ping' : 'bg-red-500'}`}></span>
-                                <span className="text-[11px] font-semibold">Record</span>
+                                <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-white animate-ping' : 'bg-red-600'}`}></span>
+                                <span>{recordingState?.is_recording ? 'Recording Live...' : 'Record Telemetry'}</span>
                               </button>
                             )}
 
