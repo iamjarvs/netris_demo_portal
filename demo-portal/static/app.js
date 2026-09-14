@@ -348,7 +348,7 @@ function InteractiveTerminalModal({ tool, onClose, notify }) {
   const handleLaunchNative = async () => {
     try {
       const res = await launchNativeTerminalApi(tool.id);
-      notify(res.message || 'Launched native macOS Terminal session!');
+      notify(res.message || 'Launched native iTerm session!');
     } catch (e) {
       notify(`Native launch error: ${e.message}`, 'error');
     }
@@ -394,10 +394,10 @@ function InteractiveTerminalModal({ tool, onClose, notify }) {
             <button
               onClick={handleLaunchNative}
               className="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold transition border border-gray-700 inline-flex items-center gap-1.5 shadow-sm cursor-pointer"
-              title="Open this interactive CLI in native macOS Terminal.app"
+              title="Open this interactive CLI in native iTerm"
             >
               <Icons.Popout />
-              <span>Open in macOS Terminal ↗</span>
+              <span>Open in iTerm ↗</span>
             </button>
 
             <button
@@ -737,7 +737,7 @@ function App() {
   const handleLaunchNative = async (toolId) => {
     try {
       const res = await launchNativeTerminalApi(toolId);
-      notify(res.message || 'Launched native macOS Terminal session!');
+      notify(res.message || 'Launched native iTerm session!');
     } catch (e) {
       notify(`Native launch error: ${e.message}`, 'error');
     }
@@ -1306,10 +1306,10 @@ function App() {
                                 <button
                                   onClick={() => handleLaunchNative(tool.id)}
                                   className="px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
-                                  title="Open in native macOS Terminal.app"
+                                  title="Open in native iTerm"
                                 >
                                   <Icons.Popout />
-                                  <span className="text-[11px]">macOS</span>
+                                  <span className="text-[11px]">iTerm</span>
                                 </button>
                               </div>
                             ) : tool.popout_url ? (

@@ -90,7 +90,7 @@ def run_scenario(scenario_id: str):
 
 @router.post("/{tool_id}/launch-native", response_model=ActionResponse)
 def launch_native_terminal(tool_id: str):
-    """Launch the tool in a native macOS Terminal window."""
+    """Launch the tool in a native iTerm (or Terminal.app) window."""
     success, msg = manager.launch_native_terminal(tool_id)
     if not success:
         raise HTTPException(status_code=400, detail=msg)

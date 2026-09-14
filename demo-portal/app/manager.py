@@ -652,26 +652,47 @@ def get_logs(tool_id: str, limit: int = 100) -> List[str]:
 
 
 def launch_native_terminal(tool_id: str) -> tuple[bool, str]:
-    """Open a native macOS Terminal.app session running the tool's launcher script."""
+    """Open an iTerm session (with fallback to Terminal.app) running the tool's launcher script."""
     meta = TOOLS_METADATA.get(tool_id)
     if not meta:
         return False, f"Tool '{tool_id}' not found."
     cwd = str(meta["cwd"])
     cmd_str = meta.get("summary_command", "./run.sh")
-    script = f'''
+
+    # Priority 1: iTerm / iTerm2
+    iterm_script = f'''
+    tell application "iTerm"
+        activate
+        create window with default profile
+        tell current session of current window
+            write text "cd '{cwd}' && {cmd_str}"
+        end tell
+    end tell
+    '''
+    try:
+        res = subprocess.run(["osascript", "-e", iterm_script], capture_output=True, text=True, timeout=6.0)
+        if res.returncode == 0:
+            _append_log(tool_id, f"Launched native iTerm session: cd '{cwd}' && {cmd_str}")
+            return True, "Launched native iTerm window."
+        logger.warning("iTerm AppleScript error: %s. Trying Terminal.app fallback.", res.stderr.strip())
+    except Exception as e:
+        logger.warning("Failed to launch iTerm: %s. Trying Terminal.app fallback.", e)
+
+    # Priority 2: Fallback to Terminal.app if iTerm is unavailable
+    terminal_script = f'''
     tell application "Terminal"
         activate
         do script "cd '{cwd}' && {cmd_str}"
     end tell
     '''
     try:
-        res = subprocess.run(["osascript", "-e", script], capture_output=True, text=True, timeout=5.0)
-        if res.returncode != 0:
-            return False, f"AppleScript error: {res.stderr.strip()}"
-        _append_log(tool_id, f"Launched native macOS Terminal session: cd '{cwd}' && {cmd_str}")
-        return True, "Launched native macOS Terminal window."
+        res = subprocess.run(["osascript", "-e", terminal_script], capture_output=True, text=True, timeout=5.0)
+        if res.returncode == 0:
+            _append_log(tool_id, f"Launched native Terminal.app session: cd '{cwd}' && {cmd_str}")
+            return True, "Launched native Terminal window."
+        return False, f"AppleScript error: {res.stderr.strip()}"
     except Exception as e:
-        return False, f"Failed to launch native terminal: {e}"
+        return False, f"Failed to launch terminal: {e}"
 
 
 # --- Telemetry Recording State Management ---
