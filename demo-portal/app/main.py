@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app import manager
 from app.routes.config import router as config_router
+from app.routes.layout import router as layout_router
 from app.routes.tools import router as tools_router
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -42,6 +43,7 @@ async def add_cache_control_headers(request, call_next):
 
 app.include_router(tools_router)
 app.include_router(config_router)
+app.include_router(layout_router)
 
 # Mount static folder for assets (JS, CSS, SVGs)
 if STATIC_DIR.exists():

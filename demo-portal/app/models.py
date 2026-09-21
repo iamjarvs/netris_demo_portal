@@ -102,3 +102,33 @@ class RecordStatusResponse(BaseModel):
     file_size_mb: float = 0.0
     error: Optional[str] = None
     message: Optional[str] = None
+
+
+class CategoryItem(BaseModel):
+    id: str
+    name: str
+    order: int = 0
+    collapsed: bool = False
+
+
+class ToolPlacement(BaseModel):
+    category_id: str
+    order: int = 0
+    hidden: bool = False
+
+
+class DashboardLayout(BaseModel):
+    categories: List[CategoryItem] = Field(default_factory=list)
+    tool_placements: Dict[str, ToolPlacement] = Field(default_factory=dict)
+
+
+class CreateCategoryRequest(BaseModel):
+    name: str
+    order: Optional[int] = None
+
+
+class UpdateCategoryRequest(BaseModel):
+    name: Optional[str] = None
+    order: Optional[int] = None
+    collapsed: Optional[bool] = None
+

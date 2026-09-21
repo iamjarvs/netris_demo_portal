@@ -138,6 +138,68 @@ async function stopRecordingApi() {
   return res.json();
 }
 
+async function fetchLayoutApi() {
+  const res = await fetch(`${API_BASE}/api/layout`);
+  if (!res.ok) throw new Error('Failed to fetch dashboard layout');
+  return res.json();
+}
+
+async function saveLayoutApi(layout) {
+  const res = await fetch(`${API_BASE}/api/layout`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(layout),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to save layout' }));
+    throw new Error(err.detail || 'Failed to save layout');
+  }
+  return res.json();
+}
+
+async function resetLayoutApi() {
+  const res = await fetch(`${API_BASE}/api/layout/reset`, { method: 'POST' });
+  if (!res.ok) throw new Error('Failed to reset dashboard layout');
+  return res.json();
+}
+
+async function createCategoryApi(name, order = null) {
+  const res = await fetch(`${API_BASE}/api/layout/categories`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, order }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to create category' }));
+    throw new Error(err.detail || 'Failed to create category');
+  }
+  return res.json();
+}
+
+async function updateCategoryApi(catId, payload) {
+  const res = await fetch(`${API_BASE}/api/layout/categories/${encodeURIComponent(catId)}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to update category' }));
+    throw new Error(err.detail || 'Failed to update category');
+  }
+  return res.json();
+}
+
+async function deleteCategoryApi(catId) {
+  const res = await fetch(`${API_BASE}/api/layout/categories/${encodeURIComponent(catId)}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to delete category' }));
+    throw new Error(err.detail || 'Failed to delete category');
+  }
+  return res.json();
+}
+
 // --- Icons Component Helpers ---
 const Icons = {
   Dashboard: () => (
@@ -204,6 +266,82 @@ const Icons = {
   FileCode: ({ className = "w-3.5 h-3.5" }) => (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  ),
+  Grip: ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+    </svg>
+  ),
+  GripVertical: ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+      <circle cx="9" cy="5" r="1.5" />
+      <circle cx="15" cy="5" r="1.5" />
+      <circle cx="9" cy="12" r="1.5" />
+      <circle cx="15" cy="12" r="1.5" />
+      <circle cx="9" cy="19" r="1.5" />
+      <circle cx="15" cy="19" r="1.5" />
+    </svg>
+  ),
+  EyeOff: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+    </svg>
+  ),
+  Eye: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
+  ),
+  ChevronDown: ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  ),
+  ChevronRight: ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    </svg>
+  ),
+  Plus: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+    </svg>
+  ),
+  Pencil: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+    </svg>
+  ),
+  ArrowUp: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+    </svg>
+  ),
+  ArrowDown: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+  ),
+  Trash: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    </svg>
+  ),
+  Search: ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  ),
+  Reset: ({ className = "w-3.5 h-3.5" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+    </svg>
+  ),
+  Folder: ({ className = "w-4 h-4" }) => (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
     </svg>
   ),
 };
@@ -720,6 +858,23 @@ function App() {
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [recordingState, setRecordingState] = useState(null);
 
+  // Dashboard Layout, Custom Categories, Drag-and-Drop & Hidden Tools State
+  const [layout, setLayout] = useState({ categories: [], tool_placements: {} });
+  const [layoutLoading, setLayoutLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showHiddenDrawer, setShowHiddenDrawer] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null); // { id, name }
+  const [newCategoryModalOpen, setNewCategoryModalOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [moveCategoryModalTool, setMoveCategoryModalTool] = useState(null); // tool for manual category move modal
+
+  // Drag and Drop State
+  const [draggedToolId, setDraggedToolId] = useState(null);
+  const [dragOverCategoryId, setDragOverCategoryId] = useState(null);
+  const [dragOverToolId, setDragOverToolId] = useState(null);
+  const [draggedCategoryId, setDraggedCategoryId] = useState(null);
+  const [dragOverCategorySectionId, setDragOverCategorySectionId] = useState(null);
+
   const notify = (message, type = 'success') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 4500);
@@ -746,6 +901,7 @@ function App() {
   // Poll tools and recording status every 3 seconds
   useEffect(() => {
     loadTools();
+    loadLayout();
     loadRecordingStatus();
     const interval = setInterval(() => {
       loadTools();
@@ -791,6 +947,284 @@ function App() {
       setLoading(false);
     }
   };
+
+  const loadLayout = async () => {
+    try {
+      const data = await fetchLayoutApi();
+      setLayout(data);
+      localStorage.setItem('netris_dashboard_layout', JSON.stringify(data));
+    } catch (e) {
+      console.warn('Backend layout load failed, using local cache if available', e);
+      const cached = localStorage.getItem('netris_dashboard_layout');
+      if (cached) {
+        try { setLayout(JSON.parse(cached)); } catch (_) {}
+      }
+    } finally {
+      setLayoutLoading(false);
+    }
+  };
+
+  const persistLayout = async (updatedLayout) => {
+    setLayout(updatedLayout);
+    localStorage.setItem('netris_dashboard_layout', JSON.stringify(updatedLayout));
+    try {
+      await saveLayoutApi(updatedLayout);
+    } catch (e) {
+      notify(`Failed to persist layout: ${e.message}`, 'error');
+    }
+  };
+
+  const handleResetLayout = async () => {
+    if (!window.confirm('Reset all categories and tool order back to default factory settings?')) return;
+    try {
+      const def = await resetLayoutApi();
+      setLayout(def);
+      localStorage.setItem('netris_dashboard_layout', JSON.stringify(def));
+      notify('Dashboard layout reset to factory default!');
+    } catch (e) {
+      notify(`Failed to reset layout: ${e.message}`, 'error');
+    }
+  };
+
+  const handleToggleCategoryCollapse = (catId) => {
+    const updatedCategories = (layout.categories || []).map((c) =>
+      c.id === catId ? { ...c, collapsed: !c.collapsed } : c
+    );
+    persistLayout({ ...layout, categories: updatedCategories });
+  };
+
+  const handleMoveCategoryOrder = (catId, direction) => {
+    const sorted = [...(layout.categories || [])].sort((a, b) => a.order - b.order);
+    const index = sorted.findIndex((c) => c.id === catId);
+    if (index === -1) return;
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= sorted.length) return;
+
+    const temp = sorted[index];
+    sorted[index] = sorted[targetIndex];
+    sorted[targetIndex] = temp;
+
+    sorted.forEach((c, idx) => {
+      c.order = idx;
+    });
+
+    persistLayout({ ...layout, categories: sorted });
+  };
+
+  const handleCreateCategory = async (e) => {
+    e.preventDefault();
+    if (!newCategoryName.trim()) return;
+    try {
+      const newCat = await createCategoryApi(newCategoryName.trim());
+      const updatedCategories = [...(layout.categories || []), newCat].sort((a, b) => a.order - b.order);
+      persistLayout({ ...layout, categories: updatedCategories });
+      setNewCategoryName('');
+      setNewCategoryModalOpen(false);
+      notify(`Created category "${newCat.name}"`);
+    } catch (e) {
+      notify(`Failed to create category: ${e.message}`, 'error');
+    }
+  };
+
+  const handleSaveRenameCategory = async (catId) => {
+    if (!editingCategory || !editingCategory.name.trim()) {
+      setEditingCategory(null);
+      return;
+    }
+    const newName = editingCategory.name.trim();
+    try {
+      await updateCategoryApi(catId, { name: newName });
+      const updatedCategories = (layout.categories || []).map((c) =>
+        c.id === catId ? { ...c, name: newName } : c
+      );
+      persistLayout({ ...layout, categories: updatedCategories });
+      notify(`Renamed category to "${newName}"`);
+    } catch (e) {
+      notify(`Failed to rename category: ${e.message}`, 'error');
+    } finally {
+      setEditingCategory(null);
+    }
+  };
+
+  const handleDeleteCategory = async (catId) => {
+    const cat = (layout.categories || []).find((c) => c.id === catId);
+    if (!cat) return;
+    const toolsInCat = Object.entries(layout.tool_placements || {}).filter(
+      ([_, p]) => p.category_id === catId && !p.hidden
+    );
+    const confirmMsg = toolsInCat.length > 0
+      ? `Delete category "${cat.name}"? Its ${toolsInCat.length} tool(s) will be moved to "${layout.categories[0]?.name}".`
+      : `Delete empty category "${cat.name}"?`;
+    if (!window.confirm(confirmMsg)) return;
+
+    try {
+      await deleteCategoryApi(catId);
+      const fresh = await fetchLayoutApi();
+      setLayout(fresh);
+      localStorage.setItem('netris_dashboard_layout', JSON.stringify(fresh));
+      notify(`Deleted category "${cat.name}"`);
+    } catch (e) {
+      notify(`Delete failed: ${e.message}`, 'error');
+    }
+  };
+
+  const handleHideTool = (toolId) => {
+    const tool = tools.find((t) => t.id === toolId);
+    const current = (layout.tool_placements || {})[toolId] || {
+      category_id: layout.categories[0]?.id || 'cat-general',
+      order: 0,
+    };
+    const updatedPlacements = {
+      ...(layout.tool_placements || {}),
+      [toolId]: { ...current, hidden: true }
+    };
+    persistLayout({ ...layout, tool_placements: updatedPlacements });
+    notify(`Removed "${tool ? tool.name : toolId}" from active dashboard. Available in Archived Tools.`);
+  };
+
+  const handleRestoreTool = (toolId, targetCatId = null) => {
+    const tool = tools.find((t) => t.id === toolId);
+    const current = (layout.tool_placements || {})[toolId] || {};
+    const catId = targetCatId || current.category_id || (layout.categories[0] && layout.categories[0].id);
+    const existingInCat = Object.entries(layout.tool_placements || {}).filter(
+      ([id, p]) => p.category_id === catId && !p.hidden && id !== toolId
+    );
+    const newOrder = existingInCat.length;
+
+    const updatedPlacements = {
+      ...(layout.tool_placements || {}),
+      [toolId]: { category_id: catId, order: newOrder, hidden: false }
+    };
+    persistLayout({ ...layout, tool_placements: updatedPlacements });
+    notify(`Restored "${tool ? tool.name : toolId}" to dashboard!`);
+  };
+
+  const handleMoveToolCategory = (toolId, targetCatId) => {
+    const tool = tools.find((t) => t.id === toolId);
+    const current = (layout.tool_placements || {})[toolId] || { order: 0, hidden: false };
+    const existingInCat = Object.entries(layout.tool_placements || {}).filter(
+      ([id, p]) => p.category_id === targetCatId && !p.hidden && id !== toolId
+    );
+    const newOrder = existingInCat.length;
+
+    const updatedPlacements = {
+      ...(layout.tool_placements || {}),
+      [toolId]: { ...current, category_id: targetCatId, order: newOrder, hidden: false }
+    };
+    persistLayout({ ...layout, tool_placements: updatedPlacements });
+    const targetCat = (layout.categories || []).find((c) => c.id === targetCatId);
+    notify(`Moved "${tool ? tool.name : toolId}" to "${targetCat ? targetCat.name : targetCatId}"`);
+    setMoveCategoryModalTool(null);
+  };
+
+  // Drag and drop handlers
+  const handleToolDragStart = (e, toolId) => {
+    e.dataTransfer.setData('text/plain', toolId);
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggedToolId(toolId);
+  };
+
+  const handleToolDragOver = (e, catId, targetToolId = null) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (dragOverCategoryId !== catId) {
+      setDragOverCategoryId(catId);
+    }
+    if (targetToolId && dragOverToolId !== targetToolId) {
+      setDragOverToolId(targetToolId);
+    }
+  };
+
+  const handleToolDrop = (e, targetCatId, targetToolId = null) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const toolId = draggedToolId || e.dataTransfer.getData('text/plain');
+    if (!toolId) return;
+
+    const currentPlacement = (layout.tool_placements || {})[toolId] || { order: 0, hidden: false };
+    const toolsInTargetCat = tools
+      .filter((t) => {
+        const p = (layout.tool_placements || {})[t.id];
+        return p && p.category_id === targetCatId && !p.hidden && t.id !== toolId;
+      })
+      .sort((a, b) => {
+        const ordA = ((layout.tool_placements || {})[a.id]?.order) ?? 0;
+        const ordB = ((layout.tool_placements || {})[b.id]?.order) ?? 0;
+        return ordA - ordB;
+      })
+      .map((t) => t.id);
+
+    if (targetToolId && toolsInTargetCat.includes(targetToolId)) {
+      const idx = toolsInTargetCat.indexOf(targetToolId);
+      toolsInTargetCat.splice(idx, 0, toolId);
+    } else {
+      toolsInTargetCat.push(toolId);
+    }
+
+    const updatedPlacements = { ...(layout.tool_placements || {}) };
+    toolsInTargetCat.forEach((tid, idx) => {
+      const prevP = updatedPlacements[tid] || { hidden: false };
+      updatedPlacements[tid] = { ...prevP, category_id: targetCatId, order: idx, hidden: false };
+    });
+
+    if (currentPlacement.category_id !== targetCatId) {
+      const sourceTools = tools
+        .filter((t) => {
+          const p = updatedPlacements[t.id];
+          return p && p.category_id === currentPlacement.category_id && !p.hidden && t.id !== toolId;
+        })
+        .sort((a, b) => {
+          const ordA = (updatedPlacements[a.id]?.order) ?? 0;
+          const ordB = (updatedPlacements[b.id]?.order) ?? 0;
+          return ordA - ordB;
+        })
+        .map((t) => t.id);
+
+      sourceTools.forEach((tid, idx) => {
+        updatedPlacements[tid] = { ...updatedPlacements[tid], order: idx };
+      });
+    }
+
+    persistLayout({ ...layout, tool_placements: updatedPlacements });
+
+    setDraggedToolId(null);
+    setDragOverCategoryId(null);
+    setDragOverToolId(null);
+  };
+
+  const handleCategoryDragStart = (e, catId) => {
+    e.dataTransfer.setData('category-id', catId);
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggedCategoryId(catId);
+  };
+
+  const handleCategoryDrop = (e, targetCatId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const catId = draggedCategoryId || e.dataTransfer.getData('category-id');
+    if (!catId || catId === targetCatId) {
+      setDraggedCategoryId(null);
+      setDragOverCategorySectionId(null);
+      return;
+    }
+
+    const sortedCats = [...(layout.categories || [])].sort((a, b) => a.order - b.order);
+    const sourceIdx = sortedCats.findIndex((c) => c.id === catId);
+    const targetIdx = sortedCats.findIndex((c) => c.id === targetCatId);
+    if (sourceIdx === -1 || targetIdx === -1) return;
+
+    const [removed] = sortedCats.splice(sourceIdx, 1);
+    sortedCats.splice(targetIdx, 0, removed);
+
+    sortedCats.forEach((c, idx) => {
+      c.order = idx;
+    });
+
+    persistLayout({ ...layout, categories: sortedCats });
+    setDraggedCategoryId(null);
+    setDragOverCategorySectionId(null);
+  };
+
 
   const loadFileContent = async (toolId, fileId) => {
     setToolConfigLoading(true);
@@ -951,6 +1385,39 @@ function App() {
 
   // Active tool catalog entry
   const activeToolCatalogEntry = configCatalog.find((c) => c.tool_id === selectedToolConfigId);
+
+  // Layout & Category Computations
+  const sortedCategories = [...(layout.categories || [])].sort((a, b) => a.order - b.order);
+
+  const getToolsForCategory = (catId) => {
+    return tools
+      .filter((t) => {
+        const p = (layout.tool_placements || {})[t.id];
+        if (!p) return false;
+        if (p.hidden) return false;
+        if (p.category_id !== catId) return false;
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          return (
+            t.name.toLowerCase().includes(q) ||
+            t.description.toLowerCase().includes(q) ||
+            t.id.toLowerCase().includes(q) ||
+            (t.category && t.category.toLowerCase().includes(q))
+          );
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const ordA = ((layout.tool_placements || {})[a.id]?.order) ?? 0;
+        const ordB = ((layout.tool_placements || {})[b.id]?.order) ?? 0;
+        return ordA - ordB;
+      });
+  };
+
+  const hiddenTools = tools.filter((t) => {
+    const p = (layout.tool_placements || {})[t.id];
+    return p && p.hidden;
+  });
 
   return (
     <div className="flex min-h-screen bg-gray-50 font-outfit text-gray-700">
@@ -1194,305 +1661,683 @@ function App() {
                 </div>
               </div>
 
-              {/* Tools Grid */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold text-gray-900">Registered Demo Applications & Control Planes</h3>
-                  <span className="text-xs text-gray-500">Live heartbeats update every 3s</span>
+              {/* Category Management & Search Toolbar */}
+              <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-theme-xs flex flex-wrap items-center justify-between gap-4">
+                <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
+                  {/* Search / Filter Input */}
+                  <div className="relative flex-1 max-w-md">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                      <Icons.Search className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Filter tools across categories..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-9 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral-500 focus:bg-white focus:border-transparent transition shadow-2xs"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery('')}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-gray-400 hover:text-gray-600"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Add Custom Category Button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNewCategoryName('');
+                      setNewCategoryModalOpen(true);
+                    }}
+                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-coral-50 text-coral-700 hover:bg-coral-100 border border-coral-200 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    title="Create a new custom category section"
+                  >
+                    <Icons.Plus className="w-3.5 h-3.5 text-coral-600" />
+                    <span>Add Category</span>
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {tools.map((tool) => {
-                    const isRunning = tool.is_running;
-                    const isBusy = actionLoading[tool.id];
-                    const hasSessionOptions = Boolean(tool.session_options);
-                    const creds = tool.credentials || [];
+                <div className="flex items-center gap-2.5">
+                  {/* Archived / Hidden Tools Pill */}
+                  {hiddenTools.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setShowHiddenDrawer((prev) => !prev)}
+                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                      title="Toggle archived/hidden tools drawer"
+                    >
+                      <Icons.EyeOff className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Archived Tools ({hiddenTools.length})</span>
+                    </button>
+                  )}
 
-                    return (
-                      <div
-                        key={tool.id}
-                        className="bg-white rounded-2xl border border-gray-200 p-6 shadow-theme-xs hover:shadow-theme-sm transition flex flex-col justify-between relative"
-                      >
-                        <div>
-                          {/* Top Tag & Status Pill */}
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <span className="text-xs font-medium bg-gray-100 text-gray-700 px-2.5 py-0.5 rounded-full">
-                              {tool.category}
-                            </span>
+                  {/* Reset Layout to Default Button */}
+                  <button
+                    type="button"
+                    onClick={handleResetLayout}
+                    className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 border border-gray-200 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    title="Reset category order and tool placements back to default Netris demo flow"
+                  >
+                    <Icons.Reset className="w-3.5 h-3.5 text-gray-500" />
+                    <span>Reset Layout</span>
+                  </button>
+                </div>
+              </div>
 
-                            <div className="flex items-center gap-1.5">
-                              {tool.id === 'netris-prometheus-exporter' && recordingState?.is_recording && (
-                                <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 border border-red-200 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
-                                  REC ({recordingState.frames_captured}f)
-                                </span>
-                              )}
+              {/* Categorized Sections */}
+              <div className="space-y-6">
+                {sortedCategories.map((cat, catIdx) => {
+                  const catTools = getToolsForCategory(cat.id);
+                  const runningInCat = catTools.filter((t) => t.is_running).length;
+                  const isEditing = editingCategory?.id === cat.id;
+                  const isDragTarget = dragOverCategoryId === cat.id;
+                  const isSectionDragTarget = dragOverCategorySectionId === cat.id;
 
-                              {isRunning ? (
-                                <span className="inline-flex items-center gap-1.5 bg-success-50 text-success-600 border border-emerald-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse"></span>
-                                  RUNNING
-                                </span>
-                              ) : tool.tool_type === 'interactive' ? (
-                                <span className="bg-coral-50 text-coral-700 border border-coral-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                                  INTERACTIVE
-                                </span>
-                              ) : (
-                                <span className="bg-gray-100 text-gray-500 text-xs px-2.5 py-0.5 rounded-full font-medium">
-                                  STOPPED
-                                </span>
-                              )}
+                  if (searchQuery.trim() && catTools.length === 0) return null;
+
+                  return (
+                    <div
+                      key={cat.id}
+                      onDragOver={(e) => {
+                        if (draggedCategoryId) {
+                          e.preventDefault();
+                          if (dragOverCategorySectionId !== cat.id) setDragOverCategorySectionId(cat.id);
+                        } else if (draggedToolId) {
+                          handleToolDragOver(e, cat.id);
+                        }
+                      }}
+                      onDrop={(e) => {
+                        if (draggedCategoryId) {
+                          handleCategoryDrop(e, cat.id);
+                        } else if (draggedToolId) {
+                          handleToolDrop(e, cat.id);
+                        }
+                      }}
+                      className={`bg-white rounded-2xl border transition shadow-theme-xs ${
+                        isDragTarget
+                          ? 'border-coral-500 ring-2 ring-coral-400/30 bg-coral-50/10'
+                          : isSectionDragTarget
+                          ? 'border-indigo-400 ring-2 ring-indigo-400/30'
+                          : 'border-gray-200'
+                      } overflow-hidden`}
+                    >
+                      {/* Section Header */}
+                      <div className="px-6 py-4 bg-gray-50/80 border-b border-gray-200/80 flex items-center justify-between gap-4 select-none">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {/* Drag Section Grip */}
+                          <div
+                            draggable="true"
+                            onDragStart={(e) => handleCategoryDragStart(e, cat.id)}
+                            onDragEnd={() => {
+                              setDraggedCategoryId(null);
+                              setDragOverCategorySectionId(null);
+                            }}
+                            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-200/60 rounded transition"
+                            title="Drag to reorder category section"
+                          >
+                            <Icons.GripVertical className="w-4 h-4 text-gray-400" />
+                          </div>
+
+                          {/* Quick Up/Down Shift */}
+                          <div className="flex items-center gap-0.5">
+                            <button
+                              type="button"
+                              onClick={() => handleMoveCategoryOrder(cat.id, -1)}
+                              disabled={catIdx === 0}
+                              className="p-1 text-gray-400 hover:text-gray-700 disabled:opacity-20 disabled:cursor-not-allowed rounded hover:bg-gray-200/60 transition"
+                              title="Move section up"
+                            >
+                              <Icons.ArrowUp className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleMoveCategoryOrder(cat.id, 1)}
+                              disabled={catIdx === sortedCategories.length - 1}
+                              className="p-1 text-gray-400 hover:text-gray-700 disabled:opacity-20 disabled:cursor-not-allowed rounded hover:bg-gray-200/60 transition"
+                              title="Move section down"
+                            >
+                              <Icons.ArrowDown className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          {/* Category Title (or Inline Edit Form) */}
+                          {isEditing ? (
+                            <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="text"
+                                value={editingCategory.name}
+                                onChange={(e) => setEditingCategory({ ...editingCategory, name: e.target.value })}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleSaveRenameCategory(cat.id);
+                                  if (e.key === 'Escape') setEditingCategory(null);
+                                }}
+                                autoFocus
+                                className="px-2.5 py-1 text-sm font-bold border border-coral-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-coral-500 bg-white"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleSaveRenameCategory(cat.id)}
+                                className="px-2.5 py-1 bg-coral-600 hover:bg-coral-700 text-white rounded-lg text-xs font-semibold"
+                              >
+                                Save
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setEditingCategory(null)}
+                                className="px-2.5 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-xs"
+                              >
+                                Cancel
+                              </button>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="flex items-center gap-2 truncate">
+                              <h3
+                                onClick={() => handleToggleCategoryCollapse(cat.id)}
+                                className="text-base font-bold text-gray-900 truncate cursor-pointer hover:text-coral-600 transition"
+                              >
+                                {cat.name}
+                              </h3>
+                              <button
+                                type="button"
+                                onClick={() => setEditingCategory({ id: cat.id, name: cat.name })}
+                                className="p-1 text-gray-400 hover:text-coral-600 hover:bg-gray-200/60 rounded transition cursor-pointer"
+                                title="Rename category"
+                              >
+                                <Icons.Pencil className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          )}
 
-                          {/* Tool Name & Description */}
-                          <h4 className="text-base font-bold text-gray-900">{tool.name}</h4>
-                          <p className="text-xs text-gray-500 mt-1.5 leading-relaxed min-h-[38px]">
-                            {tool.description}
-                          </p>
-
-                          {/* Port / Type Badges */}
-                          <div className="flex flex-wrap items-center gap-2 mt-3.5 text-xs font-mono text-gray-600">
-                            {tool.port ? (
-                              <span className="bg-gray-50 border border-gray-200 px-2 py-1 rounded-md">
-                                Port: <strong className="text-gray-900">{tool.port}</strong>
+                          {/* Count & Status Badges */}
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[11px] font-semibold bg-gray-200/70 text-gray-700 px-2 py-0.5 rounded-full">
+                              {catTools.length} {catTools.length === 1 ? 'tool' : 'tools'}
+                            </span>
+                            {runningInCat > 0 && (
+                              <span className="text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                {runningInCat} running
                               </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Right: Actions & Collapse Button */}
+                        <div className="flex items-center gap-2">
+                          {sortedCategories.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteCategory(cat.id)}
+                              className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
+                              title="Delete this category"
+                            >
+                              <Icons.Trash className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+
+                          <button
+                            type="button"
+                            onClick={() => handleToggleCategoryCollapse(cat.id)}
+                            className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-200/60 rounded-lg transition cursor-pointer"
+                            title={cat.collapsed ? 'Expand section' : 'Collapse section'}
+                          >
+                            {cat.collapsed ? (
+                              <Icons.ChevronRight className="w-4 h-4" />
                             ) : (
-                              <span className="bg-gray-50 border border-gray-200 px-2 py-1 rounded-md text-gray-400">
-                                No HTTP Port
-                              </span>
+                              <Icons.ChevronDown className="w-4 h-4" />
                             )}
+                          </button>
+                        </div>
+                      </div>
 
-                            {tool.uptime && (
-                              <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md font-sans font-medium">
-                                Uptime: {tool.uptime}
-                              </span>
-                            )}
-                          </div>
+                      {/* Section Body */}
+                      {!cat.collapsed && (
+                        <div className="p-6">
+                          {catTools.length === 0 ? (
+                            <div
+                              onDragOver={(e) => handleToolDragOver(e, cat.id)}
+                              onDrop={(e) => handleToolDrop(e, cat.id)}
+                              className={`border-2 border-dashed rounded-xl p-8 text-center transition ${
+                                dragOverCategoryId === cat.id
+                                  ? 'border-coral-500 bg-coral-50/40 text-coral-700'
+                                  : 'border-gray-200 text-gray-400 bg-gray-50/40'
+                              }`}
+                            >
+                              <Icons.Folder className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                              <p className="text-xs font-semibold text-gray-600">No tools currently in this category</p>
+                              <p className="text-[11px] text-gray-400 mt-1">
+                                Drag demo tools here to assign them to this category.
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                              {catTools.map((tool) => {
+                                const isRunning = tool.is_running;
+                                const isBusy = actionLoading[tool.id];
+                                const hasSessionOptions = Boolean(tool.session_options);
+                                const creds = tool.credentials || [];
+                                const isBeingDragged = draggedToolId === tool.id;
+                                const isToolDropTarget = dragOverToolId === tool.id;
 
-                          {/* --- UI Login Credentials Bar (Directly Above Open App) --- */}
-                          {creds.length > 0 && (
-                            <div className="mt-4 p-2.5 rounded-xl bg-gray-50 border border-gray-200/80 flex flex-col gap-1.5">
-                              <div className="flex items-center justify-between text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                                <span className="flex items-center gap-1">
-                                  <Icons.Key className="w-3 h-3 text-coral-600" />
-                                  UI Login Credentials
-                                </span>
-                                {creds.some((c) => c.no_auth) && (
-                                  <span className="text-emerald-600 font-medium normal-case">Open Web UI</span>
-                                )}
-                              </div>
+                                return (
+                                  <div
+                                    key={tool.id}
+                                    onDragOver={(e) => handleToolDragOver(e, cat.id, tool.id)}
+                                    onDrop={(e) => handleToolDrop(e, cat.id, tool.id)}
+                                    className={`bg-white rounded-2xl border p-6 shadow-theme-xs hover:shadow-theme-sm transition flex flex-col justify-between relative ${
+                                      isBeingDragged
+                                        ? 'opacity-40 border-dashed border-coral-400'
+                                        : isToolDropTarget
+                                        ? 'border-coral-500 ring-2 ring-coral-400/40'
+                                        : 'border-gray-200'
+                                    }`}
+                                  >
+                                    <div>
+                                      {/* Top Row: Drag Handle, Category Pill, Status, Hide */}
+                                      <div className="flex items-center justify-between gap-2 mb-3">
+                                        <div className="flex items-center gap-1.5">
+                                          {/* Tool Drag Handle */}
+                                          <div
+                                            draggable="true"
+                                            onDragStart={(e) => handleToolDragStart(e, tool.id)}
+                                            onDragEnd={() => {
+                                              setDraggedToolId(null);
+                                              setDragOverCategoryId(null);
+                                              setDragOverToolId(null);
+                                            }}
+                                            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition"
+                                            title="Drag to reorder or move between categories"
+                                          >
+                                            <Icons.GripVertical className="w-4 h-4 text-gray-400" />
+                                          </div>
 
-                              <div className="flex flex-wrap items-center gap-2 mt-0.5">
-                                {creds.map((cred, cIdx) => {
-                                  if (cred.no_auth) {
-                                    return (
-                                      <span
-                                        key={cIdx}
-                                        className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md text-xs font-medium"
-                                      >
-                                        🔓 No Login Required
-                                      </span>
-                                    );
-                                  }
+                                          {/* Move Category Button */}
+                                          <button
+                                            type="button"
+                                            onClick={() => setMoveCategoryModalTool(tool)}
+                                            className="text-[11px] font-medium bg-gray-100 text-gray-700 hover:bg-coral-50 hover:text-coral-700 border border-gray-200 hover:border-coral-200 px-2.5 py-0.5 rounded-full transition inline-flex items-center gap-1 cursor-pointer"
+                                            title="Click to move tool to another category"
+                                          >
+                                            <span>{cat.name}</span>
+                                            <Icons.ChevronDown className="w-3 h-3 text-gray-400" />
+                                          </button>
+                                        </div>
 
-                                  const passKey = `${tool.id}-pass-${cIdx}`;
-                                  const userKey = `${tool.id}-user-${cIdx}`;
+                                        <div className="flex items-center gap-1.5">
+                                          {tool.id === 'netris-prometheus-exporter' && recordingState?.is_recording && (
+                                            <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 border border-red-200 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                                              <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
+                                              REC ({recordingState.frames_captured}f)
+                                            </span>
+                                          )}
 
-                                  return (
-                                    <div
-                                      key={cIdx}
-                                      className="inline-flex items-center gap-1.5 bg-white border border-gray-200 px-2.5 py-1 rounded-lg shadow-2xs text-xs"
-                                    >
-                                      <span className="text-gray-400 font-medium text-[11px]">{cred.label}:</span>
-                                      
-                                      {/* Username with click to copy */}
-                                      <button
-                                        type="button"
-                                        onClick={() => copyToClipboard(cred.username, userKey, setCopiedKey)}
-                                        className="font-mono font-bold text-gray-900 hover:text-coral-600 transition inline-flex items-center gap-0.5"
-                                        title="Click to copy username"
-                                      >
-                                        <span>{cred.username}</span>
-                                        {copiedKey === userKey ? (
-                                          <span className="text-emerald-600 font-bold text-[10px]">✓</span>
-                                        ) : null}
-                                      </button>
+                                          {isRunning ? (
+                                            <span className="inline-flex items-center gap-1.5 bg-success-50 text-success-600 border border-emerald-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                                              <span className="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse"></span>
+                                              RUNNING
+                                            </span>
+                                          ) : tool.tool_type === 'interactive' ? (
+                                            <span className="bg-coral-50 text-coral-700 border border-coral-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+                                              INTERACTIVE
+                                            </span>
+                                          ) : (
+                                            <span className="bg-gray-100 text-gray-500 text-xs px-2.5 py-0.5 rounded-full font-medium">
+                                              STOPPED
+                                            </span>
+                                          )}
 
-                                      <span className="text-gray-300 font-mono">/</span>
+                                          {/* Hide/Remove Button */}
+                                          <button
+                                            type="button"
+                                            onClick={() => handleHideTool(tool.id)}
+                                            className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer ml-1"
+                                            title="Hide tool from dashboard"
+                                          >
+                                            <Icons.EyeOff className="w-3.5 h-3.5" />
+                                          </button>
+                                        </div>
+                                      </div>
 
-                                      {/* Password with dedicated copy button */}
-                                      <span className="font-mono text-gray-700 max-w-[130px] truncate" title={cred.password}>
-                                        {cred.password}
-                                      </span>
+                                      {/* Tool Name & Description */}
+                                      <h4 className="text-base font-bold text-gray-900">{tool.name}</h4>
+                                      <p className="text-xs text-gray-500 mt-1.5 leading-relaxed min-h-[38px]">
+                                        {tool.description}
+                                      </p>
 
-                                      <button
-                                        type="button"
-                                        onClick={() => copyToClipboard(cred.password, passKey, setCopiedKey)}
-                                        className="p-1 text-gray-400 hover:text-coral-600 hover:bg-gray-100 rounded transition"
-                                        title="Copy password to clipboard"
-                                      >
-                                        {copiedKey === passKey ? (
-                                          <Icons.Check className="w-3 h-3 text-emerald-600" />
+                                      {/* Port / Type Badges */}
+                                      <div className="flex flex-wrap items-center gap-2 mt-3.5 text-xs font-mono text-gray-600">
+                                        {tool.port ? (
+                                          <span className="bg-gray-50 border border-gray-200 px-2 py-1 rounded-md">
+                                            Port: <strong className="text-gray-900">{tool.port}</strong>
+                                          </span>
                                         ) : (
-                                          <Icons.Copy className="w-3 h-3" />
+                                          <span className="bg-gray-50 border border-gray-200 px-2 py-1 rounded-md text-gray-400">
+                                            No HTTP Port
+                                          </span>
                                         )}
-                                      </button>
+
+                                        {tool.uptime && (
+                                          <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md font-sans font-medium">
+                                            Uptime: {tool.uptime}
+                                          </span>
+                                        )}
+                                      </div>
+
+                                      {/* --- UI Login Credentials Bar (Directly Above Open App) --- */}
+                                      {creds.length > 0 && (
+                                        <div className="mt-4 p-2.5 rounded-xl bg-gray-50 border border-gray-200/80 flex flex-col gap-1.5">
+                                          <div className="flex items-center justify-between text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+                                            <span className="flex items-center gap-1">
+                                              <Icons.Key className="w-3 h-3 text-coral-600" />
+                                              UI Login Credentials
+                                            </span>
+                                            {creds.some((c) => c.no_auth) && (
+                                              <span className="text-emerald-600 font-medium normal-case">Open Web UI</span>
+                                            )}
+                                          </div>
+
+                                          <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                                            {creds.map((cred, cIdx) => {
+                                              if (cred.no_auth) {
+                                                return (
+                                                  <span
+                                                    key={cIdx}
+                                                    className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md text-xs font-medium"
+                                                  >
+                                                    🔓 No Login Required
+                                                  </span>
+                                                );
+                                              }
+
+                                              const passKey = `${tool.id}-pass-${cIdx}`;
+                                              const userKey = `${tool.id}-user-${cIdx}`;
+
+                                              return (
+                                                <div
+                                                  key={cIdx}
+                                                  className="inline-flex items-center gap-1.5 bg-white border border-gray-200 px-2.5 py-1 rounded-lg shadow-2xs text-xs"
+                                                >
+                                                  <span className="text-gray-400 font-medium text-[11px]">{cred.label}:</span>
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => copyToClipboard(cred.username, userKey, setCopiedKey)}
+                                                    className="font-mono font-bold text-gray-900 hover:text-coral-600 transition inline-flex items-center gap-0.5"
+                                                    title="Click to copy username"
+                                                  >
+                                                    <span>{cred.username}</span>
+                                                    {copiedKey === userKey ? (
+                                                      <span className="text-emerald-600 font-bold text-[10px]">✓</span>
+                                                    ) : null}
+                                                  </button>
+
+                                                  <span className="text-gray-300 font-mono">/</span>
+
+                                                  <span className="font-mono text-gray-700 max-w-[130px] truncate" title={cred.password}>
+                                                    {cred.password}
+                                                  </span>
+
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => copyToClipboard(cred.password, passKey, setCopiedKey)}
+                                                    className="p-1 text-gray-400 hover:text-coral-600 hover:bg-gray-100 rounded transition"
+                                                    title="Copy password to clipboard"
+                                                  >
+                                                    {copiedKey === passKey ? (
+                                                      <Icons.Check className="w-3 h-3 text-emerald-600" />
+                                                    ) : (
+                                                      <Icons.Copy className="w-3 h-3" />
+                                                    )}
+                                                  </button>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        </div>
+                                      )}
                                     </div>
-                                  );
-                                })}
-                              </div>
+
+                                    {/* Action Buttons Row */}
+                                    <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                                      {/* Left: Pop-Out, Interactive Terminal, Recording & Quick Config Actions */}
+                                      <div className="flex flex-wrap items-center gap-2">
+                                        {tool.id === 'switch-isolation-cli' || tool.id === 'cli-inspector' ? (
+                                          <div className="flex items-center gap-1.5">
+                                            <button
+                                              onClick={() => setTerminalModalTool(tool)}
+                                              className="px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs bg-coral-600 hover:bg-coral-700 text-white cursor-pointer"
+                                              title="Open interactive CLI session directly in browser"
+                                            >
+                                              <Icons.Terminal />
+                                              <span>Launch CLI ↗</span>
+                                            </button>
+
+                                            <button
+                                              onClick={() => handleLaunchNative(tool.id)}
+                                              className="px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
+                                              title="Open in native iTerm"
+                                            >
+                                              <Icons.Popout />
+                                              <span className="text-[11px]">iTerm</span>
+                                            </button>
+
+                                            {tool.popout_url && (
+                                              <button
+                                                onClick={() => window.open(tool.popout_url, '_blank')}
+                                                disabled={!isRunning}
+                                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
+                                                  isRunning
+                                                    ? 'bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'
+                                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                }`}
+                                                title={isRunning ? `Open ${tool.name} Web Dashboard` : 'Start tool first to open Web Dashboard'}
+                                              >
+                                                <Icons.Popout />
+                                                <span>Web Dashboard ↗</span>
+                                              </button>
+                                            )}
+                                          </div>
+                                        ) : tool.popout_url ? (
+                                          <button
+                                            onClick={() => window.open(tool.popout_url, '_blank')}
+                                            disabled={!isRunning}
+                                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
+                                              isRunning
+                                                ? 'bg-coral-600 hover:bg-coral-700 text-white cursor-pointer'
+                                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                            }`}
+                                            title={isRunning ? `Open ${tool.name} in new browser tab` : 'Start tool first to open app'}
+                                          >
+                                            <Icons.Popout />
+                                            <span>Open App ↗</span>
+                                          </button>
+                                        ) : (
+                                          <span className="text-xs text-gray-400 italic px-1">Backend Daemon</span>
+                                        )}
+
+                                        {/* Telemetry Recording Trigger Button on Prometheus Card */}
+                                        {tool.id === 'netris-prometheus-exporter' && (
+                                          <button
+                                            onClick={() => setRecordingModalOpen(true)}
+                                            className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1.5 cursor-pointer ${
+                                              recordingState?.is_recording
+                                                ? 'bg-red-600 border-red-700 text-white animate-pulse'
+                                                : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100 hover:border-red-300'
+                                            }`}
+                                            title="Record live Netris telemetry for offline simulation looping"
+                                          >
+                                            <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-white animate-ping' : 'bg-red-600'}`}></span>
+                                            <span>{recordingState?.is_recording ? 'Recording Live...' : 'Record Telemetry'}</span>
+                                          </button>
+                                        )}
+
+                                        {/* Direct Config File Jump */}
+                                        <button
+                                          onClick={() => openConfigEditor(tool.id)}
+                                          className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-coral-700 text-xs font-medium transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
+                                          title="Edit configuration files for this tool"
+                                        >
+                                          <Icons.FileCode className="w-3.5 h-3.5 text-gray-500" />
+                                          <span className="text-[11px]">Config</span>
+                                        </button>
+                                      </div>
+
+                                      {/* Right: Controls (Start, Session Options, Stop, Restart, Logs) */}
+                                      <div className="flex items-center gap-1.5">
+                                        {isRunning ? (
+                                          <>
+                                            <button
+                                              onClick={() => handleStop(tool.id)}
+                                              disabled={isBusy}
+                                              className="p-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-xs font-medium transition shadow-2xs cursor-pointer"
+                                              title="Stop application"
+                                            >
+                                              <Icons.Stop />
+                                            </button>
+                                            <button
+                                              onClick={() => handleRestart(tool.id)}
+                                              disabled={isBusy}
+                                              className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs font-medium transition shadow-2xs cursor-pointer"
+                                              title="Restart application"
+                                            >
+                                              <Icons.Refresh />
+                                            </button>
+                                          </>
+                                        ) : (
+                                          <>
+                                            {/* Session Configurator Trigger Button */}
+                                            {hasSessionOptions && (
+                                              <button
+                                                onClick={() => openSessionModal(tool)}
+                                                disabled={isBusy}
+                                                className="p-1.5 rounded-lg border border-coral-200 text-coral-700 bg-coral-50 hover:bg-coral-100 text-xs font-medium transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
+                                                title="Configure session inputs before starting"
+                                              >
+                                                <Icons.Sliders className="w-3.5 h-3.5 text-coral-600" />
+                                                <span className="text-[11px] font-semibold">Session</span>
+                                              </button>
+                                            )}
+
+                                            <button
+                                              onClick={() => handleStart(tool.id)}
+                                              disabled={isBusy}
+                                              className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs cursor-pointer"
+                                              title="Start program with defaults"
+                                            >
+                                              <Icons.Play />
+                                              <span>{isBusy ? 'Starting...' : 'Start'}</span>
+                                            </button>
+                                          </>
+                                        )}
+
+                                        <button
+                                          onClick={() => openLogs(tool.id)}
+                                          className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs font-medium transition shadow-2xs cursor-pointer"
+                                          title="Inspect live console logs"
+                                        >
+                                          <Icons.Terminal />
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
                             </div>
                           )}
                         </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
 
-                        {/* Action Buttons Row */}
-                        <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
-                          {/* Left: Pop-Out, Interactive Terminal, Recording & Quick Config Actions */}
-                          <div className="flex flex-wrap items-center gap-2">
-                            {tool.id === 'switch-isolation-cli' || tool.id === 'cli-inspector' ? (
-                              <div className="flex items-center gap-1.5">
-                                <button
-                                  onClick={() => setTerminalModalTool(tool)}
-                                  className="px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs bg-coral-600 hover:bg-coral-700 text-white cursor-pointer"
-                                  title="Open interactive CLI session directly in browser"
-                                >
-                                  <Icons.Terminal />
-                                  <span>Launch CLI ↗</span>
-                                </button>
+              {/* Archived & Hidden Tools Section */}
+              {hiddenTools.length > 0 && (
+                <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-6 shadow-theme-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
+                        <Icons.EyeOff className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                          <span>Archived & Hidden Tools</span>
+                          <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">
+                            {hiddenTools.length}
+                          </span>
+                        </h4>
+                        <p className="text-xs text-gray-500">
+                          These demo tools are hidden from the active category view but remain fully installed and operable.
+                        </p>
+                      </div>
+                    </div>
 
-                                <button
-                                  onClick={() => handleLaunchNative(tool.id)}
-                                  className="px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
-                                  title="Open in native iTerm"
-                                >
-                                  <Icons.Popout />
-                                  <span className="text-[11px]">iTerm</span>
-                                </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          hiddenTools.forEach((t) => handleRestoreTool(t.id));
+                        }}
+                        className="px-3 py-1.5 text-xs font-semibold text-coral-600 hover:bg-coral-50 border border-coral-200 rounded-lg transition cursor-pointer shadow-2xs"
+                      >
+                        Restore All to Dashboard
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowHiddenDrawer((prev) => !prev)}
+                        className="px-3.5 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition cursor-pointer shadow-2xs"
+                      >
+                        {showHiddenDrawer ? 'Hide Details' : 'Review Hidden Tools'}
+                      </button>
+                    </div>
+                  </div>
 
-                                {tool.popout_url && (
-                                  <button
-                                    onClick={() => window.open(tool.popout_url, '_blank')}
-                                    disabled={!isRunning}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
-                                      isRunning
-                                        ? 'bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'
-                                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    }`}
-                                    title={isRunning ? `Open ${tool.name} Web Dashboard` : 'Start tool first to open Web Dashboard'}
-                                  >
-                                    <Icons.Popout />
-                                    <span>Web Dashboard ↗</span>
-                                  </button>
-                                )}
-                              </div>
-                            ) : tool.popout_url ? (
-                              <button
-                                onClick={() => window.open(tool.popout_url, '_blank')}
-                                disabled={!isRunning}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
-                                  isRunning
-                                    ? 'bg-coral-600 hover:bg-coral-700 text-white cursor-pointer'
-                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                }`}
-                                title={isRunning ? `Open ${tool.name} in new browser tab` : 'Start tool first to open app'}
-                              >
-                                <Icons.Popout />
-                                <span>Open App ↗</span>
-                              </button>
-                            ) : (
-                              <span className="text-xs text-gray-400 italic px-1">Backend Daemon</span>
-                            )}
-
-                            {/* Telemetry Recording Trigger Button on Prometheus Card */}
-                            {tool.id === 'netris-prometheus-exporter' && (
-                              <button
-                                onClick={() => setRecordingModalOpen(true)}
-                                className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1.5 cursor-pointer ${
-                                  recordingState?.is_recording
-                                    ? 'bg-red-600 border-red-700 text-white animate-pulse'
-                                    : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100 hover:border-red-300'
-                                }`}
-                                title="Record live Netris telemetry for offline simulation looping"
-                              >
-                                <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-white animate-ping' : 'bg-red-600'}`}></span>
-                                <span>{recordingState?.is_recording ? 'Recording Live...' : 'Record Telemetry'}</span>
-                              </button>
-                            )}
-
-                            {/* Direct Config File Jump */}
-                            <button
-                              onClick={() => openConfigEditor(tool.id)}
-                              className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-coral-700 text-xs font-medium transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
-                              title="Edit configuration files for this tool"
-                            >
-                              <Icons.FileCode className="w-3.5 h-3.5 text-gray-500" />
-                              <span className="text-[11px]">Config</span>
-                            </button>
+                  {showHiddenDrawer && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 pt-5 border-t border-gray-100">
+                      {hiddenTools.map((tool) => (
+                        <div
+                          key={tool.id}
+                          className="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <h5 className="text-xs font-bold text-gray-900">{tool.name}</h5>
+                              <span className="text-[10px] font-mono bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">
+                                {tool.tool_type}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-gray-500 line-clamp-2">{tool.description}</p>
                           </div>
 
-                          {/* Right: Controls (Start, Session Options, Stop, Restart, Logs) */}
-                          <div className="flex items-center gap-1.5">
-                            {isRunning ? (
-                              <>
-                                <button
-                                  onClick={() => handleStop(tool.id)}
-                                  disabled={isBusy}
-                                  className="p-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-xs font-medium transition shadow-2xs"
-                                  title="Stop application"
-                                >
-                                  <Icons.Stop />
-                                </button>
-                                <button
-                                  onClick={() => handleRestart(tool.id)}
-                                  disabled={isBusy}
-                                  className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs font-medium transition shadow-2xs"
-                                  title="Restart application"
-                                >
-                                  <Icons.Refresh />
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                {/* Session Configurator Trigger Button */}
-                                {hasSessionOptions && (
-                                  <button
-                                    onClick={() => openSessionModal(tool)}
-                                    disabled={isBusy}
-                                    className="p-1.5 rounded-lg border border-coral-200 text-coral-700 bg-coral-50 hover:bg-coral-100 text-xs font-medium transition shadow-2xs inline-flex items-center gap-1"
-                                    title="Configure session inputs before starting"
-                                  >
-                                    <Icons.Sliders className="w-3.5 h-3.5 text-coral-600" />
-                                    <span className="text-[11px] font-semibold">Session</span>
-                                  </button>
-                                )}
-
-                                <button
-                                  onClick={() => handleStart(tool.id)}
-                                  disabled={isBusy}
-                                  className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs"
-                                  title="Start program with defaults"
-                                >
-                                  <Icons.Play />
-                                  <span>{isBusy ? 'Starting...' : 'Start'}</span>
-                                </button>
-                              </>
-                            )}
+                          <div className="mt-3 pt-2.5 border-t border-gray-200/80 flex items-center justify-between gap-2">
+                            <select
+                              defaultValue={layout.categories[0]?.id || ''}
+                              onChange={(e) => handleRestoreTool(tool.id, e.target.value)}
+                              className="text-[11px] bg-white border border-gray-300 rounded-lg px-2 py-1 text-gray-700 focus:outline-none focus:ring-1 focus:ring-coral-500"
+                            >
+                              <option disabled value="">Move to category...</option>
+                              {sortedCategories.map((c) => (
+                                <option key={c.id} value={c.id}>To: {c.name}</option>
+                              ))}
+                            </select>
 
                             <button
-                              onClick={() => openLogs(tool.id)}
-                              className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs font-medium transition shadow-2xs"
-                              title="Inspect live console logs"
+                              type="button"
+                              onClick={() => handleRestoreTool(tool.id)}
+                              className="px-3 py-1 bg-coral-600 hover:bg-coral-700 text-white text-[11px] font-semibold rounded-lg transition shadow-2xs cursor-pointer"
                             >
-                              <Icons.Terminal />
+                              Restore
                             </button>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      ))}
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </>
           )}
 
@@ -2056,6 +2901,163 @@ function App() {
         recordingState={recordingState}
         setRecordingState={setRecordingState}
       />
+
+      {/* ========================================================================= */}
+      {/* MODAL 5: NEW CATEGORY MODAL                                               */}
+      {/* ========================================================================= */}
+      {newCategoryModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-coral-50 flex items-center justify-center text-coral-600">
+                  <Icons.Folder className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-base">Add New Category</h3>
+                  <p className="text-xs text-gray-500">Create a new section to organize your demo tools</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setNewCategoryModalOpen(false);
+                  setNewCategoryName('');
+                }}
+                className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 text-lg font-bold"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateCategory} className="p-6 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">
+                  Category Name
+                </label>
+                <input
+                  type="text"
+                  autoFocus
+                  required
+                  placeholder="e.g. Storage Fabrics, AI Orchestration, Observability"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-coral-500/20 focus:border-coral-500"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewCategoryModalOpen(false);
+                    setNewCategoryName('');
+                  }}
+                  className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={!newCategoryName.trim()}
+                  className="px-4 py-2 rounded-xl bg-coral-600 hover:bg-coral-700 disabled:opacity-50 text-white text-xs font-semibold shadow-theme-xs cursor-pointer"
+                >
+                  Create Category
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 6: MOVE TOOL TO CATEGORY MODAL                                      */}
+      {/* ========================================================================= */}
+      {moveCategoryModalTool && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-coral-50 flex items-center justify-center text-coral-600">
+                  <Icons.Folder className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-base">Move Tool</h3>
+                  <p className="text-xs text-gray-500">Choose a category section for <span className="font-semibold text-gray-800">{moveCategoryModalTool.name}</span></p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMoveCategoryModalTool(null)}
+                className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 text-lg font-bold"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="p-6 space-y-3">
+              <div className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+                Select Destination Section:
+              </div>
+
+              <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                {sortedCategories.map((cat) => {
+                  const currentCatId = (layout.tool_placements || {})[moveCategoryModalTool.id]?.category_id;
+                  const isCurrent = currentCatId === cat.id;
+
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      disabled={isCurrent}
+                      onClick={() => handleMoveToolCategory(moveCategoryModalTool.id, cat.id)}
+                      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm text-left transition cursor-pointer ${
+                        isCurrent
+                          ? 'bg-coral-50 border-coral-200 text-coral-800 font-semibold cursor-default'
+                          : 'bg-white border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icons.Folder className={`w-4 h-4 ${isCurrent ? 'text-coral-600' : 'text-gray-400'}`} />
+                        <span>{cat.name}</span>
+                      </div>
+                      {isCurrent ? (
+                        <span className="text-[11px] bg-coral-100 text-coral-700 px-2 py-0.5 rounded-full font-semibold">Current</span>
+                      ) : (
+                        <span className="text-xs text-gray-400 font-medium">Move here &rarr;</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const tool = moveCategoryModalTool;
+                    setMoveCategoryModalTool(null);
+                    setNewCategoryName('');
+                    setNewCategoryModalOpen(true);
+                  }}
+                  className="text-xs text-coral-600 hover:text-coral-700 font-semibold flex items-center gap-1 cursor-pointer"
+                >
+                  <Icons.Plus className="w-3.5 h-3.5" />
+                  <span>Create new category</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setMoveCategoryModalTool(null)}
+                  className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-xs font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
