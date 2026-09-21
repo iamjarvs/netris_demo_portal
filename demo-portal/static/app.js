@@ -1350,7 +1350,7 @@ function App() {
                         <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
                           {/* Left: Pop-Out, Interactive Terminal, Recording & Quick Config Actions */}
                           <div className="flex flex-wrap items-center gap-2">
-                            {tool.id === 'switch-isolation-cli' ? (
+                            {tool.id === 'switch-isolation-cli' || tool.id === 'cli-inspector' ? (
                               <div className="flex items-center gap-1.5">
                                 <button
                                   onClick={() => setTerminalModalTool(tool)}
@@ -1369,6 +1369,22 @@ function App() {
                                   <Icons.Popout />
                                   <span className="text-[11px]">iTerm</span>
                                 </button>
+
+                                {tool.popout_url && (
+                                  <button
+                                    onClick={() => window.open(tool.popout_url, '_blank')}
+                                    disabled={!isRunning}
+                                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
+                                      isRunning
+                                        ? 'bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'
+                                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    }`}
+                                    title={isRunning ? `Open ${tool.name} Web Dashboard` : 'Start tool first to open Web Dashboard'}
+                                  >
+                                    <Icons.Popout />
+                                    <span>Web Dashboard ↗</span>
+                                  </button>
+                                )}
                               </div>
                             ) : tool.popout_url ? (
                               <button

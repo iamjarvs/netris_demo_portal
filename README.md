@@ -3,17 +3,17 @@ title: "Netris AI Cloud & Fabric Demo Toolkit"
 source: "Netris Solutions Architecture"
 category: "Solutions Architecture"
 product: "Netris Controller"
-tags: [demo-toolkit, ai-fabric, rocev2, slurm, prometheus, grafana, netbox, provider-portal, chatsim, iperf3, switch-isolation, fabric-assurance]
+tags: [demo-toolkit, ai-fabric, rocev2, slurm, prometheus, grafana, netbox, provider-portal, chatsim, iperf3, switch-isolation, fabric-assurance, cli-inspector, cumulus-linux]
 aliases: ["Netris Demo Suite", "AI Fabric Demo Toolkit", "Pre-Sales Toolkit"]
-summary: "Unified pre-sales and solutions architecture demonstration toolkit for Netris Cloud Networking, AI fabrics, IPAM sync, Slurm orchestration, fabric isolation assurance, and self-service cloud portals."
-updated: "2026-09-15"
+summary: "Unified pre-sales and solutions architecture demonstration toolkit for Netris Cloud Networking, AI fabrics, IPAM sync, Slurm orchestration, fabric isolation assurance, Cumulus CLI inspection, and self-service cloud portals."
+updated: "2026-09-21"
 ---
 
 # Netris AI Cloud & Fabric Demo Toolkit
 
 A comprehensive, production-grade demonstration and simulation suite designed for **Solutions Architects, Pre-Sales Engineers, and Technical Leaders** showcasing the full power of **Netris Cloud Networking** across modern AI GigaFactories and NeoCloud GPU environments.
 
-This repository unites telemetry generation, multi-rail RoCEv2 traffic simulation, dynamic Slurm HPC orchestration, IPAM synchronization, customer self-service portals, physical switch hardware isolation audits, and in-cluster workload props into a single, cohesive ecosystem.
+This repository unites telemetry generation, multi-rail RoCEv2 traffic simulation, dynamic Slurm HPC orchestration, IPAM synchronization, customer self-service portals, physical switch hardware isolation audits, Cumulus Linux CLI inspection & visual diffing, and in-cluster workload props into a single, cohesive ecosystem.
 
 ---
 
@@ -45,8 +45,9 @@ graph TB
         TrafficSim["AI Fabric Traffic Generators<br/>(gpu-ai-fabric-traffic-sim/<br/>netris-controller-gpu-traffic-sim/)"]
     end
 
-    subgraph Assurance ["5. Fabric Hardware Assurance & Isolation"]
+    subgraph Assurance ["5. Fabric Hardware Assurance & Visibility"]
         IsolationTool["Switch Isolation CLI<br/>(switch-isolation-cli/)<br/>Interactive Hardware Table Audit & VPC Drain"]
+        CLIInspector["Cumulus CLI Inspector & Web Dashboard<br/>(cli-inspector/)<br/>Live vtysh State, Multi-Switch Diff & Isolation Visualizer (Port 8743)"]
     end
 
     subgraph Observability ["6. Enriched Telemetry & Observability"]
@@ -63,6 +64,7 @@ graph TB
     HGX -.->|Active GPU Inference| Meridian
     HGX <==>|Multi-Rail RoCEv2 Traffic| TrafficSim
     IsolationTool ==>|Audit vtysh Tables & Drain Ports| HGX
+    CLIInspector ==>|vtysh Inspection & Multi-Switch Diff| HGX
     NetrisCTL ==>|Switch Octets & Active Assurance| Exporter
     Exporter ==>|Enriched Metrics & 90m Backfill| Dashboards
 ```
@@ -84,6 +86,7 @@ Each tool resides in its own dedicated, self-contained subfolder with an indepen
 | [`provider-portal/`](provider-portal/README.md) | Demo Portal & Self-Service | NeoCloud Executives, Cloud Architects | Full-stack multi-tenant AI Cloud self-service portal (FastAPI + React) demonstrating on-demand GPU cluster environment provisioning and an operator management console (`/ops`). | `uvicorn app.main:app --port 8000` |
 | [`chatsim/`](chatsim/README.md) | Tenant Workload Demo | Business Executives, End Customers | Push-deployed AI chat assistant prop running on GPU nodes, reflecting real tenant identity, Netris VPC context, and active GPU rail utilization (`nvidia-smi`). | `python3 server.py` |
 | [`switch-isolation-cli/`](switch-isolation-cli/README.md) | **Fabric Assurance & Isolation** | Solutions Architects, Security Teams | Interactive terminal utility inspecting live Top-of-Rack leaf switch hardware tables (EVPN/VXLAN & Pure VRF) to indisputably prove multi-tenant ASIC isolation and dynamic VPC draining. | `./run.sh` |
+| [`cli-inspector/`](cli-inspector/README.md) | **Fabric Assurance & Visibility** | Network Engineers, SREs, Solutions Architects | Dual-mode **Cumulus Switch CLI & React Web Dashboard** (Port 8743) for live `vtysh` inspection, multi-switch config/state diffing, time-series revision history, and interactive EVPN/VRF tenant isolation auditing. | `./cli-inspector/start_web.sh` or `./cli-inspector/run.sh` |
 
 ---
 
@@ -192,6 +195,14 @@ netris-demo-tools/
 │   ├── config.example.json                 # Target Netris & jump-host credentials
 │   └── README.md
 │
+├── cli-inspector/                          # Cumulus switch CLI inspector & React web dashboard (Port 8743)
+│   ├── cli_inspector/                      # Core backend (inventory, executor, isolation, webserver)
+│   ├── webapp/                             # React 18 frontend (Vite, Tailwind, Lucide, xterm.js)
+│   ├── run.sh                              # Interactive terminal CLI launcher
+│   ├── start_web.sh                        # Web dashboard launcher
+│   ├── config.example.json                 # Target Netris & jump-host credentials
+│   └── README.md
+│
 └── chatsim/                                # Meridian Console AI chat & GPU rail demo prop
     ├── server.py                           # Flask server
     ├── meridian/                           # Context loader and GPU discovery
@@ -233,6 +244,12 @@ cd chatsim && python3 server.py
 
 # 6. Launch Switch Isolation & Hardware Table Assurance CLI:
 cd switch-isolation-cli && ./run.sh
+
+# 7. Launch Cumulus CLI Inspector Web Dashboard (Port 8743):
+cd cli-inspector && ./start_web.sh
+
+# Or launch the interactive Terminal CLI:
+cd cli-inspector && ./run.sh
 ```
 
 ---

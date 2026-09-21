@@ -135,6 +135,21 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "default_args": ["./run.sh"],
         "cwd": REPO_ROOT / "switch-isolation-cli",
         "summary_command": "./run.sh",
+    },
+    "cli-inspector": {
+        "id": "cli-inspector",
+        "name": "Cumulus Switch CLI Inspector & Config Audit",
+        "category": "Fabric Assurance & Visibility",
+        "description": "Interactive CLI and web dashboard for exploring NVIDIA Cumulus switches, running live NVUE show commands, comparing configs, and tracking git revision history.",
+        "tool_type": "subprocess",
+        "port": 8743,
+        "popout_url": "http://localhost:8743",
+        "health_endpoint": "http://localhost:8743/api/health",
+        "start_script": ["./start_web.sh"],
+        "stop_script": [],
+        "default_args": ["./run.sh"],
+        "cwd": REPO_ROOT / "cli-inspector",
+        "summary_command": "./start_web.sh",
     }
 }
 
@@ -353,6 +368,22 @@ def get_tool_credentials(tool_id: str) -> List[Dict[str, Any]]:
                 pass
         creds.append({"label": "Netris API", "username": n_user, "password": "••••••••", "notes": "adam-ctl.netris.io"})
         creds.append({"label": "SSH Jump Host", "username": jump_user, "password": "••••••••", "notes": jump_host})
+
+    elif tool_id == "cli-inspector":
+        conf_path = REPO_ROOT / "cli-inspector" / "config.json"
+        n_user, jump_host, jump_user = "netris", "adam-ctl.netris.io", "ubuntu"
+        if conf_path.exists():
+            try:
+                import json
+                with open(conf_path, "r", encoding="utf-8") as f:
+                    c = json.load(f)
+                    n_user = c.get("netris_username") or n_user
+                    jump_host = c.get("ssh_jump_host") or jump_host
+                    jump_user = c.get("ssh_jump_user") or jump_user
+            except Exception:
+                pass
+        creds.append({"label": "Netris API", "username": n_user, "password": "••••••••", "notes": "adam-ctl.netris.io"})
+        creds.append({"label": "SSH Jump Host", "username": jump_user, "password": "Key Auth", "notes": jump_host})
 
     return creds
 
