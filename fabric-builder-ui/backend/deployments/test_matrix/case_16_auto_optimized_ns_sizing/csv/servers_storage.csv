@@ -1,0 +1,9 @@
+name,description,portcount
+srv-test-auto-ns-storage01,Storage Node 01 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage02,Storage Node 02 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage03,Storage Node 03 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage04,Storage Node 04 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage05,Storage Node 05 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage06,Storage Node 06 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage07,Storage Node 07 (2 Storage + 2 NS + 1 OOB),5
+srv-test-auto-ns-storage08,Storage Node 08 (2 Storage + 2 NS + 1 OOB),5

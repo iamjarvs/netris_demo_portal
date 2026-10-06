@@ -1,0 +1,5 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-1gpu-frontend-spine01,swp1,sw-test-1gpu-frontend-leaf01,swp63
+sw-test-1gpu-frontend-spine01,swp2,sw-test-1gpu-frontend-leaf02,swp63
+sw-test-1gpu-frontend-spine02,swp1,sw-test-1gpu-frontend-leaf01,swp64
+sw-test-1gpu-frontend-spine02,swp2,sw-test-1gpu-frontend-leaf02,swp64

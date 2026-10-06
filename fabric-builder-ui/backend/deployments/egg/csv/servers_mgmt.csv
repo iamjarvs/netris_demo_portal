@@ -1,0 +1,4 @@
+name,description,portcount
+srv-egg-cp01,Control Plane / K8s Node 01,2
+srv-egg-cp02,Control Plane / K8s Node 02,2
+srv-egg-cp03,Control Plane / K8s Node 03,2

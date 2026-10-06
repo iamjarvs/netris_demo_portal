@@ -1,0 +1,2 @@
+name,description,portcount
+srv-test-1str-1srv-storage01,Storage Node 01 (2 Storage + 2 NS + 1 OOB),5

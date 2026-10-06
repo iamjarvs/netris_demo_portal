@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-test-sonic-inband-mgmt,100,management
+vnet-test-sonic-storage,200,storage
+vnet-test-sonic-oob,10,oob_management

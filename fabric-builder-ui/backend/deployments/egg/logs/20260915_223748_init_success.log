@@ -1,0 +1,11 @@
+=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/egg ===
+$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false
+
+
+Initializing provider plugins...
+- Reusing previous version of netrisai/netris from the dependency lock file
+- Using previously-installed netrisai/netris v3.6.21
+
+OpenTofu has been successfully initialized!
+
+✓ 'tofu init' completed successfully.

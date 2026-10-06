@@ -1,0 +1,6 @@
+index,name,profile,asn,portcount,description,loopback,mgmtip,role
+1,sw-test-1str-1srv-backend-plane1-spine01,ew_profile_pl1,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 01 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",172.16.0.1,172.16.2.1,spine
+2,sw-test-1str-1srv-backend-plane1-leaf01,ew_profile_pl1,4200000002,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.2,172.16.2.2,leaf
+3,sw-test-1str-1srv-frontend-spine01,ns_profile,4200000003,64,"Frontend North-South Fabric — Spine 01 (Aggregates Frontend & In-Band Management Leaves and Core Routing)",172.16.1.1,172.16.2.3,spine
+4,sw-test-1str-1srv-frontend-leaf01,ns_profile,4200000004,64,"Frontend North-South Fabric — Leaf 01 (GPU In-Band Mgmt, Cluster Services & SoftGate Border Uplinks)",172.16.1.2,172.16.2.4,leaf
+5,sw-test-1str-1srv-storage-leaf01,ns_profile,4200000005,64,"Storage Network — Leaf 01 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",172.16.1.3,172.16.2.5,leaf

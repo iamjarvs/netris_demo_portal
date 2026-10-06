@@ -1,0 +1,5 @@
+index,name,description,mainip,mgmtip,role
+1,sg-test-128gpu-fabric-border-gw01,"Border Gateway — SoftGate 01 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.15,172.16.2.55,general
+2,sg-test-128gpu-fabric-border-gw02,"Border Gateway — SoftGate 02 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.16,172.16.2.56,general
+3,sg-test-128gpu-fabric-border-gw03,"Border Gateway — SoftGate 03 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.17,172.16.2.57,general
+4,sg-test-128gpu-fabric-border-gw04,"Border Gateway — SoftGate 04 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.18,172.16.2.58,general

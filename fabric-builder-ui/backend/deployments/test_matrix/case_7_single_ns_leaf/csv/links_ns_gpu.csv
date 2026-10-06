@@ -1,0 +1,9 @@
+leaf,leaf_port,gpu,gpu_port
+sw-test-1ns-lf-frontend-leaf01,swp1,gpu-test-1ns-lf-001,eth17
+sw-test-1ns-lf-frontend-leaf01,swp2,gpu-test-1ns-lf-001,eth18
+sw-test-1ns-lf-frontend-leaf01,swp3,gpu-test-1ns-lf-002,eth17
+sw-test-1ns-lf-frontend-leaf01,swp4,gpu-test-1ns-lf-002,eth18
+sw-test-1ns-lf-frontend-leaf01,swp5,gpu-test-1ns-lf-003,eth17
+sw-test-1ns-lf-frontend-leaf01,swp6,gpu-test-1ns-lf-003,eth18
+sw-test-1ns-lf-frontend-leaf01,swp7,gpu-test-1ns-lf-004,eth17
+sw-test-1ns-lf-frontend-leaf01,swp8,gpu-test-1ns-lf-004,eth18

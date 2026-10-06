@@ -1,0 +1,17 @@
+leaf,leaf_port,server,server_port
+sw-test-qp-max-storage-leaf02,swp1,srv-test-qp-max-storage01,eth1
+sw-test-qp-max-storage-leaf03,swp1,srv-test-qp-max-storage01,eth2
+sw-test-qp-max-storage-leaf03,swp2,srv-test-qp-max-storage02,eth1
+sw-test-qp-max-storage-leaf04,swp1,srv-test-qp-max-storage02,eth2
+sw-test-qp-max-storage-leaf04,swp2,srv-test-qp-max-storage03,eth1
+sw-test-qp-max-storage-leaf01,swp1,srv-test-qp-max-storage03,eth2
+sw-test-qp-max-storage-leaf01,swp2,srv-test-qp-max-storage04,eth1
+sw-test-qp-max-storage-leaf02,swp2,srv-test-qp-max-storage04,eth2
+sw-test-qp-max-storage-leaf02,swp3,srv-test-qp-max-storage05,eth1
+sw-test-qp-max-storage-leaf03,swp3,srv-test-qp-max-storage05,eth2
+sw-test-qp-max-storage-leaf03,swp4,srv-test-qp-max-storage06,eth1
+sw-test-qp-max-storage-leaf04,swp3,srv-test-qp-max-storage06,eth2
+sw-test-qp-max-storage-leaf04,swp4,srv-test-qp-max-storage07,eth1
+sw-test-qp-max-storage-leaf01,swp3,srv-test-qp-max-storage07,eth2
+sw-test-qp-max-storage-leaf01,swp4,srv-test-qp-max-storage08,eth1
+sw-test-qp-max-storage-leaf02,swp4,srv-test-qp-max-storage08,eth2

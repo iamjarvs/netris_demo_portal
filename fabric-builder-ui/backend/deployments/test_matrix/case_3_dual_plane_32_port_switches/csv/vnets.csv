@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-test-dp-32p-inband-mgmt,100,management
+vnet-test-dp-32p-storage,200,storage
+vnet-test-dp-32p-oob,10,oob_management

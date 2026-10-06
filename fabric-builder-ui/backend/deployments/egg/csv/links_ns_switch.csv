@@ -1,0 +1,13 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-egg-frontend-spine01,swp1,sw-egg-frontend-leaf01,swp63
+sw-egg-frontend-spine01,swp2,sw-egg-frontend-leaf02,swp63
+sw-egg-frontend-spine01,swp3,sw-egg-frontend-leaf03,swp63
+sw-egg-frontend-spine01,swp4,sw-egg-frontend-leaf04,swp63
+sw-egg-frontend-spine01,swp5,sw-egg-frontend-leaf05,swp63
+sw-egg-frontend-spine01,swp6,sw-egg-frontend-leaf06,swp63
+sw-egg-frontend-spine02,swp1,sw-egg-frontend-leaf01,swp64
+sw-egg-frontend-spine02,swp2,sw-egg-frontend-leaf02,swp64
+sw-egg-frontend-spine02,swp3,sw-egg-frontend-leaf03,swp64
+sw-egg-frontend-spine02,swp4,sw-egg-frontend-leaf04,swp64
+sw-egg-frontend-spine02,swp5,sw-egg-frontend-leaf05,swp64
+sw-egg-frontend-spine02,swp6,sw-egg-frontend-leaf06,swp64

@@ -1,0 +1,5 @@
+name,description,portcount
+srv-test-spec-x-storage01,Storage Node 01 (2 Storage + 2 NS + 1 OOB),5
+srv-test-spec-x-storage02,Storage Node 02 (2 Storage + 2 NS + 1 OOB),5
+srv-test-spec-x-storage03,Storage Node 03 (2 Storage + 2 NS + 1 OOB),5
+srv-test-spec-x-storage04,Storage Node 04 (2 Storage + 2 NS + 1 OOB),5

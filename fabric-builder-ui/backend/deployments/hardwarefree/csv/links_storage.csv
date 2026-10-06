@@ -1,0 +1,9 @@
+leaf,leaf_port,server,server_port
+sw-hardwarefree-frontend-leaf02,swp23,srv-hardwarefree-storage01,eth1
+sw-hardwarefree-frontend-leaf03,swp22,srv-hardwarefree-storage01,eth2
+sw-hardwarefree-frontend-leaf03,swp23,srv-hardwarefree-storage02,eth1
+sw-hardwarefree-frontend-leaf04,swp22,srv-hardwarefree-storage02,eth2
+sw-hardwarefree-frontend-leaf04,swp23,srv-hardwarefree-storage03,eth1
+sw-hardwarefree-frontend-leaf05,swp22,srv-hardwarefree-storage03,eth2
+sw-hardwarefree-frontend-leaf05,swp23,srv-hardwarefree-storage04,eth1
+sw-hardwarefree-frontend-leaf06,swp22,srv-hardwarefree-storage04,eth2

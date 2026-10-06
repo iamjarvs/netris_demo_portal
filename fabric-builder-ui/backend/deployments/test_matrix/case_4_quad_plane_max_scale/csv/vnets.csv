@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-test-qp-max-inband-mgmt,100,management
+vnet-test-qp-max-storage,200,storage
+vnet-test-qp-max-oob,10,oob_management

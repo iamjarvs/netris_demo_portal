@@ -1,0 +1,3 @@
+leaf,leaf_port,server,server_port
+sw-test-1str-1srv-storage-leaf01,swp1,srv-test-1str-1srv-storage01,eth1
+sw-test-1str-1srv-storage-leaf01,swp2,srv-test-1str-1srv-storage01,eth2

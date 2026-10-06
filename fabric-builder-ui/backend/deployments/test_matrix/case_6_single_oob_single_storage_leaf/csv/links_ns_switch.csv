@@ -1,0 +1,7 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-1oob-1str-frontend-spine01,swp1,sw-test-1oob-1str-frontend-leaf01,swp63
+sw-test-1oob-1str-frontend-spine01,swp2,sw-test-1oob-1str-frontend-leaf02,swp63
+sw-test-1oob-1str-frontend-spine01,swp3,sw-test-1oob-1str-storage-leaf01,swp63
+sw-test-1oob-1str-frontend-spine02,swp1,sw-test-1oob-1str-frontend-leaf01,swp64
+sw-test-1oob-1str-frontend-spine02,swp2,sw-test-1oob-1str-frontend-leaf02,swp64
+sw-test-1oob-1str-frontend-spine02,swp3,sw-test-1oob-1str-storage-leaf01,swp64

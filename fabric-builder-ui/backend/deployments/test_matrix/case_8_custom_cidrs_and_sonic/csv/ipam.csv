@@ -1,0 +1,13 @@
+type,name,prefix,purpose,default_gateway
+allocation,alloc-ew-p2p,10.201.0.0/16,,
+subnet,sub-ew-p2p,10.201.0.0/16,common,
+allocation,alloc-ew-loopbacks,10.200.0.0/24,,
+subnet,sub-ew-loopbacks,10.200.0.0/24,loopback,
+allocation,alloc-ns-loopbacks,10.200.1.0/24,,
+subnet,sub-ns-loopbacks,10.200.1.0/24,loopback,
+allocation,alloc-ns-mgmt,10.200.2.0/24,,
+subnet,sub-ns-mgmt,10.200.2.0/24,management,
+allocation,alloc-storage,10.200.3.0/24,,
+subnet,sub-storage,10.200.3.0/24,common,
+allocation,alloc-oob,10.200.4.0/24,,
+subnet,sub-oob,10.200.4.0/24,management,

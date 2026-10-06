@@ -1,0 +1,17 @@
+leaf,leaf_port,gpu,gpu_port
+sw-test-sp-min-backend-plane1-leaf01,swp1,gpu-test-sp-min-001,eth1
+sw-test-sp-min-backend-plane1-leaf01,swp2,gpu-test-sp-min-001,eth2
+sw-test-sp-min-backend-plane1-leaf01,swp3,gpu-test-sp-min-001,eth3
+sw-test-sp-min-backend-plane1-leaf01,swp4,gpu-test-sp-min-001,eth4
+sw-test-sp-min-backend-plane1-leaf01,swp5,gpu-test-sp-min-001,eth5
+sw-test-sp-min-backend-plane1-leaf01,swp6,gpu-test-sp-min-001,eth6
+sw-test-sp-min-backend-plane1-leaf01,swp7,gpu-test-sp-min-001,eth7
+sw-test-sp-min-backend-plane1-leaf01,swp8,gpu-test-sp-min-001,eth8
+sw-test-sp-min-backend-plane1-leaf01,swp9,gpu-test-sp-min-002,eth1
+sw-test-sp-min-backend-plane1-leaf01,swp10,gpu-test-sp-min-002,eth2
+sw-test-sp-min-backend-plane1-leaf01,swp11,gpu-test-sp-min-002,eth3
+sw-test-sp-min-backend-plane1-leaf01,swp12,gpu-test-sp-min-002,eth4
+sw-test-sp-min-backend-plane1-leaf01,swp13,gpu-test-sp-min-002,eth5
+sw-test-sp-min-backend-plane1-leaf01,swp14,gpu-test-sp-min-002,eth6
+sw-test-sp-min-backend-plane1-leaf01,swp15,gpu-test-sp-min-002,eth7
+sw-test-sp-min-backend-plane1-leaf01,swp16,gpu-test-sp-min-002,eth8

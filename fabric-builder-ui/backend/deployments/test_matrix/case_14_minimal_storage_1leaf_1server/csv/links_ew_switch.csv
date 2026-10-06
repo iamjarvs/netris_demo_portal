@@ -1,0 +1,17 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-1str-1srv-backend-plane1-spine01,swp1,sw-test-1str-1srv-backend-plane1-leaf01,swp49
+sw-test-1str-1srv-backend-plane1-spine01,swp2,sw-test-1str-1srv-backend-plane1-leaf01,swp50
+sw-test-1str-1srv-backend-plane1-spine01,swp3,sw-test-1str-1srv-backend-plane1-leaf01,swp51
+sw-test-1str-1srv-backend-plane1-spine01,swp4,sw-test-1str-1srv-backend-plane1-leaf01,swp52
+sw-test-1str-1srv-backend-plane1-spine01,swp5,sw-test-1str-1srv-backend-plane1-leaf01,swp53
+sw-test-1str-1srv-backend-plane1-spine01,swp6,sw-test-1str-1srv-backend-plane1-leaf01,swp54
+sw-test-1str-1srv-backend-plane1-spine01,swp7,sw-test-1str-1srv-backend-plane1-leaf01,swp55
+sw-test-1str-1srv-backend-plane1-spine01,swp8,sw-test-1str-1srv-backend-plane1-leaf01,swp56
+sw-test-1str-1srv-backend-plane1-spine01,swp9,sw-test-1str-1srv-backend-plane1-leaf01,swp57
+sw-test-1str-1srv-backend-plane1-spine01,swp10,sw-test-1str-1srv-backend-plane1-leaf01,swp58
+sw-test-1str-1srv-backend-plane1-spine01,swp11,sw-test-1str-1srv-backend-plane1-leaf01,swp59
+sw-test-1str-1srv-backend-plane1-spine01,swp12,sw-test-1str-1srv-backend-plane1-leaf01,swp60
+sw-test-1str-1srv-backend-plane1-spine01,swp13,sw-test-1str-1srv-backend-plane1-leaf01,swp61
+sw-test-1str-1srv-backend-plane1-spine01,swp14,sw-test-1str-1srv-backend-plane1-leaf01,swp62
+sw-test-1str-1srv-backend-plane1-spine01,swp15,sw-test-1str-1srv-backend-plane1-leaf01,swp63
+sw-test-1str-1srv-backend-plane1-spine01,swp16,sw-test-1str-1srv-backend-plane1-leaf01,swp64

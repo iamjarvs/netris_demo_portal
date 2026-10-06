@@ -1,0 +1,7 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-3sg-border-gw01,eth1,sw-test-3sg-frontend-leaf01,swp62
+sg-test-3sg-border-gw01,eth2,sw-test-3sg-frontend-leaf02,swp62
+sg-test-3sg-border-gw02,eth1,sw-test-3sg-frontend-leaf01,swp61
+sg-test-3sg-border-gw02,eth2,sw-test-3sg-frontend-leaf02,swp61
+sg-test-3sg-border-gw03,eth1,sw-test-3sg-frontend-leaf01,swp60
+sg-test-3sg-border-gw03,eth2,sw-test-3sg-frontend-leaf02,swp60

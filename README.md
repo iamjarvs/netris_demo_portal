@@ -3,9 +3,9 @@ title: "Netris AI Cloud & Fabric Demo Toolkit"
 source: "Netris Solutions Architecture"
 category: "Solutions Architecture"
 product: "Netris Controller"
-tags: [demo-toolkit, ai-fabric, rocev2, slurm, prometheus, grafana, netbox, provider-portal, chatsim, iperf3, switch-isolation, fabric-assurance, cli-inspector, cumulus-linux]
+tags: [demo-toolkit, ai-fabric, rocev2, slurm, prometheus, grafana, netbox, provider-portal, chatsim, iperf3, switch-isolation, fabric-assurance, cli-inspector, cumulus-linux, opentofu, terraform, fabric-builder]
 aliases: ["Netris Demo Suite", "AI Fabric Demo Toolkit", "Pre-Sales Toolkit"]
-summary: "Unified pre-sales and solutions architecture demonstration toolkit for Netris Cloud Networking, AI fabrics, IPAM sync, Slurm orchestration, fabric isolation assurance, Cumulus CLI inspection, and self-service cloud portals."
+summary: "Unified pre-sales and solutions architecture demonstration toolkit for Netris Cloud Networking, AI fabrics, IPAM sync, Slurm orchestration, fabric isolation assurance, Cumulus CLI inspection, Day-0 OpenTofu fabric generation, and self-service cloud portals."
 updated: "2026-09-21"
 ---
 
@@ -25,9 +25,10 @@ graph TB
         CommandCenter["Demo Command Center (demo-portal/)<br/>• TailAdmin v2 Light Theme (Port 8800)<br/>• Process Management, Liveness & Config Sync<br/>• Pop-Out Launch to Native Project Windows<br/>• In-Browser xterm.js Terminal & Prometheus Recorder"]
     end
 
-    subgraph Planning ["1. Planning & Source of Truth"]
+    subgraph Planning ["1. Planning, Architecture & Source of Truth"]
         NetBox["NetBox DCIM / IPAM<br/>(Subnets, Allocations, Pools)"]
         SyncService["NetBox ↔ Netris Sync<br/>(netbox-netris/)"]
+        FabricBuilder["Fabric Terraform Builder<br/>(fabric-builder-ui/)<br/>• Visual Multi-Plane RoCE Designer (Port 5050)<br/>• Live Controller Pre-Flight & Conflict Engine<br/>• Automated OpenTofu / Terraform Day-0 Generation"]
     end
 
     subgraph ControlPlane ["2. Cloud Control Plane & Self-Service"]
@@ -56,6 +57,7 @@ graph TB
     end
 
     CommandCenter -.->|Coordinates & Launches| Planning & ControlPlane & Orchestration & ComputeFabric & Assurance & Observability
+    FabricBuilder ==>|Day-0 OpenTofu / Terraform Apply| NetrisCTL
     NetBox <==>|Bi-directional Sync| SyncService
     SyncService <==>|API v2| NetrisCTL
     Portal ==>|Tenant Order & Day-2 Services| NetrisCTL
@@ -78,6 +80,7 @@ Each tool resides in its own dedicated, self-contained subfolder with an indepen
 | Tool Directory | Category | Target Audience | Primary Capability | Quick Launch |
 |---|---|---|---|---|
 | [`demo-portal/`](demo-portal/README.md) | **Management & Control** | Solutions Architects, SEs | **Centralized Control Portal** (TailAdmin v2 light theme) to start, stop, monitor, configure shared Netris credentials, and pop out all demo tools in their own windows. | `./demo-portal/start.sh` |
+| [`fabric-builder-ui/`](fabric-builder-ui/README.md) | **Planning & Architecture** | Solutions Architects, Cloud Architects, NetOps | Visual multi-plane RoCE fabric designer, live Netris Controller pre-flight CIDR/ASN conflict engine, and automated Day-0 OpenTofu / Terraform code generator (Port 5050). | `./fabric-builder-ui/start.sh` |
 | [`gpu-ai-fabric-traffic-sim/`](gpu-ai-fabric-traffic-sim/README.md) | Cluster Traffic Sim | Network Architects, Performance Engineers | Containerized multi-rail RoCEv2 iPerf3 traffic generator simulating Ring-AllReduce, MoE All-to-All, and Incast with DSCP priority tagging across mock GPU nodes. | `docker compose up -d` |
 | [`netris-controller-gpu-traffic-sim/`](netris-controller-gpu-traffic-sim/README.md) | Hardware Traffic Sim | NeoCloud Operators, Data Center Teams | Controller-hosted pre-sales automation that discovers VPC GPU hosts from Netris DB, pushes offline native iPerf3 packages over SSH, and injects continuous RoCEv2 traffic across physical leaf/spine switches. | `./deploy.sh` |
 | [`netris-prometheus-exporter/`](netris-prometheus-exporter/README.md) | Telemetry & Observability | DevOps, SREs, NOC Operators | Prometheus exporter with semantic port/tenant enrichment, 90-minute historical TSDB pre-population, and turnkey Grafana dashboards. Operates live or 100% offline. | `./start.sh --sim` |
@@ -87,6 +90,7 @@ Each tool resides in its own dedicated, self-contained subfolder with an indepen
 | [`chatsim/`](chatsim/README.md) | Tenant Workload Demo | Business Executives, End Customers | Push-deployed AI chat assistant prop running on GPU nodes, reflecting real tenant identity, Netris VPC context, and active GPU rail utilization (`nvidia-smi`). | `python3 server.py` |
 | [`switch-isolation-cli/`](switch-isolation-cli/README.md) | **Fabric Assurance & Isolation** | Solutions Architects, Security Teams | Interactive terminal utility inspecting live Top-of-Rack leaf switch hardware tables (EVPN/VXLAN & Pure VRF) to indisputably prove multi-tenant ASIC isolation and dynamic VPC draining. | `./run.sh` |
 | [`cli-inspector/`](cli-inspector/README.md) | **Fabric Assurance & Visibility** | Network Engineers, SREs, Solutions Architects | Dual-mode **Cumulus Switch CLI & React Web Dashboard** (Port 8743) for live `vtysh` inspection, multi-switch config/state diffing, time-series revision history, and interactive EVPN/VRF tenant isolation auditing. | `./cli-inspector/start_web.sh` or `./cli-inspector/run.sh` |
+| [`remote-tf-viewer/`](remote-tf-viewer/README.md) | **Cloud Control Plane** | Solutions Architects, NetOps, Pre-Sales | Instant VS Code Remote-SSH background launcher opening live Spectrum-X Day-0 Terraform/OpenTofu manifests on the active Netris Controller (`ubuntu@adam-ctl.netris.io`). | `./remote-tf-viewer/run.sh` |
 
 ---
 
@@ -186,6 +190,13 @@ netris-demo-tools/
 │   ├── start.sh                            # One-click launcher (http://localhost:8800)
 │   └── README.md
 │
+├── fabric-builder-ui/                      # Day-0 OpenTofu/Terraform visual builder & conflict engine (Port 5050)
+│   ├── backend/                            # Flask API server, tf_generator, conflict_engine, topology layout
+│   ├── frontend/                           # React 19 + Tailwind CSS frontend (Vite, Lucide, dist bundle)
+│   ├── start.sh                            # One-click launcher (http://localhost:5050)
+│   ├── requirements.txt
+│   └── README.md
+│
 ├── switch-isolation-cli/                   # Physical switch hardware table audit & VPC isolation tool
 │   ├── isolation_tool.py                   # Multi-stage interactive CLI suite (EVPN/VRF)
 │   ├── isolation_cli.py                    # Standalone interactive audit runner
@@ -227,25 +238,28 @@ netris-demo-tools/
 cd demo-portal && ./start.sh
 
 # Or launch tools individually:
-# 1. Launch Prometheus & Grafana with 90-min pre-populated demo data:
+# 1. Launch Fabric Terraform Builder Web Dashboard (Port 5050):
+cd fabric-builder-ui && ./start.sh
+
+# 2. Launch Prometheus & Grafana with 90-min pre-populated demo data:
 cd netris-prometheus-exporter && ./start.sh --sim
 
-# 2. Launch Slurm HPC Orchestrator Web Dashboard (offline simulation):
+# 3. Launch Slurm HPC Orchestrator Web Dashboard (offline simulation):
 cd netris-slurm-cluster-sim && python3 run_simulation.py --sim-mode --port 8088
 
-# 3. Launch HeliosGrid Provider Portal:
+# 4. Launch HeliosGrid Provider Portal:
 cd provider-portal && uvicorn app.main:app --port 8000 --reload
 
-# 4. Launch NetBox IPAM Sync Stack:
+# 5. Launch NetBox IPAM Sync Stack:
 cd netbox-netris && ./start-netbox-integration.sh
 
-# 5. Launch Local Meridian ChatSim Console:
+# 6. Launch Local Meridian ChatSim Console:
 cd chatsim && python3 server.py
 
-# 6. Launch Switch Isolation & Hardware Table Assurance CLI:
+# 7. Launch Switch Isolation & Hardware Table Assurance CLI:
 cd switch-isolation-cli && ./run.sh
 
-# 7. Launch Cumulus CLI Inspector Web Dashboard (Port 8743):
+# 8. Launch Cumulus CLI Inspector Web Dashboard (Port 8743):
 cd cli-inspector && ./start_web.sh
 
 # Or launch the interactive Terminal CLI:

@@ -1,0 +1,48 @@
+{
+  "id": "kpn01-quad-plane",
+  "name": "KPN01 Quad-Plane Ultra-Scale Fabric",
+  "description": "Quad-plane 4-rail backend RoCE fabric with 128-port switches for maximum GPU cluster scale and zero cross-plane contention.",
+  "created_at": "2026-09-14T00:00:00Z",
+  "updated_at": "2026-09-14T00:00:00Z",
+  "config": {
+    "site_name": "KPN01",
+    "planes_count": 4,
+    "ew_spines_per_plane": 2,
+    "ew_leaves_per_plane": 4,
+    "switch_port_count": 128,
+    "nos": "cumulus_nvue",
+    "softgate_flavor": "sg-hs",
+    "public_asn": 65510,
+    "roh_asn": 65511,
+    "switch_asn_base": 4200100000,
+    "gpu_count": 16,
+    "gpu_roce_ports": 16,
+    "gpu_ns_ports": 2,
+    "ns_spines": 2,
+    "ns_leaves": 2,
+    "softgate_count": 2,
+    "enable_storage": true,
+    "storage_leaves": 2,
+    "storage_servers": 8,
+    "storage_subnet": "10.201.0.0/24",
+    "enable_oob": true,
+    "oob_switches": 2,
+    "oob_subnet": "10.11.0.0/24",
+    "ew_loopback_subnet": "10.252.128.0/24",
+    "ew_p2p_allocation": "10.252.0.0/16",
+    "ns_loopback_subnet": "10.26.105.0/24",
+    "ns_mgmt_subnet": "10.101.0.0/24",
+    "controller_address": "https://adam-ctl.netris.io",
+    "controller_login": "netris",
+    "controller_password": "913QGAi6oQTSGgZm20eU",
+    "timezone": "Etc/GMT",
+    "ntp_servers": [
+      "1.pool.ntp.org",
+      "2.pool.ntp.org"
+    ],
+    "dns_servers": [
+      "1.1.1.1",
+      "8.8.8.8"
+    ]
+  }
+}

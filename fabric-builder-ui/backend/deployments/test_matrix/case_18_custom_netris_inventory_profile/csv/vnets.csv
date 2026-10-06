@@ -1,0 +1,3 @@
+name,vlan,purpose
+vnet-test-cust-prof-inband-mgmt,100,management
+vnet-test-cust-prof-oob,10,oob_management

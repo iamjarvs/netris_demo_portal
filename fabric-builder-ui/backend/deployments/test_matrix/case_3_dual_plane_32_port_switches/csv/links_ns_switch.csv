@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-dp-32p-frontend-spine01,swp1,sw-test-dp-32p-frontend-leaf01,swp31
+sw-test-dp-32p-frontend-spine01,swp2,sw-test-dp-32p-frontend-leaf02,swp31
+sw-test-dp-32p-frontend-spine01,swp3,sw-test-dp-32p-storage-leaf01,swp31
+sw-test-dp-32p-frontend-spine01,swp4,sw-test-dp-32p-storage-leaf02,swp31
+sw-test-dp-32p-frontend-spine02,swp1,sw-test-dp-32p-frontend-leaf01,swp32
+sw-test-dp-32p-frontend-spine02,swp2,sw-test-dp-32p-frontend-leaf02,swp32
+sw-test-dp-32p-frontend-spine02,swp3,sw-test-dp-32p-storage-leaf01,swp32
+sw-test-dp-32p-frontend-spine02,swp4,sw-test-dp-32p-storage-leaf02,swp32

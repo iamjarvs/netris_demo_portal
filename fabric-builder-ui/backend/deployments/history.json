@@ -1,0 +1,722 @@
+[
+  {
+    "id": "evt-1789722783-hardwarefree-apply",
+    "site_slug": "hardwarefree",
+    "site_name": "HardwareFree",
+    "action": "apply",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 22.91,
+    "timestamp": "2026-09-18T10:13:03.425117",
+    "plan_summary": {
+      "add": 1150,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 1151,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260918_101303_apply_success.log",
+    "log_snippet": "netris_link.ew_switch_links[\"swp30@sw-hardwarefree-plane3-spine01--swp26@sw-hardwarefree-plane3-leaf08\"]: Creation complete after 0s [id=4846692902]\nnetris_link.ew_switch_links[\"swp26@sw-hardwarefree-plane4-spine02--swp30@sw-hardwarefree-plane4-leaf07\"]: Creating...\nnetris_link.ew_switch_links[\"swp22@sw-hardwarefree-plane2-spine01--swp26@sw-hardwarefree-plane2-leaf06\"]: Creation complete after 0s [id=4816024554]\nnetris_link.ew_switch_links[\"swp10@sw-hardwarefree-plane4-spine01--swp26@sw-hardwarefree-plane4-leaf03\"]: Creation complete after 0s [id=4865220884]\nnetris_link.ew_switch_links[\"swp18@sw-hardwarefree-plane2-spine02--swp30@sw-hardwarefree-plane2-leaf05\"]: Creation complete after 0s [id=4827021878]\nnetris_link.ew_gpu_links[\"swp15@sw-hardwarefree-plane4-leaf04--eth7@gpu-hardwarefree-060\"]: Creation complete after 0s [id=4745911564]\nnetris_link.ew_gpu_links[\"swp10@sw-hardwarefree-plane3-leaf05--eth6@gpu-hardwarefree-037\"]: Creation complete after 0s [id=4711680209]\nnetris_link.ew_switch_links[\"swp5@sw-hardwarefree-plane2-spine02--swp29@sw-hardwarefree-plane2-leaf02\"]: Creation complete after 0s [id=4844527212]\nnetris_link.ew_gpu_links[\"swp9@sw-hardwarefree-plane1-leaf06--eth1@gpu-hardwarefree-038\"]: Creation complete after 0s [id=4796316868]\nnetris_link.ew_gpu_links[\"swp13@sw-hardwarefree-plane3-leaf02--eth5@gpu-hardwarefree-050\"]: Creation complete after 0s [id=4656799981]\nnetris_link.ew_gpu_links[\"swp4@sw-hardwarefree-plane4-leaf03--eth8@gpu-hardwarefree-011\"]: Creation complete after 0s [id=4741626193]\nnetris_link.ew_switch_links[\"swp26@sw-hardwarefree-plane4-spine02--swp30@sw-hardwarefree-plane4-leaf07\"]: Creation complete after 0s [id=4799549626]\n\nApply complete! Resources: 1150 added, 0 changed, 0 destroyed.\n\n\u2713 'tofu apply' completed successfully."
+  },
+  {
+    "id": "evt-1789722754-hardwarefree-plan",
+    "site_slug": "hardwarefree",
+    "site_name": "HardwareFree",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 1.31,
+    "timestamp": "2026-09-18T10:12:34.112979",
+    "plan_summary": {
+      "add": 1150,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260918_101234_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"hardwarefree-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"hardwarefree-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 1150 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789722751-hardwarefree-init",
+    "site_slug": "hardwarefree",
+    "site_name": "HardwareFree",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 1.24,
+    "timestamp": "2026-09-18T10:12:31.228763",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 2175,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260918_101231_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/hardwarefree ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789665918-egg-destroy",
+    "site_slug": "egg",
+    "site_name": "Egg",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 70.16,
+    "timestamp": "2026-09-17T18:25:18.697573",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 2175,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260917_182518_destroy_success.log",
+    "log_snippet": "netris_allocation.allocations[\"alloc-ns-mgmt\"]: Destroying... [id=150]\nnetris_allocation.allocations[\"alloc-oob\"]: Destroying... [id=152]\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destroying... [id=148]\nnetris_allocation.allocations[\"alloc-ew-loopbacks\"]: Destroying... [id=153]\nnetris_allocation.allocations[\"alloc-ew-loopbacks\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-oob\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-ns-mgmt\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-storage\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-ew-p2p\"]: Destruction complete after 1s\nnetris_site.site: Destroying... [id=18]\nnetris_site.site: Destruction complete after 0s\n\nDestroy complete! Resources: 2175 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789548162-test-deploy-delete_workspace",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-16T09:42:42.890383",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deploy"
+  },
+  {
+    "id": "evt-1789548160-4plane-site-test-delete_workspace",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-16T09:42:40.383577",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/4plane-site-test"
+  },
+  {
+    "id": "evt-1789508322-egg-apply",
+    "site_slug": "egg",
+    "site_name": "Egg",
+    "action": "apply",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 43.31,
+    "timestamp": "2026-09-15T22:38:42.137441",
+    "plan_summary": {
+      "add": 2178,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 2179,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_223842_apply_success.log",
+    "log_snippet": "netris_link.ew_switch_links[\"swp17@sw-egg-backend-plane4-spine02--swp57@sw-egg-backend-plane4-leaf03\"]: Creation complete after 0s [id=4151882640]\nnetris_link.ew_switch_links[\"swp4@sw-egg-backend-plane4-spine01--swp52@sw-egg-backend-plane4-leaf01\"]: Creating...\nnetris_link.ew_switch_links[\"swp10@sw-egg-backend-plane2-spine01--swp50@sw-egg-backend-plane2-leaf02\"]: Creation complete after 0s [id=4348247660]\nnetris_link.ew_switch_links[\"swp25@sw-egg-backend-plane1-spine01--swp49@sw-egg-backend-plane1-leaf04\"]: Creation complete after 0s [id=4082194440]\nnetris_link.ew_switch_links[\"swp61@sw-egg-backend-plane2-spine01--swp53@sw-egg-backend-plane2-leaf08\"]: Creation complete after 0s [id=4171588280]\nnetris_link.ew_switch_links[\"swp8@sw-egg-backend-plane2-spine01--swp56@sw-egg-backend-plane2-leaf01\"]: Creation complete after 0s [id=4208021452]\nnetris_link.ew_switch_links[\"swp8@sw-egg-backend-plane2-spine02--swp64@sw-egg-backend-plane2-leaf01\"]: Creation complete after 0s [id=4099379600]\nnetris_link.ew_switch_links[\"swp62@sw-egg-backend-plane4-spine02--swp62@sw-egg-backend-plane4-leaf08\"]: Creation complete after 0s [id=4173964248]\nnetris_link.ew_switch_links[\"swp58@sw-egg-backend-plane2-spine01--swp50@sw-egg-backend-plane2-leaf08\"]: Creation complete after 0s [id=4171040252]\nnetris_link.ew_switch_links[\"swp58@sw-egg-backend-plane1-spine01--swp50@sw-egg-backend-plane1-leaf08\"]: Creation complete after 0s [id=4153524300]\nnetris_link.ew_switch_links[\"swp48@sw-egg-backend-plane3-spine02--swp64@sw-egg-backend-plane3-leaf06\"]: Creation complete after 0s [id=4039476660]\nnetris_link.ew_switch_links[\"swp4@sw-egg-backend-plane4-spine01--swp52@sw-egg-backend-plane4-leaf01\"]: Creation complete after 0s [id=4266201220]\n\nApply complete! Resources: 2178 added, 0 changed, 0 destroyed.\n\n\u2713 'tofu apply' completed successfully."
+  },
+  {
+    "id": "evt-1789508272-egg-plan",
+    "site_slug": "egg",
+    "site_name": "Egg",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 2.02,
+    "timestamp": "2026-09-15T22:37:52.177419",
+    "plan_summary": {
+      "add": 2178,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_223752_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"egg-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"egg-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 2178 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789508268-egg-init",
+    "site_slug": "egg",
+    "site_name": "Egg",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.53,
+    "timestamp": "2026-09-15T22:37:48.541534",
+    "plan_summary": {
+      "add": 2180,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_223748_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/egg ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789508243-4plane-site-test-plan",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 2.01,
+    "timestamp": "2026-09-15T22:37:23.608722",
+    "plan_summary": {
+      "add": 2180,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_223723_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"4plane-site-test-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"4plane-site-test-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 2180 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789508240-4plane-site-test-init",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.44,
+    "timestamp": "2026-09-15T22:37:20.420040",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 2133,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_223720_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/4plane-site-test ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789508111-4plane-site-test-destroy",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 67.82,
+    "timestamp": "2026-09-15T22:35:11.762591",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 2133,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_223511_destroy_success.log",
+    "log_snippet": "netris_allocation.allocations[\"alloc-ew-p2p\"]: Destroying... [id=142]\nnetris_allocation.allocations[\"alloc-ew-loopbacks\"]: Destroying... [id=145]\nnetris_allocation.allocations[\"alloc-storage\"]: Destroying... [id=144]\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destroying... [id=146]\nnetris_allocation.allocations[\"alloc-storage\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-oob\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ns-mgmt\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ew-p2p\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ew-loopbacks\"]: Destruction complete after 1s\nnetris_site.site: Destroying... [id=17]\nnetris_site.site: Destruction complete after 0s\n\nDestroy complete! Resources: 2133 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789505101-4plane-site-test-apply",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "apply",
+    "status": "failed",
+    "exit_code": 1,
+    "duration_seconds": 43.44,
+    "timestamp": "2026-09-15T21:45:01.495124",
+    "plan_summary": {
+      "add": 2180,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 2134,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_214501_apply_failed.log",
+    "log_snippet": "\nError: {\"data\":null,\"errors\":{\"error\":\"Please choose a valid local port.\"},\"message\":\"Please choose a valid local port.\",\"isSuccess\":false,\"meta\":{\"apiVersion\":\"v2\",\"statusCode\":400}}\n\n  with netris_link.oob_switch_links[\"swp63@sw-4plane-site-test-oob-mgmt02--eth11@gpu-4plane-site-test-120\"],\n  on links_oob_switch.tf line 13, in resource \"netris_link\" \"oob_switch_links\":\n  13: resource \"netris_link\" \"oob_switch_links\" {\n\n\nError: {\"data\":null,\"errors\":{\"error\":\"Please choose a valid local port.\"},\"message\":\"Please choose a valid local port.\",\"isSuccess\":false,\"meta\":{\"apiVersion\":\"v2\",\"statusCode\":400}}\n\n  with netris_link.oob_switch_links[\"swp69@sw-4plane-site-test-oob-mgmt01--eth5@srv-4plane-site-test-storage03\"],\n  on links_oob_switch.tf line 13, in resource \"netris_link\" \"oob_switch_links\":\n  13: resource \"netris_link\" \"oob_switch_links\" {\n\n\n\u2717 'tofu apply' exited with code 1."
+  },
+  {
+    "id": "evt-1789505050-4plane-site-test-plan",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 1.98,
+    "timestamp": "2026-09-15T21:44:10.954572",
+    "plan_summary": {
+      "add": 2180,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_214410_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"4plane-site-test-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"4plane-site-test-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 2180 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789505047-4plane-site-test-init",
+    "site_slug": "4plane-site-test",
+    "site_name": "4plane-site-test",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.6,
+    "timestamp": "2026-09-15T21:44:07.202323",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_214407_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/4plane-site-test ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789504329-test-deploy-init",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.82,
+    "timestamp": "2026-09-15T21:32:09.282040",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_213209_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deploy ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789504143-4plane-test-delete_workspace",
+    "site_slug": "4plane-test",
+    "site_name": "4plane-test",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-15T21:29:03.048522",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/4plane-test"
+  },
+  {
+    "id": "evt-1789492712-msp02-delete_workspace",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-15T18:18:32.889858",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/msp02"
+  },
+  {
+    "id": "evt-1789492710-test-deploy-delete_workspace",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-15T18:18:30.839976",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deploy"
+  },
+  {
+    "id": "evt-1789492705-test-deploy-destroy",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 26.68,
+    "timestamp": "2026-09-15T18:18:25.324909",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 802,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_181825_destroy_success.log",
+    "log_snippet": "netris_allocation.allocations[\"alloc-oob\"]: Destroying... [id=124]\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destroying... [id=123]\nnetris_allocation.allocations[\"alloc-storage\"]: Destroying... [id=126]\nnetris_allocation.allocations[\"alloc-ns-mgmt\"]: Destroying... [id=125]\nnetris_allocation.allocations[\"alloc-ew-p2p\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-ew-loopbacks\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-oob\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-storage\"]: Destruction complete after 0s\nnetris_allocation.allocations[\"alloc-ns-mgmt\"]: Destruction complete after 0s\nnetris_site.site: Destroying... [id=15]\nnetris_site.site: Destruction complete after 0s\n\nDestroy complete! Resources: 802 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789492671-msp02-destroy",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 13.88,
+    "timestamp": "2026-09-15T18:17:51.833641",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 362,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_181751_destroy_success.log",
+    "log_snippet": "netris_allocation.allocations[\"alloc-ns-mgmt\"]: Destroying... [id=132]\nnetris_allocation.allocations[\"alloc-ew-p2p\"]: Destroying... [id=130]\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destroying... [id=129]\nnetris_allocation.allocations[\"alloc-storage\"]: Destroying... [id=128]\nnetris_allocation.allocations[\"alloc-ns-mgmt\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-storage\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ns-loopbacks\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ew-p2p\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-oob\"]: Destruction complete after 1s\nnetris_allocation.allocations[\"alloc-ew-loopbacks\"]: Destruction complete after 1s\nnetris_site.site: Destroying... [id=16]\nnetris_site.site: Destruction complete after 0s\n\nDestroy complete! Resources: 362 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789487156-msp02-apply",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "apply",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 8.19,
+    "timestamp": "2026-09-15T16:45:56.891802",
+    "plan_summary": {
+      "add": 362,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 363,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_164556_apply_success.log",
+    "log_snippet": "netris_link.ew_gpu_links[\"swp8@sw-msp02-backend-plane1-leaf03--eth8@gpu-msp02-003\"]: Creation complete after 0s [id=2739109814]\nnetris_link.ns_gpu_links[\"swp1@sw-msp02-frontend-leaf02--eth17@gpu-msp02-001\"]: Creating...\nnetris_link.ew_gpu_links[\"swp5@sw-msp02-backend-plane2-leaf01--eth13@gpu-msp02-001\"]: Creation complete after 0s [id=2773113414]\nnetris_link.ew_gpu_links[\"swp1@sw-msp02-backend-plane1-leaf01--eth1@gpu-msp02-001\"]: Creation complete after 0s [id=2781460594]\nnetris_link.ew_gpu_links[\"swp10@sw-msp02-backend-plane2-leaf02--eth10@gpu-msp02-006\"]: Creation complete after 0s [id=2723588911]\nnetris_link.ew_gpu_links[\"swp2@sw-msp02-backend-plane2-leaf04--eth10@gpu-msp02-004\"]: Creation complete after 0s [id=2787729175]\nnetris_link.ew_switch_links[\"swp28@sw-msp02-backend-plane1-spine02--swp60@sw-msp02-backend-plane1-leaf04\"]: Creation complete after 0s [id=2747109732]\nnetris_link.ns_gpu_links[\"swp6@sw-msp02-frontend-leaf01--eth17@gpu-msp02-006\"]: Creation complete after 0s [id=2741552936]\nnetris_link.ew_switch_links[\"swp13@sw-msp02-backend-plane2-spine01--swp53@sw-msp02-backend-plane2-leaf02\"]: Creation complete after 0s [id=2807476824]\nnetris_link.ew_gpu_links[\"swp6@sw-msp02-backend-plane2-leaf01--eth14@gpu-msp02-001\"]: Creation complete after 0s [id=2773262362]\nnetris_link.ew_switch_links[\"swp15@sw-msp02-backend-plane2-spine01--swp55@sw-msp02-backend-plane2-leaf02\"]: Creation complete after 0s [id=2807776564]\nnetris_link.ns_gpu_links[\"swp1@sw-msp02-frontend-leaf02--eth17@gpu-msp02-001\"]: Creation complete after 0s [id=2777881706]\n\nApply complete! Resources: 362 added, 0 changed, 0 destroyed.\n\n\u2713 'tofu apply' completed successfully."
+  },
+  {
+    "id": "evt-1789487141-msp02-plan",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.61,
+    "timestamp": "2026-09-15T16:45:41.809601",
+    "plan_summary": {
+      "add": 362,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_164541_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"msp02-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"msp02-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 362 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789487133-msp02-plan",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.75,
+    "timestamp": "2026-09-15T16:45:33.119949",
+    "plan_summary": {
+      "add": 362,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_164533_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"msp02-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"msp02-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 362 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789487128-msp02-init",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.52,
+    "timestamp": "2026-09-15T16:45:28.993220",
+    "plan_summary": {
+      "add": 802,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_164528_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/msp02 ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789486780-test-deploy-apply",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "apply",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 16.81,
+    "timestamp": "2026-09-15T16:39:40.679203",
+    "plan_summary": {
+      "add": 802,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 803,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_163940_apply_success.log",
+    "log_snippet": "netris_link.ew_switch_links[\"swp17@sw-test-deploy-backend-plane3-spine01--swp49@sw-test-deploy-backend-plane3-leaf03\"]: Creation complete after 0s [id=2578840248]\nnetris_link.ew_switch_links[\"swp4@sw-test-deploy-backend-plane1-spine01--swp52@sw-test-deploy-backend-plane1-leaf01\"]: Creating...\nnetris_link.ew_switch_links[\"swp16@sw-test-deploy-backend-plane1-spine01--swp56@sw-test-deploy-backend-plane1-leaf02\"]: Creation complete after 0s [id=2476883396]\nnetris_link.ew_switch_links[\"swp30@sw-test-deploy-backend-plane2-spine01--swp54@sw-test-deploy-backend-plane2-leaf04\"]: Creation complete after 0s [id=2478853760]\nnetris_link.ew_switch_links[\"swp7@sw-test-deploy-backend-plane2-spine02--swp63@sw-test-deploy-backend-plane2-leaf01\"]: Creation complete after 0s [id=2398543120]\nnetris_link.ew_switch_links[\"swp31@sw-test-deploy-backend-plane4-spine01--swp55@sw-test-deploy-backend-plane4-leaf04\"]: Creation complete after 0s [id=2549337816]\nnetris_link.ew_switch_links[\"swp13@sw-test-deploy-backend-plane3-spine01--swp53@sw-test-deploy-backend-plane3-leaf02\"]: Creation complete after 0s [id=2588041084]\nnetris_link.ew_switch_links[\"swp12@sw-test-deploy-backend-plane3-spine02--swp60@sw-test-deploy-backend-plane3-leaf02\"]: Creation complete after 0s [id=2519861096]\nnetris_link.ew_switch_links[\"swp8@sw-test-deploy-backend-plane1-spine02--swp64@sw-test-deploy-backend-plane1-leaf01\"]: Creation complete after 0s [id=2616176332]\nnetris_link.ew_switch_links[\"swp25@sw-test-deploy-backend-plane4-spine01--swp49@sw-test-deploy-backend-plane4-leaf04\"]: Creation complete after 1s [id=2548481028]\nnetris_link.ew_switch_links[\"swp8@sw-test-deploy-backend-plane4-spine02--swp64@sw-test-deploy-backend-plane4-leaf01\"]: Creation complete after 1s [id=2579271820]\nnetris_link.ew_switch_links[\"swp4@sw-test-deploy-backend-plane1-spine01--swp52@sw-test-deploy-backend-plane1-leaf01\"]: Creation complete after 1s [id=2556340128]\n\nApply complete! Resources: 802 added, 0 changed, 0 destroyed.\n\n\u2713 'tofu apply' completed successfully."
+  },
+  {
+    "id": "evt-1789486757-test-deploy-plan",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.86,
+    "timestamp": "2026-09-15T16:39:17.547821",
+    "plan_summary": {
+      "add": 802,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_163917_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"test-deploy-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"test-deploy-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 802 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  },
+  {
+    "id": "evt-1789486754-test-deploy-init",
+    "site_slug": "test-deploy",
+    "site_name": "Test-Deploy",
+    "action": "init",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.73,
+    "timestamp": "2026-09-15T16:39:14.350411",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_163914_init_success.log",
+    "log_snippet": "=== Starting 'tofu init' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deploy ===\n$ /opt/homebrew/bin/tofu init -no-color -backend=false -get=false\n\n\nInitializing provider plugins...\n- Reusing previous version of netrisai/netris from the dependency lock file\n- Using previously-installed netrisai/netris v3.6.21\n\nOpenTofu has been successfully initialized!\n\n\u2713 'tofu init' completed successfully."
+  },
+  {
+    "id": "evt-1789485354-elt-delete_workspace",
+    "site_slug": "elt",
+    "site_name": "ELT",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-15T16:15:54.426003",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/elt"
+  },
+  {
+    "id": "evt-1789485347-elt-destroy",
+    "site_slug": "elt",
+    "site_name": "ELT",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.23,
+    "timestamp": "2026-09-15T16:15:47.723860",
+    "plan_summary": {
+      "add": 754,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_161547_destroy_success.log",
+    "log_snippet": "=== Starting 'tofu destroy' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/elt ===\n$ /opt/homebrew/bin/tofu destroy -auto-approve -parallelism=20 -no-color\n\n\nNo changes. No objects need to be destroyed.\n\nEither you have not created any objects yet or the existing objects were\nalready deleted outside of OpenTofu.\n\nDestroy complete! Resources: 0 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789485343-msp02-delete_workspace",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-15T16:15:43.434368",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/msp02"
+  },
+  {
+    "id": "evt-1789485339-msp02-destroy",
+    "site_slug": "msp02",
+    "site_name": "MSP02",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.28,
+    "timestamp": "2026-09-15T16:15:39.554503",
+    "plan_summary": {
+      "add": 754,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_161539_destroy_success.log",
+    "log_snippet": "=== Starting 'tofu destroy' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/msp02 ===\n$ /opt/homebrew/bin/tofu destroy -auto-approve -parallelism=20 -no-color\n\n\nNo changes. No objects need to be destroyed.\n\nEither you have not created any objects yet or the existing objects were\nalready deleted outside of OpenTofu.\n\nDestroy complete! Resources: 0 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789485331-test-deployment-delete_workspace",
+    "site_slug": "test-deployment",
+    "site_name": "Test-Deployment",
+    "action": "delete_workspace",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.1,
+    "timestamp": "2026-09-15T16:15:31.938940",
+    "plan_summary": {
+      "add": 0,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": false
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "",
+    "log_snippet": "Deleted deployment directory /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deployment"
+  },
+  {
+    "id": "evt-1789485324-test-deployment-destroy",
+    "site_slug": "test-deployment",
+    "site_name": "Test-Deployment",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.36,
+    "timestamp": "2026-09-15T16:15:24.320799",
+    "plan_summary": {
+      "add": 754,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_161524_destroy_success.log",
+    "log_snippet": "=== Starting 'tofu destroy' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deployment ===\n$ /opt/homebrew/bin/tofu destroy -auto-approve -parallelism=20 -no-color\n\n\nNo changes. No objects need to be destroyed.\n\nEither you have not created any objects yet or the existing objects were\nalready deleted outside of OpenTofu.\n\nDestroy complete! Resources: 0 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789485198-test-deployment-destroy",
+    "site_slug": "test-deployment",
+    "site_name": "Test-Deployment",
+    "action": "destroy",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.37,
+    "timestamp": "2026-09-15T16:13:18.175129",
+    "plan_summary": {
+      "add": 754,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_161318_destroy_success.log",
+    "log_snippet": "=== Starting 'tofu destroy' in /Users/adam/Documents/Antigravity/Netris Terraform/fabric-builder-ui/backend/deployments/test-deployment ===\n$ /opt/homebrew/bin/tofu destroy -auto-approve -parallelism=20 -no-color\n\n\nNo changes. No objects need to be destroyed.\n\nEither you have not created any objects yet or the existing objects were\nalready deleted outside of OpenTofu.\n\nDestroy complete! Resources: 0 destroyed.\n\n\u2713 'tofu destroy' completed successfully."
+  },
+  {
+    "id": "evt-1789483755-test-deployment-plan",
+    "site_slug": "test-deployment",
+    "site_name": "Test-Deployment",
+    "action": "plan",
+    "status": "success",
+    "exit_code": 0,
+    "duration_seconds": 0.97,
+    "timestamp": "2026-09-15T15:49:15.769387",
+    "plan_summary": {
+      "add": 754,
+      "change": 0,
+      "destroy": 0,
+      "has_plan": true
+    },
+    "resource_count": 0,
+    "controller_url": "https://adam-ctl.netris.io",
+    "log_file": "logs/20260915_154915_plan_success.log",
+    "log_snippet": "  + resource \"netris_vpc\" \"oob_mgmt\" {\n      + id       = (known after apply)\n      + name     = \"test-deployment-oob-mgmt\"\n      + tenantid = 1\n    }\n\n  # netris_vpc.storage will be created\n  + resource \"netris_vpc\" \"storage\" {\n      + id       = (known after apply)\n      + name     = \"test-deployment-storage-vpc\"\n      + tenantid = 1\n    }\n\nPlan: 754 to add, 0 to change, 0 to destroy.\n\n\u2713 'tofu plan' completed successfully."
+  }
+]

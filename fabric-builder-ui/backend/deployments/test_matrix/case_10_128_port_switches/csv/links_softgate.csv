@@ -1,0 +1,5 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-128p-border-gw01,eth1,sw-test-128p-frontend-leaf01,swp126
+sg-test-128p-border-gw01,eth2,sw-test-128p-frontend-leaf02,swp126
+sg-test-128p-border-gw02,eth1,sw-test-128p-frontend-leaf01,swp125
+sg-test-128p-border-gw02,eth2,sw-test-128p-frontend-leaf02,swp125

@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-128gpu-fabric-border-gw01,eth1,sw-test-128gpu-fabric-frontend-leaf01,swp62
+sg-test-128gpu-fabric-border-gw01,eth2,sw-test-128gpu-fabric-frontend-leaf02,swp62
+sg-test-128gpu-fabric-border-gw02,eth1,sw-test-128gpu-fabric-frontend-leaf03,swp62
+sg-test-128gpu-fabric-border-gw02,eth2,sw-test-128gpu-fabric-frontend-leaf04,swp62
+sg-test-128gpu-fabric-border-gw03,eth1,sw-test-128gpu-fabric-frontend-leaf05,swp62
+sg-test-128gpu-fabric-border-gw03,eth2,sw-test-128gpu-fabric-frontend-leaf06,swp62
+sg-test-128gpu-fabric-border-gw04,eth1,sw-test-128gpu-fabric-frontend-leaf01,swp61
+sg-test-128gpu-fabric-border-gw04,eth2,sw-test-128gpu-fabric-frontend-leaf02,swp61

@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-qp-max-border-gw01,eth1,sw-test-qp-max-frontend-leaf01,swp62
+sg-test-qp-max-border-gw01,eth2,sw-test-qp-max-frontend-leaf02,swp62
+sg-test-qp-max-border-gw02,eth1,sw-test-qp-max-frontend-leaf01,swp61
+sg-test-qp-max-border-gw02,eth2,sw-test-qp-max-frontend-leaf02,swp61
+sg-test-qp-max-border-gw03,eth1,sw-test-qp-max-frontend-leaf01,swp60
+sg-test-qp-max-border-gw03,eth2,sw-test-qp-max-frontend-leaf02,swp60
+sg-test-qp-max-border-gw04,eth1,sw-test-qp-max-frontend-leaf01,swp59
+sg-test-qp-max-border-gw04,eth2,sw-test-qp-max-frontend-leaf02,swp59

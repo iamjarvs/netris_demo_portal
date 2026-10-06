@@ -1,0 +1,9 @@
+{
+  "remote_host": "ubuntu@adam-ctl.netris.io",
+  "remote_path": "~/netris-init/netris-spectrum-x-init",
+  "netris_url": "https://adam-ctl.netris.io",
+  "netris_username": "netris",
+  "netris_password": "913QGAi6oQTSGgZm20eU",
+  "ssh_user": "ubuntu",
+  "notes": "Remote Spectrum-X Day-0 Terraform deployment directory on Netris Controller"
+}

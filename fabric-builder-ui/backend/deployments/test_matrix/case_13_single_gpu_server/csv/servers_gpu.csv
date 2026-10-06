@@ -1,0 +1,2 @@
+name,description,portcount
+gpu-test-1gpu-001,NVIDIA HGX H100/H200/B200 Node 001 (16 RoCE + 1 NS + 1 OOB),18

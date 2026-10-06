@@ -1,0 +1,5 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-no-opt-border-gw01,eth1,sw-test-no-opt-frontend-leaf01,swp62
+sg-test-no-opt-border-gw01,eth2,sw-test-no-opt-frontend-leaf02,swp62
+sg-test-no-opt-border-gw02,eth1,sw-test-no-opt-frontend-leaf01,swp61
+sg-test-no-opt-border-gw02,eth2,sw-test-no-opt-frontend-leaf02,swp61

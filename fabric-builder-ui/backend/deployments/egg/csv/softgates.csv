@@ -1,0 +1,5 @@
+index,name,description,mainip,mgmtip,role
+1,sg-egg-border-gw01,"Border Gateway — SoftGate 01 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.6.13,172.16.7.53,general
+2,sg-egg-border-gw02,"Border Gateway — SoftGate 02 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.6.14,172.16.7.54,general
+3,sg-egg-border-gw03,"Border Gateway — SoftGate 03 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.6.15,172.16.7.55,general
+4,sg-egg-border-gw04,"Border Gateway — SoftGate 04 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.6.16,172.16.7.56,general

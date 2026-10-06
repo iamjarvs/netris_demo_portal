@@ -1,0 +1,17 @@
+leaf,leaf_port,gpu,gpu_port
+sw-test-spec-x-frontend-leaf01,swp1,gpu-test-spec-x-001,eth9
+sw-test-spec-x-frontend-leaf02,swp1,gpu-test-spec-x-001,eth10
+sw-test-spec-x-frontend-leaf01,swp2,gpu-test-spec-x-002,eth9
+sw-test-spec-x-frontend-leaf02,swp2,gpu-test-spec-x-002,eth10
+sw-test-spec-x-frontend-leaf01,swp3,gpu-test-spec-x-003,eth9
+sw-test-spec-x-frontend-leaf02,swp3,gpu-test-spec-x-003,eth10
+sw-test-spec-x-frontend-leaf01,swp4,gpu-test-spec-x-004,eth9
+sw-test-spec-x-frontend-leaf02,swp4,gpu-test-spec-x-004,eth10
+sw-test-spec-x-frontend-leaf01,swp5,gpu-test-spec-x-005,eth9
+sw-test-spec-x-frontend-leaf02,swp5,gpu-test-spec-x-005,eth10
+sw-test-spec-x-frontend-leaf01,swp6,gpu-test-spec-x-006,eth9
+sw-test-spec-x-frontend-leaf02,swp6,gpu-test-spec-x-006,eth10
+sw-test-spec-x-frontend-leaf01,swp7,gpu-test-spec-x-007,eth9
+sw-test-spec-x-frontend-leaf02,swp7,gpu-test-spec-x-007,eth10
+sw-test-spec-x-frontend-leaf01,swp8,gpu-test-spec-x-008,eth9
+sw-test-spec-x-frontend-leaf02,swp8,gpu-test-spec-x-008,eth10

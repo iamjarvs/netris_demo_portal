@@ -1,0 +1,13 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-hardwarefree-frontend-spine01,swp1,sw-hardwarefree-frontend-leaf01,swp31
+sw-hardwarefree-frontend-spine01,swp2,sw-hardwarefree-frontend-leaf02,swp31
+sw-hardwarefree-frontend-spine01,swp3,sw-hardwarefree-frontend-leaf03,swp31
+sw-hardwarefree-frontend-spine01,swp4,sw-hardwarefree-frontend-leaf04,swp31
+sw-hardwarefree-frontend-spine01,swp5,sw-hardwarefree-frontend-leaf05,swp31
+sw-hardwarefree-frontend-spine01,swp6,sw-hardwarefree-frontend-leaf06,swp31
+sw-hardwarefree-frontend-spine02,swp1,sw-hardwarefree-frontend-leaf01,swp32
+sw-hardwarefree-frontend-spine02,swp2,sw-hardwarefree-frontend-leaf02,swp32
+sw-hardwarefree-frontend-spine02,swp3,sw-hardwarefree-frontend-leaf03,swp32
+sw-hardwarefree-frontend-spine02,swp4,sw-hardwarefree-frontend-leaf04,swp32
+sw-hardwarefree-frontend-spine02,swp5,sw-hardwarefree-frontend-leaf05,swp32
+sw-hardwarefree-frontend-spine02,swp6,sw-hardwarefree-frontend-leaf06,swp32

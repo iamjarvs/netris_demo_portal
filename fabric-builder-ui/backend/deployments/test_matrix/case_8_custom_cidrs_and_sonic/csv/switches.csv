@@ -1,0 +1,21 @@
+index,name,profile,asn,portcount,description,loopback,mgmtip,role
+1,sw-test-sonic-backend-plane1-spine01,ew_profile_pl1,4200100000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 01 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",10.200.0.1,10.200.2.1,spine
+2,sw-test-sonic-backend-plane1-spine02,ew_profile_pl1,4200100000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 02 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",10.200.0.2,10.200.2.2,spine
+3,sw-test-sonic-backend-plane1-leaf01,ew_profile_pl1,4200100003,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.3,10.200.2.3,leaf
+4,sw-test-sonic-backend-plane1-leaf02,ew_profile_pl1,4200100004,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 02 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.4,10.200.2.4,leaf
+5,sw-test-sonic-backend-plane1-leaf03,ew_profile_pl1,4200100005,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 03 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.5,10.200.2.5,leaf
+6,sw-test-sonic-backend-plane1-leaf04,ew_profile_pl1,4200100006,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 04 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.6,10.200.2.6,leaf
+7,sw-test-sonic-backend-plane2-spine01,ew_profile_pl2,4200100000,64,"Backend Spectrum-X AI Fabric — Plane 2 Spine 01 (Aggregates Plane 2 Leaves for East-West RoCE GPU Interconnect)",10.200.0.7,10.200.2.7,spine
+8,sw-test-sonic-backend-plane2-spine02,ew_profile_pl2,4200100000,64,"Backend Spectrum-X AI Fabric — Plane 2 Spine 02 (Aggregates Plane 2 Leaves for East-West RoCE GPU Interconnect)",10.200.0.8,10.200.2.8,spine
+9,sw-test-sonic-backend-plane2-leaf01,ew_profile_pl2,4200100009,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.9,10.200.2.9,leaf
+10,sw-test-sonic-backend-plane2-leaf02,ew_profile_pl2,4200100010,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 02 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.10,10.200.2.10,leaf
+11,sw-test-sonic-backend-plane2-leaf03,ew_profile_pl2,4200100011,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 03 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.11,10.200.2.11,leaf
+12,sw-test-sonic-backend-plane2-leaf04,ew_profile_pl2,4200100012,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 04 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",10.200.0.12,10.200.2.12,leaf
+13,sw-test-sonic-frontend-spine01,ns_profile,4200100013,64,"Frontend North-South Fabric — Spine 01 (Aggregates Frontend & In-Band Management Leaves and Core Routing)",10.200.1.1,10.200.2.13,spine
+14,sw-test-sonic-frontend-spine02,ns_profile,4200100014,64,"Frontend North-South Fabric — Spine 02 (Aggregates Frontend & In-Band Management Leaves and Core Routing)",10.200.1.2,10.200.2.14,spine
+15,sw-test-sonic-frontend-leaf01,ns_profile,4200100015,64,"Frontend North-South Fabric — Leaf 01 (GPU In-Band Mgmt, Cluster Services & SoftGate Border Uplinks)",10.200.1.3,10.200.2.15,leaf
+16,sw-test-sonic-frontend-leaf02,ns_profile,4200100016,64,"Frontend North-South Fabric — Leaf 02 (GPU In-Band Mgmt, Cluster Services & SoftGate Border Uplinks)",10.200.1.4,10.200.2.16,leaf
+17,sw-test-sonic-storage-leaf01,ns_profile,4200100017,64,"Storage Network — Leaf 01 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",10.200.1.5,10.200.2.17,leaf
+18,sw-test-sonic-storage-leaf02,ns_profile,4200100018,64,"Storage Network — Leaf 02 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",10.200.1.6,10.200.2.18,leaf
+19,sw-test-sonic-oob-mgmt01,oob_profile,4200100019,48,"Out-of-Band (OOB) Management — Switch 01 (Dedicated 1G/10G Network for IPMI, BMC, Switch Consoles & Telemetry)",10.200.1.7,10.200.2.19,leaf
+20,sw-test-sonic-oob-mgmt02,oob_profile,4200100020,48,"Out-of-Band (OOB) Management — Switch 02 (Dedicated 1G/10G Network for IPMI, BMC, Switch Consoles & Telemetry)",10.200.1.8,10.200.2.20,leaf

@@ -1,0 +1,3 @@
+leaf,leaf_port,gpu,gpu_port
+sw-test-1str-1srv-frontend-leaf01,swp1,gpu-test-1str-1srv-001,eth9
+sw-test-1str-1srv-frontend-leaf01,swp2,gpu-test-1str-1srv-002,eth9

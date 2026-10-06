@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-hardwarefree-border-gw01,eth1,sw-hardwarefree-frontend-leaf01,swp30
+sg-hardwarefree-border-gw01,eth2,sw-hardwarefree-frontend-leaf02,swp30
+sg-hardwarefree-border-gw02,eth1,sw-hardwarefree-frontend-leaf03,swp30
+sg-hardwarefree-border-gw02,eth2,sw-hardwarefree-frontend-leaf04,swp30
+sg-hardwarefree-border-gw03,eth1,sw-hardwarefree-frontend-leaf05,swp30
+sg-hardwarefree-border-gw03,eth2,sw-hardwarefree-frontend-leaf06,swp30
+sg-hardwarefree-border-gw04,eth1,sw-hardwarefree-frontend-leaf01,swp29
+sg-hardwarefree-border-gw04,eth2,sw-hardwarefree-frontend-leaf02,swp29

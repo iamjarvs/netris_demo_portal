@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-test-128gpu-fabric-inband-mgmt,100,management
+vnet-test-128gpu-fabric-storage,200,storage
+vnet-test-128gpu-fabric-oob,10,oob_management

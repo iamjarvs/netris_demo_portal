@@ -1,0 +1,59 @@
+index,name,profile,asn,portcount,description,loopback,mgmtip,role
+1,sw-test-qp-max-backend-plane1-spine01,ew_profile_pl1,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 01 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",172.16.0.1,172.16.2.1,spine
+2,sw-test-qp-max-backend-plane1-spine02,ew_profile_pl1,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 02 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",172.16.0.2,172.16.2.2,spine
+3,sw-test-qp-max-backend-plane1-spine03,ew_profile_pl1,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 03 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",172.16.0.3,172.16.2.3,spine
+4,sw-test-qp-max-backend-plane1-spine04,ew_profile_pl1,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 1 Spine 04 (Aggregates Plane 1 Leaves for East-West RoCE GPU Interconnect)",172.16.0.4,172.16.2.4,spine
+5,sw-test-qp-max-backend-plane1-leaf01,ew_profile_pl1,4200000005,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.5,172.16.2.5,leaf
+6,sw-test-qp-max-backend-plane1-leaf02,ew_profile_pl1,4200000006,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 02 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.6,172.16.2.6,leaf
+7,sw-test-qp-max-backend-plane1-leaf03,ew_profile_pl1,4200000007,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 03 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.7,172.16.2.7,leaf
+8,sw-test-qp-max-backend-plane1-leaf04,ew_profile_pl1,4200000008,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 04 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.8,172.16.2.8,leaf
+9,sw-test-qp-max-backend-plane1-leaf05,ew_profile_pl1,4200000009,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 05 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.9,172.16.2.9,leaf
+10,sw-test-qp-max-backend-plane1-leaf06,ew_profile_pl1,4200000010,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 06 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.10,172.16.2.10,leaf
+11,sw-test-qp-max-backend-plane1-leaf07,ew_profile_pl1,4200000011,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 07 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.11,172.16.2.11,leaf
+12,sw-test-qp-max-backend-plane1-leaf08,ew_profile_pl1,4200000012,64,"Backend Spectrum-X AI Fabric — Plane 1 Leaf 08 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.12,172.16.2.12,leaf
+13,sw-test-qp-max-backend-plane2-spine01,ew_profile_pl2,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 2 Spine 01 (Aggregates Plane 2 Leaves for East-West RoCE GPU Interconnect)",172.16.0.13,172.16.2.13,spine
+14,sw-test-qp-max-backend-plane2-spine02,ew_profile_pl2,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 2 Spine 02 (Aggregates Plane 2 Leaves for East-West RoCE GPU Interconnect)",172.16.0.14,172.16.2.14,spine
+15,sw-test-qp-max-backend-plane2-spine03,ew_profile_pl2,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 2 Spine 03 (Aggregates Plane 2 Leaves for East-West RoCE GPU Interconnect)",172.16.0.15,172.16.2.15,spine
+16,sw-test-qp-max-backend-plane2-spine04,ew_profile_pl2,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 2 Spine 04 (Aggregates Plane 2 Leaves for East-West RoCE GPU Interconnect)",172.16.0.16,172.16.2.16,spine
+17,sw-test-qp-max-backend-plane2-leaf01,ew_profile_pl2,4200000017,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.17,172.16.2.17,leaf
+18,sw-test-qp-max-backend-plane2-leaf02,ew_profile_pl2,4200000018,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 02 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.18,172.16.2.18,leaf
+19,sw-test-qp-max-backend-plane2-leaf03,ew_profile_pl2,4200000019,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 03 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.19,172.16.2.19,leaf
+20,sw-test-qp-max-backend-plane2-leaf04,ew_profile_pl2,4200000020,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 04 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.20,172.16.2.20,leaf
+21,sw-test-qp-max-backend-plane2-leaf05,ew_profile_pl2,4200000021,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 05 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.21,172.16.2.21,leaf
+22,sw-test-qp-max-backend-plane2-leaf06,ew_profile_pl2,4200000022,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 06 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.22,172.16.2.22,leaf
+23,sw-test-qp-max-backend-plane2-leaf07,ew_profile_pl2,4200000023,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 07 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.23,172.16.2.23,leaf
+24,sw-test-qp-max-backend-plane2-leaf08,ew_profile_pl2,4200000024,64,"Backend Spectrum-X AI Fabric — Plane 2 Leaf 08 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.24,172.16.2.24,leaf
+25,sw-test-qp-max-backend-plane3-spine01,ew_profile_pl3,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 3 Spine 01 (Aggregates Plane 3 Leaves for East-West RoCE GPU Interconnect)",172.16.0.25,172.16.2.25,spine
+26,sw-test-qp-max-backend-plane3-spine02,ew_profile_pl3,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 3 Spine 02 (Aggregates Plane 3 Leaves for East-West RoCE GPU Interconnect)",172.16.0.26,172.16.2.26,spine
+27,sw-test-qp-max-backend-plane3-spine03,ew_profile_pl3,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 3 Spine 03 (Aggregates Plane 3 Leaves for East-West RoCE GPU Interconnect)",172.16.0.27,172.16.2.27,spine
+28,sw-test-qp-max-backend-plane3-spine04,ew_profile_pl3,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 3 Spine 04 (Aggregates Plane 3 Leaves for East-West RoCE GPU Interconnect)",172.16.0.28,172.16.2.28,spine
+29,sw-test-qp-max-backend-plane3-leaf01,ew_profile_pl3,4200000029,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.29,172.16.2.29,leaf
+30,sw-test-qp-max-backend-plane3-leaf02,ew_profile_pl3,4200000030,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 02 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.30,172.16.2.30,leaf
+31,sw-test-qp-max-backend-plane3-leaf03,ew_profile_pl3,4200000031,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 03 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.31,172.16.2.31,leaf
+32,sw-test-qp-max-backend-plane3-leaf04,ew_profile_pl3,4200000032,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 04 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.32,172.16.2.32,leaf
+33,sw-test-qp-max-backend-plane3-leaf05,ew_profile_pl3,4200000033,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 05 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.33,172.16.2.33,leaf
+34,sw-test-qp-max-backend-plane3-leaf06,ew_profile_pl3,4200000034,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 06 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.34,172.16.2.34,leaf
+35,sw-test-qp-max-backend-plane3-leaf07,ew_profile_pl3,4200000035,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 07 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.35,172.16.2.35,leaf
+36,sw-test-qp-max-backend-plane3-leaf08,ew_profile_pl3,4200000036,64,"Backend Spectrum-X AI Fabric — Plane 3 Leaf 08 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.36,172.16.2.36,leaf
+37,sw-test-qp-max-backend-plane4-spine01,ew_profile_pl4,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 4 Spine 01 (Aggregates Plane 4 Leaves for East-West RoCE GPU Interconnect)",172.16.0.37,172.16.2.37,spine
+38,sw-test-qp-max-backend-plane4-spine02,ew_profile_pl4,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 4 Spine 02 (Aggregates Plane 4 Leaves for East-West RoCE GPU Interconnect)",172.16.0.38,172.16.2.38,spine
+39,sw-test-qp-max-backend-plane4-spine03,ew_profile_pl4,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 4 Spine 03 (Aggregates Plane 4 Leaves for East-West RoCE GPU Interconnect)",172.16.0.39,172.16.2.39,spine
+40,sw-test-qp-max-backend-plane4-spine04,ew_profile_pl4,4200000000,64,"Backend Spectrum-X AI Fabric — Plane 4 Spine 04 (Aggregates Plane 4 Leaves for East-West RoCE GPU Interconnect)",172.16.0.40,172.16.2.40,spine
+41,sw-test-qp-max-backend-plane4-leaf01,ew_profile_pl4,4200000041,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 01 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.41,172.16.2.41,leaf
+42,sw-test-qp-max-backend-plane4-leaf02,ew_profile_pl4,4200000042,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 02 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.42,172.16.2.42,leaf
+43,sw-test-qp-max-backend-plane4-leaf03,ew_profile_pl4,4200000043,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 03 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.43,172.16.2.43,leaf
+44,sw-test-qp-max-backend-plane4-leaf04,ew_profile_pl4,4200000044,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 04 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.44,172.16.2.44,leaf
+45,sw-test-qp-max-backend-plane4-leaf05,ew_profile_pl4,4200000045,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 05 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.45,172.16.2.45,leaf
+46,sw-test-qp-max-backend-plane4-leaf06,ew_profile_pl4,4200000046,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 06 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.46,172.16.2.46,leaf
+47,sw-test-qp-max-backend-plane4-leaf07,ew_profile_pl4,4200000047,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 07 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.47,172.16.2.47,leaf
+48,sw-test-qp-max-backend-plane4-leaf08,ew_profile_pl4,4200000048,64,"Backend Spectrum-X AI Fabric — Plane 4 Leaf 08 (Dedicated RoCE Compute Access Leaf for GPU Fleet)",172.16.0.48,172.16.2.48,leaf
+49,sw-test-qp-max-frontend-spine01,ns_profile,4200000049,64,"Frontend North-South Fabric — Spine 01 (Aggregates Frontend & In-Band Management Leaves and Core Routing)",172.16.1.1,172.16.2.49,spine
+50,sw-test-qp-max-frontend-spine02,ns_profile,4200000050,64,"Frontend North-South Fabric — Spine 02 (Aggregates Frontend & In-Band Management Leaves and Core Routing)",172.16.1.2,172.16.2.50,spine
+51,sw-test-qp-max-frontend-leaf01,ns_profile,4200000051,64,"Frontend North-South Fabric — Leaf 01 (GPU In-Band Mgmt, Cluster Services & SoftGate Border Uplinks)",172.16.1.3,172.16.2.51,leaf
+52,sw-test-qp-max-frontend-leaf02,ns_profile,4200000052,64,"Frontend North-South Fabric — Leaf 02 (GPU In-Band Mgmt, Cluster Services & SoftGate Border Uplinks)",172.16.1.4,172.16.2.52,leaf
+53,sw-test-qp-max-storage-leaf01,ns_profile,4200000053,64,"Storage Network — Leaf 01 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",172.16.1.5,172.16.2.53,leaf
+54,sw-test-qp-max-storage-leaf02,ns_profile,4200000054,64,"Storage Network — Leaf 02 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",172.16.1.6,172.16.2.54,leaf
+55,sw-test-qp-max-storage-leaf03,ns_profile,4200000055,64,"Storage Network — Leaf 03 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",172.16.1.7,172.16.2.55,leaf
+56,sw-test-qp-max-storage-leaf04,ns_profile,4200000056,64,"Storage Network — Leaf 04 (Dedicated NVMe-oF RoCE Storage Leaf connecting Storage Nodes & GPU Fleet)",172.16.1.8,172.16.2.56,leaf
+57,sw-test-qp-max-oob-mgmt01,oob_profile,4200000057,48,"Out-of-Band (OOB) Management — Switch 01 (Dedicated 1G/10G Network for IPMI, BMC, Switch Consoles & Telemetry)",172.16.1.9,172.16.2.57,leaf
+58,sw-test-qp-max-oob-mgmt02,oob_profile,4200000058,48,"Out-of-Band (OOB) Management — Switch 02 (Dedicated 1G/10G Network for IPMI, BMC, Switch Consoles & Telemetry)",172.16.1.10,172.16.2.58,leaf

@@ -108,7 +108,7 @@ async def terminal_websocket(websocket: WebSocket, tool_id: str):
         return
 
     cwd = str(meta["cwd"])
-    cmd = meta.get("default_args", ["./run.sh"])
+    cmd = meta.get("cli_args") or meta.get("default_args", ["./run.sh"])
 
     master_fd, slave_fd = pty.openpty()
 

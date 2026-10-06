@@ -1,0 +1,48 @@
+{
+  "id": "chl2-single-plane",
+  "name": "CHL2 Single-Plane Standard Fabric",
+  "description": "Standard single-plane East-West Clos fabric with 32-port switches for compact AI training or inference clusters.",
+  "created_at": "2026-09-14T00:00:00Z",
+  "updated_at": "2026-09-14T00:00:00Z",
+  "config": {
+    "site_name": "CHL02",
+    "planes_count": 1,
+    "ew_spines_per_plane": 2,
+    "ew_leaves_per_plane": 2,
+    "switch_port_count": 32,
+    "nos": "cumulus_nvue",
+    "softgate_flavor": "sg-std",
+    "public_asn": 65520,
+    "roh_asn": 65521,
+    "switch_asn_base": 4200200000,
+    "gpu_count": 4,
+    "gpu_roce_ports": 8,
+    "gpu_ns_ports": 2,
+    "ns_spines": 2,
+    "ns_leaves": 2,
+    "softgate_count": 2,
+    "enable_storage": false,
+    "storage_leaves": 2,
+    "storage_servers": 2,
+    "storage_subnet": "10.202.0.0/24",
+    "enable_oob": true,
+    "oob_switches": 2,
+    "oob_subnet": "10.12.0.0/24",
+    "ew_loopback_subnet": "10.251.128.0/24",
+    "ew_p2p_allocation": "10.251.0.0/16",
+    "ns_loopback_subnet": "10.27.105.0/24",
+    "ns_mgmt_subnet": "10.102.0.0/24",
+    "controller_address": "https://adam-ctl.netris.io",
+    "controller_login": "netris",
+    "controller_password": "913QGAi6oQTSGgZm20eU",
+    "timezone": "Etc/GMT",
+    "ntp_servers": [
+      "1.pool.ntp.org",
+      "2.pool.ntp.org"
+    ],
+    "dns_servers": [
+      "1.1.1.1",
+      "8.8.8.8"
+    ]
+  }
+}

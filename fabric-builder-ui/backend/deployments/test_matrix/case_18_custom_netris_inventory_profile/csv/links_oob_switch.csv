@@ -1,0 +1,13 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-cust-prof-oob-mgmt01,swp47,sw-test-cust-prof-oob-mgmt02,swp47
+sw-test-cust-prof-oob-mgmt01,swp48,sw-test-cust-prof-oob-mgmt02,swp48
+sw-test-cust-prof-oob-mgmt01,swp1,srv-test-cust-prof-cp01,eth1
+sw-test-cust-prof-oob-mgmt02,swp1,srv-test-cust-prof-cp01,eth2
+sw-test-cust-prof-oob-mgmt01,swp2,srv-test-cust-prof-cp02,eth1
+sw-test-cust-prof-oob-mgmt02,swp2,srv-test-cust-prof-cp02,eth2
+sw-test-cust-prof-oob-mgmt01,swp3,srv-test-cust-prof-cp03,eth1
+sw-test-cust-prof-oob-mgmt02,swp3,srv-test-cust-prof-cp03,eth2
+sw-test-cust-prof-oob-mgmt01,swp4,gpu-test-cust-prof-001,eth11
+sw-test-cust-prof-oob-mgmt02,swp4,gpu-test-cust-prof-002,eth11
+sw-test-cust-prof-oob-mgmt01,swp5,gpu-test-cust-prof-003,eth11
+sw-test-cust-prof-oob-mgmt02,swp5,gpu-test-cust-prof-004,eth11

@@ -1,0 +1,13 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-qp-max-frontend-spine01,swp1,sw-test-qp-max-frontend-leaf01,swp63
+sw-test-qp-max-frontend-spine01,swp2,sw-test-qp-max-frontend-leaf02,swp63
+sw-test-qp-max-frontend-spine01,swp3,sw-test-qp-max-storage-leaf01,swp63
+sw-test-qp-max-frontend-spine01,swp4,sw-test-qp-max-storage-leaf02,swp63
+sw-test-qp-max-frontend-spine01,swp5,sw-test-qp-max-storage-leaf03,swp63
+sw-test-qp-max-frontend-spine01,swp6,sw-test-qp-max-storage-leaf04,swp63
+sw-test-qp-max-frontend-spine02,swp1,sw-test-qp-max-frontend-leaf01,swp64
+sw-test-qp-max-frontend-spine02,swp2,sw-test-qp-max-frontend-leaf02,swp64
+sw-test-qp-max-frontend-spine02,swp3,sw-test-qp-max-storage-leaf01,swp64
+sw-test-qp-max-frontend-spine02,swp4,sw-test-qp-max-storage-leaf02,swp64
+sw-test-qp-max-frontend-spine02,swp5,sw-test-qp-max-storage-leaf03,swp64
+sw-test-qp-max-frontend-spine02,swp6,sw-test-qp-max-storage-leaf04,swp64

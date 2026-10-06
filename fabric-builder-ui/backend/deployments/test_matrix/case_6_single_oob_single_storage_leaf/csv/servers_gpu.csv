@@ -1,0 +1,5 @@
+name,description,portcount
+gpu-test-1oob-1str-001,NVIDIA HGX H100/H200/B200 Node 001 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-1oob-1str-002,NVIDIA HGX H100/H200/B200 Node 002 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-1oob-1str-003,NVIDIA HGX H100/H200/B200 Node 003 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-1oob-1str-004,NVIDIA HGX H100/H200/B200 Node 004 (16 RoCE + 2 NS + 1 OOB),19

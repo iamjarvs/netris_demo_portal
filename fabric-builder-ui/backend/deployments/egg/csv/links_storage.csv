@@ -1,0 +1,9 @@
+leaf,leaf_port,server,server_port
+sw-egg-frontend-leaf02,swp44,srv-egg-storage01,eth1
+sw-egg-frontend-leaf03,swp44,srv-egg-storage01,eth2
+sw-egg-frontend-leaf03,swp45,srv-egg-storage02,eth1
+sw-egg-frontend-leaf04,swp44,srv-egg-storage02,eth2
+sw-egg-frontend-leaf04,swp45,srv-egg-storage03,eth1
+sw-egg-frontend-leaf05,swp43,srv-egg-storage03,eth2
+sw-egg-frontend-leaf05,swp44,srv-egg-storage04,eth1
+sw-egg-frontend-leaf06,swp43,srv-egg-storage04,eth2

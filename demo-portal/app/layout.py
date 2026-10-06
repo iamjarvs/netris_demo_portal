@@ -26,6 +26,7 @@ DEFAULT_CATEGORIES: List[Dict[str, Any]] = [
 ]
 
 TOOL_DEFAULT_CATEGORY_MAP: Dict[str, str] = {
+    "fabric-builder-ui": "cat-control-plane",
     "provider-portal": "cat-control-plane",
     "netris-slurm-cluster-sim": "cat-orchestration",
     "cli-inspector": "cat-assurance",
@@ -35,6 +36,7 @@ TOOL_DEFAULT_CATEGORY_MAP: Dict[str, str] = {
     "gpu-ai-fabric-traffic-sim": "cat-traffic",
     "netris-controller-gpu-traffic-sim": "cat-traffic",
     "netbox-netris": "cat-ipam",
+    "remote-tf-viewer": "cat-control-plane",
 }
 
 

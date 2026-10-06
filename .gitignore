@@ -35,6 +35,8 @@ yarn-error.log*
 frontend/dist/
 !cli-inspector/webapp/dist/
 !cli-inspector/webapp/dist/**
+!fabric-builder-ui/frontend/dist/
+!fabric-builder-ui/frontend/dist/**
 
 # Environment Variables & Secrets
 .env
@@ -56,6 +58,12 @@ scratch/
 demo-portal/data/
 netris-prometheus-exporter/sim_data/*.json
 !netris-prometheus-exporter/sim_data/*.json.gz
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+
 
 # Operating System & IDEs
 .DS_Store

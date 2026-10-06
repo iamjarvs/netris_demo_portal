@@ -1,0 +1,5 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-3sg-frontend-spine01,swp1,sw-test-3sg-frontend-leaf01,swp63
+sw-test-3sg-frontend-spine01,swp2,sw-test-3sg-frontend-leaf02,swp63
+sw-test-3sg-frontend-spine02,swp1,sw-test-3sg-frontend-leaf01,swp64
+sw-test-3sg-frontend-spine02,swp2,sw-test-3sg-frontend-leaf02,swp64

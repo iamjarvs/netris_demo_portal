@@ -1,0 +1,3 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-sp-min-border-gw01,eth1,sw-test-sp-min-frontend-leaf01,swp31
+sg-test-sp-min-border-gw01,eth2,sw-test-sp-min-frontend-leaf01,swp30

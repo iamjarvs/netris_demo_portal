@@ -1,0 +1,9 @@
+name,description,portcount
+gpu-test-spec-x-001,NVIDIA HGX H100 (Spectrum-X) Node 001 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-002,NVIDIA HGX H100 (Spectrum-X) Node 002 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-003,NVIDIA HGX H100 (Spectrum-X) Node 003 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-004,NVIDIA HGX H100 (Spectrum-X) Node 004 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-005,NVIDIA HGX H100 (Spectrum-X) Node 005 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-006,NVIDIA HGX H100 (Spectrum-X) Node 006 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-007,NVIDIA HGX H100 (Spectrum-X) Node 007 (8 RoCE + 2 NS + 1 OOB),11
+gpu-test-spec-x-008,NVIDIA HGX H100 (Spectrum-X) Node 008 (8 RoCE + 2 NS + 1 OOB),11

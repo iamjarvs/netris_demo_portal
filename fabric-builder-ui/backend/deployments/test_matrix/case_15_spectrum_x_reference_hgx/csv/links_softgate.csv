@@ -1,0 +1,5 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sg-test-spec-x-border-gw01,eth1,sw-test-spec-x-frontend-leaf01,swp62
+sg-test-spec-x-border-gw01,eth2,sw-test-spec-x-frontend-leaf02,swp62
+sg-test-spec-x-border-gw02,eth1,sw-test-spec-x-frontend-leaf01,swp61
+sg-test-spec-x-border-gw02,eth2,sw-test-spec-x-frontend-leaf02,swp61

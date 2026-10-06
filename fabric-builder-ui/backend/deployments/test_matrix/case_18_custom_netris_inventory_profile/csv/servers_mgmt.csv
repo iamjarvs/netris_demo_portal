@@ -1,0 +1,4 @@
+name,description,portcount
+srv-test-cust-prof-cp01,Control Plane / K8s Node 01,2
+srv-test-cust-prof-cp02,Control Plane / K8s Node 02,2
+srv-test-cust-prof-cp03,Control Plane / K8s Node 03,2

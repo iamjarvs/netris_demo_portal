@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-sonic-frontend-spine01,swp1,sw-test-sonic-frontend-leaf01,swp63
+sw-test-sonic-frontend-spine01,swp2,sw-test-sonic-frontend-leaf02,swp63
+sw-test-sonic-frontend-spine01,swp3,sw-test-sonic-storage-leaf01,swp63
+sw-test-sonic-frontend-spine01,swp4,sw-test-sonic-storage-leaf02,swp63
+sw-test-sonic-frontend-spine02,swp1,sw-test-sonic-frontend-leaf01,swp64
+sw-test-sonic-frontend-spine02,swp2,sw-test-sonic-frontend-leaf02,swp64
+sw-test-sonic-frontend-spine02,swp3,sw-test-sonic-storage-leaf01,swp64
+sw-test-sonic-frontend-spine02,swp4,sw-test-sonic-storage-leaf02,swp64

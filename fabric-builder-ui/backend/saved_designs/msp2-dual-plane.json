@@ -1,0 +1,48 @@
+{
+  "id": "msp2-dual-plane",
+  "name": "MSP2 Dual-Plane RoCE Fabric",
+  "description": "Dual-rail 64-port Spectrum-X fabric with 8 Spines, 16 Leaves, 16 RoCE ports per GPU, and dedicated storage & OOB tiers.",
+  "created_at": "2026-09-14T00:00:00Z",
+  "updated_at": "2026-09-14T00:00:00Z",
+  "config": {
+    "site_name": "MSP02",
+    "planes_count": 2,
+    "ew_spines_per_plane": 2,
+    "ew_leaves_per_plane": 4,
+    "switch_port_count": 64,
+    "nos": "cumulus_nvue",
+    "softgate_flavor": "sg-hs",
+    "public_asn": 65501,
+    "roh_asn": 65502,
+    "switch_asn_base": 4200000000,
+    "gpu_count": 8,
+    "gpu_roce_ports": 16,
+    "gpu_ns_ports": 2,
+    "ns_spines": 2,
+    "ns_leaves": 2,
+    "softgate_count": 2,
+    "enable_storage": true,
+    "storage_leaves": 2,
+    "storage_servers": 4,
+    "storage_subnet": "10.200.0.0/24",
+    "enable_oob": true,
+    "oob_switches": 2,
+    "oob_subnet": "10.10.0.0/24",
+    "ew_loopback_subnet": "10.253.128.0/24",
+    "ew_p2p_allocation": "10.254.0.0/16",
+    "ns_loopback_subnet": "10.25.105.0/24",
+    "ns_mgmt_subnet": "10.100.0.0/24",
+    "controller_address": "https://adam-ctl.netris.io",
+    "controller_login": "netris",
+    "controller_password": "913QGAi6oQTSGgZm20eU",
+    "timezone": "Etc/GMT",
+    "ntp_servers": [
+      "1.pool.ntp.org",
+      "2.pool.ntp.org"
+    ],
+    "dns_servers": [
+      "1.1.1.1",
+      "8.8.8.8"
+    ]
+  }
+}

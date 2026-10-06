@@ -1,0 +1,5 @@
+index,name,description,mainip,mgmtip,role
+1,sg-hardwarefree-border-gw01,"Border Gateway — SoftGate 01 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.11,172.16.2.51,general
+2,sg-hardwarefree-border-gw02,"Border Gateway — SoftGate 02 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.12,172.16.2.52,general
+3,sg-hardwarefree-border-gw03,"Border Gateway — SoftGate 03 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.13,172.16.2.53,general
+4,sg-hardwarefree-border-gw04,"Border Gateway — SoftGate 04 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.14,172.16.2.54,general

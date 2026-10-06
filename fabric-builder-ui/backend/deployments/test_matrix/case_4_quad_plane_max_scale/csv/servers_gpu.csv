@@ -1,0 +1,17 @@
+name,description,portcount
+gpu-test-qp-max-001,NVIDIA HGX H100/H200/B200 Node 001 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-002,NVIDIA HGX H100/H200/B200 Node 002 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-003,NVIDIA HGX H100/H200/B200 Node 003 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-004,NVIDIA HGX H100/H200/B200 Node 004 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-005,NVIDIA HGX H100/H200/B200 Node 005 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-006,NVIDIA HGX H100/H200/B200 Node 006 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-007,NVIDIA HGX H100/H200/B200 Node 007 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-008,NVIDIA HGX H100/H200/B200 Node 008 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-009,NVIDIA HGX H100/H200/B200 Node 009 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-010,NVIDIA HGX H100/H200/B200 Node 010 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-011,NVIDIA HGX H100/H200/B200 Node 011 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-012,NVIDIA HGX H100/H200/B200 Node 012 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-013,NVIDIA HGX H100/H200/B200 Node 013 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-014,NVIDIA HGX H100/H200/B200 Node 014 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-015,NVIDIA HGX H100/H200/B200 Node 015 (16 RoCE + 2 NS + 1 OOB),19
+gpu-test-qp-max-016,NVIDIA HGX H100/H200/B200 Node 016 (16 RoCE + 2 NS + 1 OOB),19

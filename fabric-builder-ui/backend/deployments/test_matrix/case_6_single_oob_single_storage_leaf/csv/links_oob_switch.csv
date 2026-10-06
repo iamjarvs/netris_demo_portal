@@ -1,0 +1,15 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-1oob-1str-oob-mgmt01,swp47,sw-test-1oob-1str-oob-mgmt02,swp47
+sw-test-1oob-1str-oob-mgmt01,swp48,sw-test-1oob-1str-oob-mgmt02,swp48
+sw-test-1oob-1str-oob-mgmt01,swp1,srv-test-1oob-1str-cp01,eth1
+sw-test-1oob-1str-oob-mgmt02,swp1,srv-test-1oob-1str-cp01,eth2
+sw-test-1oob-1str-oob-mgmt01,swp2,srv-test-1oob-1str-cp02,eth1
+sw-test-1oob-1str-oob-mgmt02,swp2,srv-test-1oob-1str-cp02,eth2
+sw-test-1oob-1str-oob-mgmt01,swp3,srv-test-1oob-1str-cp03,eth1
+sw-test-1oob-1str-oob-mgmt02,swp3,srv-test-1oob-1str-cp03,eth2
+sw-test-1oob-1str-oob-mgmt01,swp4,gpu-test-1oob-1str-001,eth19
+sw-test-1oob-1str-oob-mgmt02,swp4,gpu-test-1oob-1str-002,eth19
+sw-test-1oob-1str-oob-mgmt01,swp5,gpu-test-1oob-1str-003,eth19
+sw-test-1oob-1str-oob-mgmt02,swp5,gpu-test-1oob-1str-004,eth19
+sw-test-1oob-1str-oob-mgmt01,swp6,srv-test-1oob-1str-storage01,eth5
+sw-test-1oob-1str-oob-mgmt02,swp6,srv-test-1oob-1str-storage02,eth5

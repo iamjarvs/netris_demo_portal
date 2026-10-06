@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-sp-std-frontend-spine01,swp1,sw-test-sp-std-frontend-leaf01,swp63
+sw-test-sp-std-frontend-spine01,swp2,sw-test-sp-std-frontend-leaf02,swp63
+sw-test-sp-std-frontend-spine01,swp3,sw-test-sp-std-storage-leaf01,swp63
+sw-test-sp-std-frontend-spine01,swp4,sw-test-sp-std-storage-leaf02,swp63
+sw-test-sp-std-frontend-spine02,swp1,sw-test-sp-std-frontend-leaf01,swp64
+sw-test-sp-std-frontend-spine02,swp2,sw-test-sp-std-frontend-leaf02,swp64
+sw-test-sp-std-frontend-spine02,swp3,sw-test-sp-std-storage-leaf01,swp64
+sw-test-sp-std-frontend-spine02,swp4,sw-test-sp-std-storage-leaf02,swp64

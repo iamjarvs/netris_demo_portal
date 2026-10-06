@@ -1,0 +1,9 @@
+leaf,leaf_port,server,server_port
+sw-test-128gpu-fabric-storage-leaf02,swp1,srv-test-128gpu-fabric-storage01,eth1
+sw-test-128gpu-fabric-storage-leaf01,swp1,srv-test-128gpu-fabric-storage01,eth2
+sw-test-128gpu-fabric-storage-leaf01,swp2,srv-test-128gpu-fabric-storage02,eth1
+sw-test-128gpu-fabric-storage-leaf02,swp2,srv-test-128gpu-fabric-storage02,eth2
+sw-test-128gpu-fabric-storage-leaf02,swp3,srv-test-128gpu-fabric-storage03,eth1
+sw-test-128gpu-fabric-storage-leaf01,swp3,srv-test-128gpu-fabric-storage03,eth2
+sw-test-128gpu-fabric-storage-leaf01,swp4,srv-test-128gpu-fabric-storage04,eth1
+sw-test-128gpu-fabric-storage-leaf02,swp4,srv-test-128gpu-fabric-storage04,eth2

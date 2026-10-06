@@ -1,0 +1,9 @@
+leaf,leaf_port,server,server_port
+sw-test-sp-std-storage-leaf02,swp1,srv-test-sp-std-storage01,eth1
+sw-test-sp-std-storage-leaf01,swp1,srv-test-sp-std-storage01,eth2
+sw-test-sp-std-storage-leaf01,swp2,srv-test-sp-std-storage02,eth1
+sw-test-sp-std-storage-leaf02,swp2,srv-test-sp-std-storage02,eth2
+sw-test-sp-std-storage-leaf02,swp3,srv-test-sp-std-storage03,eth1
+sw-test-sp-std-storage-leaf01,swp3,srv-test-sp-std-storage03,eth2
+sw-test-sp-std-storage-leaf01,swp4,srv-test-sp-std-storage04,eth1
+sw-test-sp-std-storage-leaf02,swp4,srv-test-sp-std-storage04,eth2

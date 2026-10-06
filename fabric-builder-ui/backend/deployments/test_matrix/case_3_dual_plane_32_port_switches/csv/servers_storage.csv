@@ -1,0 +1,3 @@
+name,description,portcount
+srv-test-dp-32p-storage01,Storage Node 01 (2 Storage + 2 NS + 1 OOB),5
+srv-test-dp-32p-storage02,Storage Node 02 (2 Storage + 2 NS + 1 OOB),5

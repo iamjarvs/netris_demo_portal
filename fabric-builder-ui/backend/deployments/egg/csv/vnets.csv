@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-egg-inband-mgmt,100,management
+vnet-egg-storage,200,storage
+vnet-egg-oob,10,oob_management

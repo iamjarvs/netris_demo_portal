@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-test-128p-inband-mgmt,100,management
+vnet-test-128p-storage,200,storage
+vnet-test-128p-oob,10,oob_management

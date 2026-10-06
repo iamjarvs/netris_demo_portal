@@ -147,9 +147,39 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "health_endpoint": "http://localhost:8743/api/health",
         "start_script": ["./start_web.sh"],
         "stop_script": [],
-        "default_args": ["./run.sh"],
+        "default_args": ["./start_web.sh"],
+        "cli_args": ["./run.sh"],
         "cwd": REPO_ROOT / "cli-inspector",
         "summary_command": "./start_web.sh",
+        "cli_summary_command": "./run.sh",
+    },
+    "fabric-builder-ui": {
+        "id": "fabric-builder-ui",
+        "name": "Netris Fabric Terraform Builder",
+        "category": "Cloud Control Plane",
+        "description": "Visual designer and code generator for Day-0 Netris OpenTofu/Terraform deployments with live controller conflict detection.",
+        "tool_type": "subprocess",
+        "port": 5050,
+        "popout_url": "http://localhost:5050",
+        "health_endpoint": "http://localhost:5050/api/health",
+        "start_script": ["./start.sh"],
+        "stop_script": [],
+        "default_args": [PYTHON_EXE, "app.py"],
+        "cwd": REPO_ROOT / "fabric-builder-ui" / "backend",
+        "summary_command": "./start.sh",
+    },
+    "remote-tf-viewer": {
+        "id": "remote-tf-viewer",
+        "name": "Remote Terraform Explorer (VS Code)",
+        "category": "Cloud Control Plane",
+        "description": "Opens VS Code via Remote-SSH connected directly to the Netris Controller to explore and edit live Spectrum-X Day-0 Terraform manifests.",
+        "tool_type": "subprocess",
+        "port": None,
+        "popout_url": None,
+        "health_endpoint": None,
+        "default_args": [PYTHON_EXE, "open_tf.py"],
+        "cwd": REPO_ROOT / "remote-tf-viewer",
+        "summary_command": "./run.sh",
     }
 }
 
@@ -385,6 +415,13 @@ def get_tool_credentials(tool_id: str) -> List[Dict[str, Any]]:
         creds.append({"label": "Netris API", "username": n_user, "password": "••••••••", "notes": "adam-ctl.netris.io"})
         creds.append({"label": "SSH Jump Host", "username": jump_user, "password": "Key Auth", "notes": jump_host})
 
+    elif tool_id == "fabric-builder-ui":
+        creds.append({"label": "Netris Controller", "username": "netris", "password": "••••••••", "notes": "https://adam-ctl.netris.io"})
+
+    elif tool_id == "remote-tf-viewer":
+        creds.append({"label": "Netris Controller", "username": "netris", "password": "913QGAi6oQTSGgZm20eU", "notes": "adam-ctl.netris.io"})
+        creds.append({"label": "SSH Controller", "username": "ubuntu", "password": "SSH Key", "notes": "adam-ctl.netris.io:~/netris-init/netris-spectrum-x-init"})
+
     return creds
 
 
@@ -532,7 +569,7 @@ def start_tool(
         if existing and existing.poll() is None:
             return True, f"Tool '{tool_id}' is already running (PID {existing.pid})."
 
-        cmd = effective_cmd or meta["default_args"]
+        cmd = effective_cmd or meta.get("start_script") or meta["default_args"]
         proc_env = os.environ.copy()
         env_file = cwd / ".env"
         if env_file.exists():
@@ -688,7 +725,7 @@ def launch_native_terminal(tool_id: str) -> tuple[bool, str]:
     if not meta:
         return False, f"Tool '{tool_id}' not found."
     cwd = str(meta["cwd"])
-    cmd_str = meta.get("summary_command", "./run.sh")
+    cmd_str = meta.get("cli_summary_command") or meta.get("summary_command", "./run.sh")
 
     # Priority 1: iTerm / iTerm2
     iterm_script = f'''

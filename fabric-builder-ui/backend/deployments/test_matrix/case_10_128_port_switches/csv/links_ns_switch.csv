@@ -1,0 +1,9 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-128p-frontend-spine01,swp1,sw-test-128p-frontend-leaf01,swp127
+sw-test-128p-frontend-spine01,swp2,sw-test-128p-frontend-leaf02,swp127
+sw-test-128p-frontend-spine01,swp3,sw-test-128p-storage-leaf01,swp127
+sw-test-128p-frontend-spine01,swp4,sw-test-128p-storage-leaf02,swp127
+sw-test-128p-frontend-spine02,swp1,sw-test-128p-frontend-leaf01,swp128
+sw-test-128p-frontend-spine02,swp2,sw-test-128p-frontend-leaf02,swp128
+sw-test-128p-frontend-spine02,swp3,sw-test-128p-storage-leaf01,swp128
+sw-test-128p-frontend-spine02,swp4,sw-test-128p-storage-leaf02,swp128

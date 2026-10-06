@@ -1,0 +1,3 @@
+index,name,description,mainip,mgmtip,role
+1,sg-test-spec-x-border-gw01,"Border Gateway — SoftGate 01 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.9,172.16.2.21,general
+2,sg-test-spec-x-border-gw02,"Border Gateway — SoftGate 02 (Stateful NAT, Border BGP Routing, L4 Load Balancing & External Ingress/Egress Gateway)",172.16.1.10,172.16.2.22,general

@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-hardwarefree-inband-mgmt,100,management
+vnet-hardwarefree-storage,200,storage
+vnet-hardwarefree-oob,10,oob_management

@@ -1,0 +1,17 @@
+deviceA,deviceA_port,deviceB,deviceB_port
+sw-test-128gpu-fabric-frontend-spine01,swp1,sw-test-128gpu-fabric-frontend-leaf01,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp2,sw-test-128gpu-fabric-frontend-leaf02,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp3,sw-test-128gpu-fabric-frontend-leaf03,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp4,sw-test-128gpu-fabric-frontend-leaf04,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp5,sw-test-128gpu-fabric-frontend-leaf05,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp6,sw-test-128gpu-fabric-frontend-leaf06,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp7,sw-test-128gpu-fabric-storage-leaf01,swp63
+sw-test-128gpu-fabric-frontend-spine01,swp8,sw-test-128gpu-fabric-storage-leaf02,swp63
+sw-test-128gpu-fabric-frontend-spine02,swp1,sw-test-128gpu-fabric-frontend-leaf01,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp2,sw-test-128gpu-fabric-frontend-leaf02,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp3,sw-test-128gpu-fabric-frontend-leaf03,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp4,sw-test-128gpu-fabric-frontend-leaf04,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp5,sw-test-128gpu-fabric-frontend-leaf05,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp6,sw-test-128gpu-fabric-frontend-leaf06,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp7,sw-test-128gpu-fabric-storage-leaf01,swp64
+sw-test-128gpu-fabric-frontend-spine02,swp8,sw-test-128gpu-fabric-storage-leaf02,swp64

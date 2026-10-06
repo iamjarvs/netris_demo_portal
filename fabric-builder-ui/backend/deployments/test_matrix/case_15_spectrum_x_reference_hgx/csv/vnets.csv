@@ -1,0 +1,4 @@
+name,vlan,purpose
+vnet-test-spec-x-inband-mgmt,100,management
+vnet-test-spec-x-storage,200,storage
+vnet-test-spec-x-oob,10,oob_management
