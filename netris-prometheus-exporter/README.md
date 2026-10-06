@@ -143,7 +143,7 @@ Once started via `./start.sh`:
 - **Raw Exporter Metrics**: `http://localhost:9101/metrics`
 
 ### Pre-Configured Multi-Database Dashboard Suite:
-The stack automatically provisions 4 production dashboards inside the **Netris Network Observability** folder, with seamless top-banner navigation between them:
+The stack automatically provisions 5 production dashboards inside the **Netris Network Observability** folder, with seamless top-banner navigation between them:
 
 1. **Netris Fabric Observability (`netris-fabric-overview.json`) [DEFAULT HOME]**
    - Executive cross-engine overview uniting fleet scale, dual-plane traffic (East-West compute mesh vs North-South border transit), continuous active assurance, and high-signal KPIs from all 3 underlying databases.
@@ -153,6 +153,8 @@ The stack automatically provisions 4 production dashboards inside the **Netris N
    - Relational system of record: Multi-Site Netris VPC & VPN mesh SLA metrics (Round-Trip Latency RTT ms, packet loss %, quality score 0-100), switch hardware forwarding capacity (FIB routes, bridge MAC tables), TCAM ACL quotas (ingress/egress), Layer-4 Load Balancer (L4LB) VIP health, and IPAM subnet allocations.
 4. **Netris - MongoDB Environmental & Telescope Sensors (`netris-mongodb-sensors.json`)**
    - Telescope daemon real-time hardware telemetry: ASIC & chassis temperature sensors (°C), cooling fan tray tachometers (RPM), dual-PSU power supply status & redundancy, physical layer Bit Error Rates (Pre/Post-FEC BER), and critical switch NOS system daemons (`switchd`, `frr`, `syscd`, `vxpd-nvue`, `vxrd`).
+5. **Netris - Metrics Architecture & Export Showcase (`netris-metrics-architecture.json`)**
+   - Customer-facing architectural blueprint explaining end-to-end telemetry collection methods, database origins, semantic enrichment value, live telemetry stats, and practical export patterns (Prometheus pull, OpenTelemetry, Datadog/Splunk, and Controller REST APIs/webhooks).
 
 ---
 

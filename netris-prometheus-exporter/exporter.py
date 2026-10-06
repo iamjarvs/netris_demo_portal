@@ -7,6 +7,7 @@ with topological and tenant context, and exposes OpenMetrics on HTTP.
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import re
 import sys
@@ -25,6 +26,11 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
 logger = logging.getLogger("netris_exporter")
+
+
+def _stable_hash(s: str) -> int:
+    """Deterministic integer hash across distinct Python runs/processes and platforms."""
+    return int(hashlib.md5(s.encode("utf-8")).hexdigest()[:8], 16)
 
 
 def _str(val: any) -> str:
@@ -372,13 +378,13 @@ class NetrisCollector:
                                         s_name = p.get("property") or "Temp"
                                         s_val = float(p.get("value") or 0)
                                         if s_val == 0:
-                                            s_val = round(42.5 + (hash(s_name + str(dname)) % 140) / 10.0, 1)
+                                            s_val = round(42.5 + (_stable_hash(s_name + str(dname)) % 140) / 10.0, 1)
                                         sensor_temp.add_metric([site_name, _str(dname), s_name, "asic_board"], s_val)
                                 else:
                                     tokens = [t.strip() for t in msg.split(",") if t.strip()]
                                     for t in tokens:
                                         s_clean = re.sub(r"\(.*?\)", "", t).strip()
-                                        s_val = round(41.0 + (hash(s_clean + str(dname)) % 130) / 10.0, 1)
+                                        s_val = round(41.0 + (_stable_hash(s_clean + str(dname)) % 130) / 10.0, 1)
                                         sensor_temp.add_metric([site_name, _str(dname), s_clean, "thermal_probe"], s_val)
 
                             elif check_name == "check_fan":
@@ -388,13 +394,13 @@ class NetrisCollector:
                                         f_name = p.get("property") or "Fan"
                                         rpm = float(p.get("value") or 0)
                                         if rpm == 0:
-                                            rpm = float(7800 + (hash(f_name + str(dname)) % 2100))
+                                            rpm = float(7800 + (_stable_hash(f_name + str(dname)) % 2100))
                                         sensor_fan.add_metric([site_name, _str(dname), f_name], rpm)
                                 else:
                                     tokens = [t.strip() for t in msg.split(",") if t.strip()]
                                     for t in tokens:
                                         f_clean = re.sub(r"\(.*?\)", "", t).strip()
-                                        rpm = float(8100 + (hash(f_clean + str(dname)) % 1900))
+                                        rpm = float(8100 + (_stable_hash(f_clean + str(dname)) % 1900))
                                         sensor_fan.add_metric([site_name, _str(dname), f_clean], rpm)
 
                             elif check_name == "check_psu":

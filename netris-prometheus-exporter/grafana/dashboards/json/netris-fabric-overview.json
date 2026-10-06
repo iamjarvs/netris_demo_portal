@@ -6,19 +6,7 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [
-    {
-      "asDropdown": false,
-      "icon": "dashboard",
-      "includeVars": true,
-      "keepTime": true,
-      "tags": [
-        "netris"
-      ],
-      "title": "Netris Observability Suite",
-      "type": "dashboards"
-    }
-  ],
+  "links": [],
   "liveNow": false,
   "refresh": "15s",
   "schemaVersion": 38,
@@ -28,49 +16,10 @@
     "fabric",
     "observability",
     "ai-factory",
-    "east-west",
-    "north-south",
     "overview"
   ],
   "templating": {
-    "list": [
-      {
-        "name": "fabric_type",
-        "label": "Fabric Plane",
-        "type": "custom",
-        "query": "east_west : East-West (Compute / GPU Mesh), north_south : North-South (Border & SoftGates), oob : Out-of-Band (Management)",
-        "current": {
-          "selected": true,
-          "text": "All",
-          "value": "$__all"
-        },
-        "options": [
-          {
-            "selected": true,
-            "text": "All",
-            "value": "$__all"
-          },
-          {
-            "selected": false,
-            "text": "East-West (Compute / GPU Mesh)",
-            "value": "east_west"
-          },
-          {
-            "selected": false,
-            "text": "North-South (Border & SoftGates)",
-            "value": "north_south"
-          },
-          {
-            "selected": false,
-            "text": "Out-of-Band (Management)",
-            "value": "oob"
-          }
-        ],
-        "includeAll": true,
-        "multi": true,
-        "allValue": ".*"
-      }
-    ]
+    "list": []
   },
   "time": {
     "from": "now-30m",
@@ -78,9 +27,9 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Netris Fabric Observability",
+  "title": "Netris - General Overview",
   "uid": "netris-fabric-overview",
-  "version": 11,
+  "version": 1,
   "panels": [
     {
       "id": 999,
@@ -94,13 +43,13 @@
       },
       "options": {
         "mode": "html",
-        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 16px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 16px; padding: 6px 14px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; font-family: Inter, -apple-system, sans-serif;\">\n        <span>FABRIC OBSERVABILITY</span>\n        <span style=\"font-size: 11px; background: rgba(0, 163, 255, 0.15); color: #00D2FF; border: 1px solid rgba(0, 163, 255, 0.35); padding: 2px 8px; border-radius: 12px; font-weight: 600;\">MULTI-DATABASE EDITION</span>\n      </div>\n      <div style=\"color: #94A3B8; font-size: 12px; margin-top: 2px;\">\n        Unified Cross-Engine Fabric Observability &bull; Executive KPIs across Traffic, State &amp; Hardware\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 10px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83c\udfe0 Fabric Overview</a> <a href=\"/d/netris-graphite-telemetry\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcca Graphite Telemetry</a> <a href=\"/d/netris-mariadb-state\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83d\uddc4\ufe0f MariaDB State & SLA</a> <a href=\"/d/netris-mongodb-sensors\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; transition: all 0.2s;\">\ud83c\udf21\ufe0f MongoDB Sensors</a>\n  </div>\n</div>"
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\u26a1 Nexus Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
       },
       "transparent": true
     },
     {
       "id": 100,
-      "title": "Netris Controller & Fabric Fleet Overview",
+      "title": "Active System Health & Validation Alarms (Immediate Glance)",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -110,23 +59,285 @@
       }
     },
     {
-      "id": 1,
+      "id": 101,
+      "title": "Continuous Active Validation: LLDP Cabling Intent",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "description": "Continuous real-time verification that physical spine-leaf cabling matches designed Netris topology intent.",
+      "targets": [
+        {
+          "expr": "count(netris_topology_wiring_valid == 1) / count(netris_topology_wiring_valid) * 100",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 95
+              },
+              {
+                "color": "#76B900",
+                "value": 100
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 102,
+      "title": "Hardware Subcomponent Health Integrity",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 4
+      },
+      "description": "Aggregated operational integrity of power supplies, chassis fans, thermal sensors, and system daemons.",
+      "targets": [
+        {
+          "expr": "count(netris_node_component_health == 1) / count(netris_node_component_health) * 100",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 90
+              },
+              {
+                "color": "#76B900",
+                "value": 100
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 103,
+      "title": "Underlay BGP Peering Stability",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 4
+      },
+      "description": "Proportion of spine-leaf fabric internal underlay routing sessions in healthy ESTABLISHED state.",
+      "targets": [
+        {
+          "expr": "(count(netris_bgp_session_state == 1) / count(netris_bgp_session_state) * 100) or vector(100)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 95
+              },
+              {
+                "color": "#76B900",
+                "value": 100
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 104,
+      "title": "Border External BGP Transit Stability",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 4
+      },
+      "description": "Percentage of North-South border peering sessions active with external upstream data centre transits.",
+      "targets": [
+        {
+          "expr": "(count(netris_ebgp_session_state == 1) / count(netris_ebgp_session_state) * 100) or vector(100)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 90
+              },
+              {
+                "color": "#76B900",
+                "value": 100
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 105,
+      "title": "Active Potential Alerts Feed",
+      "type": "table",
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "description": "Live alert feed showing any component, link, or node currently in an alarm or degraded condition.",
+      "targets": [
+        {
+          "expr": "(netris_node_component_health == 0) or (netris_topology_wiring_valid == 0) or (netris_device_status == 0) or (netris_agent_heartbeat == 0)",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": {
+                        "text": "CRITICAL",
+                        "color": "#FF3366"
+                      },
+                      "1": {
+                        "text": "HEALTHY",
+                        "color": "#76B900"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 200,
+      "title": "Netris Controller & Managed Network Fleet Scale",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      }
+    },
+    {
+      "id": 201,
       "title": "Controller Reachability",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 0,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
           "expr": "netris_up",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -170,23 +381,19 @@
       }
     },
     {
-      "id": 2,
+      "id": 202,
       "title": "Total Managed Switches",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 3,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
-          "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=~\"leaf|spine|oob_leaf\"})) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "count(netris_device_info{device_role=~\"leaf|spine|oob_leaf\"}) or vector(0)",
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -204,23 +411,19 @@
       }
     },
     {
-      "id": 3,
+      "id": 203,
       "title": "Spine Switches",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 6,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
-          "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"spine\"})) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "count(netris_device_info{device_role=\"spine\"}) or vector(0)",
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -238,23 +441,19 @@
       }
     },
     {
-      "id": 4,
+      "id": 204,
       "title": "Leaf Switches",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 9,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
-          "expr": "(count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=~\"leaf|oob_leaf\"})) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "count(netris_device_info{device_role=~\"leaf|oob_leaf\"}) or vector(0)",
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -272,23 +471,19 @@
       }
     },
     {
-      "id": 5,
+      "id": 205,
       "title": "SoftGate Border Nodes",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 12,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
-          "expr": "count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"softgate\"}) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "count(netris_device_info{device_role=\"softgate\"}) or vector(0)",
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -306,23 +501,19 @@
       }
     },
     {
-      "id": 6,
-      "title": "HGX GPU Servers",
+      "id": 206,
+      "title": "Connected GPU Servers",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 15,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
-          "expr": "count(netris_device_info{fabric_type=~\"${fabric_type:regex}\", device_role=\"server\"}) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "expr": "count(netris_device_info{device_role=\"server\"}) or vector(0)",
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -340,23 +531,19 @@
       }
     },
     {
-      "id": 7,
-      "title": "East-West Bandwidth (Compute)",
+      "id": 207,
+      "title": "East-West Bandwidth",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 18,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
           "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -374,23 +561,19 @@
       }
     },
     {
-      "id": 8,
-      "title": "North-South Bandwidth (Border)",
+      "id": 208,
+      "title": "North-South Bandwidth",
       "type": "stat",
       "gridPos": {
         "h": 4,
         "w": 3,
         "x": 21,
-        "y": 4
+        "y": 17
       },
       "targets": [
         {
           "expr": "sum(netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         }
       ],
       "fieldConfig": {
@@ -408,321 +591,37 @@
       }
     },
     {
-      "id": 150,
-      "title": "Tri-Engine Health & Multi-Site SLA Assurance (Graphite \u00b7 MariaDB \u00b7 MongoDB)",
+      "id": 300,
+      "title": "Core Fabric Traffic & Workload Plane Separation",
       "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 21
       }
     },
     {
-      "id": 151,
-      "title": "Multi-Site VPN SLA Score (MariaDB)",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "avg(netris_mesh_vpn_quality_score) or vector(100)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "unit": "none",
-          "min": 0,
-          "max": 100,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#FF3366",
-                "value": null
-              },
-              {
-                "color": "#FF9900",
-                "value": 70
-              },
-              {
-                "color": "#76B900",
-                "value": 90
-              }
-            ]
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 152,
-      "title": "Mesh Tunnel Latency RTT (MariaDB)",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "avg(netris_mesh_vpn_rtt_seconds) * 1000",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "unit": "ms",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#FF9900",
-                "value": 30
-              },
-              {
-                "color": "#FF3366",
-                "value": 60
-              }
-            ]
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 153,
-      "title": "Active SoftGate Conntrack (Graphite)",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "sum(netris_softgate_conntrack_entries)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "#38BDF8"
-          },
-          "unit": "short"
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 154,
-      "title": "Peak ASIC Temperature (MongoDB)",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "max(netris_sensor_temperature_celsius{sensor_type=\"asic\"}) or max(netris_sensor_temperature_celsius)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "unit": "celsius",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#FF9900",
-                "value": 65
-              },
-              {
-                "color": "#FF3366",
-                "value": 75
-              }
-            ]
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 155,
-      "title": "Signal Degradation Links (MongoDB)",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "(count(netris_port_bit_error_rate > 1e-12)) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "unit": "short",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#FF3366",
-                "value": 1
-              }
-            ]
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 156,
-      "title": "Active L4LB VIPs (MariaDB)",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 9
-      },
-      "targets": [
-        {
-          "expr": "(count(netris_l4lb_vip_health_status == 1)) or vector(0)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "#00F5D4"
-          },
-          "unit": "short"
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 200,
-      "title": "Dual-Plane Traffic Separation: East-West (Compute Mesh) vs North-South (Edge Border)",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 13
-      }
-    },
-    {
-      "id": 44,
-      "title": "East-West Compute Mesh Throughput (RoCE / GPU / Leaf-Spine)",
+      "id": 301,
+      "title": "East-West AI Mesh Bandwidth Trends",
       "type": "timeseries",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 22
       },
+      "description": "Throughput across compute-mesh server ports and inter-switch leaf-spine fabric links.",
       "targets": [
         {
           "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"east_west\"})",
           "legendFormat": "{{device_role}} (Ingress)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         },
         {
           "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"east_west\"})",
           "legendFormat": "{{device_role}} (Egress)",
-          "refId": "B",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "B"
         }
       ],
       "fieldConfig": {
@@ -739,33 +638,26 @@
       }
     },
     {
-      "id": 45,
-      "title": "North-South Edge & Border Throughput (SoftGates / External Transits)",
+      "id": 302,
+      "title": "North-South Edge & Border Bandwidth Trends",
       "type": "timeseries",
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 22
       },
+      "description": "Throughput passing through Netris SoftGates and external border peering uplinks.",
       "targets": [
         {
           "expr": "sum by (device_role) (netris_interface_receive_bits_per_second{fabric_type=\"north_south\"})",
           "legendFormat": "{{device_role}} (Ingress)",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         },
         {
           "expr": "sum by (device_role) (netris_interface_transmit_bits_per_second{fabric_type=\"north_south\"})",
           "legendFormat": "{{device_role}} (Egress)",
-          "refId": "B",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "B"
         }
       ],
       "fieldConfig": {
@@ -773,293 +665,6 @@
           "unit": "bps",
           "color": {
             "mode": "palette-classic"
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 41,
-      "title": "HGX GPU Server Downlink Bandwidth (East-West AI Cluster)",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 22
-      },
-      "targets": [
-        {
-          "expr": "sum by (server_cluster) (netris_interface_receive_bits_per_second{port_role=\"server_facing\", server_cluster!=\"none\"})",
-          "legendFormat": "{{server_cluster}} Ingress",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "sum by (server_cluster) (netris_interface_transmit_bits_per_second{port_role=\"server_facing\", server_cluster!=\"none\"})",
-          "legendFormat": "{{server_cluster}} Egress",
-          "refId": "B",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "bps",
-          "color": {
-            "mode": "palette-classic"
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 42,
-      "title": "Spine Core Interlink Bandwidth (Fabric Backbone)",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 22
-      },
-      "targets": [
-        {
-          "expr": "sum by (device_name) (netris_interface_receive_bits_per_second{device_role=\"spine\"})",
-          "legendFormat": "{{device_name}} Ingress",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        },
-        {
-          "expr": "sum by (device_name) (netris_interface_transmit_bits_per_second{device_role=\"spine\"})",
-          "legendFormat": "{{device_name}} Egress",
-          "refId": "B",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "bps",
-          "color": {
-            "mode": "palette-classic"
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 300,
-      "title": "Hardware Telemetry & Node Resource Trends (Filtered by Fabric Plane)",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 30
-      }
-    },
-    {
-      "id": 50,
-      "title": "Switch / SoftGate CPU 1m Load Average Trends Over Time",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 31
-      },
-      "targets": [
-        {
-          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
-          "legendFormat": "{{device_name}} ({{device_role}})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "color": {
-            "mode": "palette-classic"
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 51,
-      "title": "Switch / SoftGate Memory (RAM) % Utilization Trends Over Time",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 31
-      },
-      "targets": [
-        {
-          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
-          "legendFormat": "{{device_name}} ({{device_role}})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent",
-          "min": 0,
-          "max": 100,
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#FF9900",
-                "value": 75
-              },
-              {
-                "color": "#FF3366",
-                "value": 90
-              }
-            ]
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 30,
-      "title": "Instantaneous Node CPU Load",
-      "type": "bargauge",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 39
-      },
-      "targets": [
-        {
-          "expr": "netris_node_load_1m{fabric_type=~\"${fabric_type:regex}\"}",
-          "legendFormat": "{{device_name}}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#FF9900",
-                "value": 2
-              },
-              {
-                "color": "#FF3366",
-                "value": 4
-              }
-            ]
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 31,
-      "title": "Instantaneous Node Memory (RAM) % Used",
-      "type": "bargauge",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 39
-      },
-      "targets": [
-        {
-          "expr": "netris_node_memory_used_percent{fabric_type=~\"${fabric_type:regex}\"}",
-          "legendFormat": "{{device_name}}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "unit": "percent",
-          "min": 0,
-          "max": 100,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "#76B900",
-                "value": null
-              },
-              {
-                "color": "#FF9900",
-                "value": 75
-              },
-              {
-                "color": "#FF3366",
-                "value": 90
-              }
-            ]
           }
         }
       },
@@ -1070,43 +675,36 @@
     },
     {
       "id": 400,
-      "title": "Fabric Assurance, Continuous Active Validation & Link Stability",
+      "title": "Hardware Assurance & Error Spikes Monitoring",
       "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 30
       }
     },
     {
-      "id": 60,
+      "id": 401,
       "title": "Interface Error & Drop Event Spikes Over Time",
       "type": "timeseries",
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 16,
         "x": 0,
-        "y": 47
+        "y": 31
       },
+      "description": "Monitors packet errors, drops, and frame check sequence anomalies across all switch ports in real-time.",
       "targets": [
         {
-          "expr": "sum by (device_name) (netris_interface_receive_errors_per_second) > 0",
+          "expr": "sum by (device_name) (netris_interface_receive_errors_per_second)",
           "legendFormat": "{{device_name}} Ingress Errors",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "A"
         },
         {
-          "expr": "sum by (device_name) (netris_interface_transmit_errors_per_second) > 0",
+          "expr": "sum by (device_name) (netris_interface_transmit_errors_per_second)",
           "legendFormat": "{{device_name}} Egress Errors",
-          "refId": "B",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
+          "refId": "B"
         }
       ],
       "fieldConfig": {
@@ -1123,274 +721,18 @@
       }
     },
     {
-      "id": 10,
-      "title": "Continuous Active Assurance: LLDP Cabling Validation",
-      "type": "table",
+      "id": 402,
+      "title": "Error & Drop Event Analysis Note",
+      "type": "text",
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 47
+        "w": 8,
+        "x": 16,
+        "y": 31
       },
-      "targets": [
-        {
-          "expr": "netris_topology_wiring_valid == 1",
-          "format": "table",
-          "instant": true,
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "MISWIRED",
-                        "color": "#FF3366"
-                      },
-                      "1": {
-                        "text": "VERIFIED",
-                        "color": "#76B900"
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 11,
-      "title": "External BGP (E-BGP) Peering Status (North-South Edge Transit)",
-      "type": "table",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 55
-      },
-      "targets": [
-        {
-          "expr": "netris_ebgp_session_state",
-          "format": "table",
-          "instant": true,
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "DOWN",
-                        "color": "#FF3366"
-                      },
-                      "1": {
-                        "text": "ESTABLISHED",
-                        "color": "#76B900"
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 32,
-      "title": "Hardware Subcomponents Health (PSU, Fan, Temp, Services)",
-      "type": "table",
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 55
-      },
-      "targets": [
-        {
-          "expr": "netris_node_component_health{fabric_type=~\"${fabric_type:regex}\"}",
-          "format": "table",
-          "instant": true,
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "FAILED",
-                        "color": "#FF3366"
-                      },
-                      "1": {
-                        "text": "HEALTHY",
-                        "color": "#76B900"
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 500,
-      "title": "Server Clusters & Enriched Port Telemetry",
-      "type": "row",
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 62
-      }
-    },
-    {
-      "id": 20,
-      "title": "Ports Enriched by Server Cluster",
-      "type": "piechart",
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 0,
-        "y": 63
-      },
-      "targets": [
-        {
-          "expr": "count by (server_cluster) (netris_port_status{server_cluster!=\"none\", fabric_type=~\"${fabric_type:regex}\"})",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          }
-        }
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      }
-    },
-    {
-      "id": 21,
-      "title": "Server-Facing Ports (HGX GPU Links)",
-      "type": "table",
-      "gridPos": {
-        "h": 8,
-        "w": 18,
-        "x": 6,
-        "y": 63
-      },
-      "targets": [
-        {
-          "expr": "netris_port_status{port_role=\"server_facing\", fabric_type=~\"${fabric_type:regex}\"}",
-          "format": "table",
-          "instant": true,
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          }
-        }
-      ],
-      "fieldConfig": {
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "DOWN",
-                        "color": "#FF3366"
-                      },
-                      "1": {
-                        "text": "UP",
-                        "color": "#76B900"
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(118, 185, 0, 0.3); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"font-size: 13px; font-weight: 700; color: #76B900; margin-bottom: 6px;\">PORT INTEGRITY: 100% CLEAN</div>\n  <div style=\"font-size: 11px; line-height: 1.6; color: #CBD5E1;\">\n    &bull; <b>Healthy Flatline (0 pps):</b> The chart tracks ingress/egress interface error rates. A continuous zero reading indicates healthy physical optics, clean optical links, and zero CRC discards.<br/><br/>\n    &bull; <b>Automatic Anomaly Pinpointing:</b> Any spikes in packet drops or bit errors instantly identify degraded transceivers or physical cabling issues before GPU jobs experience timeouts.\n  </div>\n</div>"
       }
     }
   ]

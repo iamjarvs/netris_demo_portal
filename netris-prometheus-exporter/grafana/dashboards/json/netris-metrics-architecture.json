@@ -1,0 +1,443 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "id": 999,
+      "type": "text",
+      "title": "",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\u26a1 Nexus Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
+      },
+      "transparent": true
+    },
+    {
+      "id": 100,
+      "title": "4-Tier Telemetry Ingestion & OpenMetrics Export Pipeline",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "id": 101,
+      "title": "Exact Demo Architecture & Data Path (Step-by-Step)",
+      "type": "text",
+      "gridPos": {
+        "h": 14,
+        "w": 16,
+        "x": 0,
+        "y": 4
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 18px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box; overflow-y: auto;\">\n  <div style=\"font-size: 15px; font-weight: 700; color: #FFFFFF; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;\">\n    <span style=\"background: #FF3366; color: #FFF; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 800;\">4-STAGE PIPELINE</span>\n    How Metrics Flow from Fabric Hardware to Dashboards\n  </div>\n  \n  <div style=\"display: grid; grid-template-columns: 1fr auto 1.15fr auto 1.15fr auto 1fr; gap: 8px; align-items: center; margin: 15px 0;\">\n    <!-- Step 1 -->\n    <div style=\"background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 51, 102, 0.4); border-radius: 6px; padding: 12px;\">\n      <div style=\"color: #FF3366; font-weight: 700; font-size: 12px; margin-bottom: 4px;\">1. DATA SOURCES</div>\n      <div style=\"color: #94A3B8; font-size: 10px; margin-bottom: 6px;\">Switches &amp; SoftGates</div>\n      <div style=\"font-size: 11px; color: #CBD5E1; line-height: 1.5;\">\n        &bull; Linux NOS / eBPF<br/>\n        &bull; <code>netris-agent</code> daemons<br/>\n        &bull; Sensor diagnostic probes<br/>\n        &bull; ASIC &amp; optical registers\n      </div>\n      <div style=\"margin-top: 8px; font-size: 10px; background: rgba(255, 51, 102, 0.15); color: #FFA3BA; padding: 3px 6px; border-radius: 4px; text-align: center;\">Streaming to Controller</div>\n    </div>\n\n    <!-- Arrow 1 -->\n    <div style=\"color: #94A3B8; font-size: 18px; font-weight: bold; text-align: center;\">&#10140;</div>\n\n    <!-- Step 2 -->\n    <div style=\"background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(0, 210, 255, 0.4); border-radius: 6px; padding: 12px;\">\n      <div style=\"color: #00D2FF; font-weight: 700; font-size: 12px; margin-bottom: 4px;\">2. NETRIS CONTROLLER</div>\n      <div style=\"color: #94A3B8; font-size: 10px; margin-bottom: 6px;\">Central Telemetry Hub</div>\n      <div style=\"font-size: 11px; color: #CBD5E1; line-height: 1.5;\">\n        &bull; <b>Streaming Telemetry:</b> Octets, PPS, Optics<br/>\n        &bull; <b>Relational State:</b> FIB, Capacity, Status<br/>\n        &bull; <b>Hardware Sensors:</b> Thermals, Fans, BER<br/>\n        &bull; <b>REST APIs:</b> HTTP/JSON endpoints\n      </div>\n      <div style=\"margin-top: 8px; font-size: 10px; background: rgba(0, 210, 255, 0.15); color: #7DD3FC; padding: 3px 6px; border-radius: 4px; text-align: center;\">Unified API Platform</div>\n    </div>\n\n    <!-- Arrow 2 -->\n    <div style=\"color: #94A3B8; font-size: 18px; font-weight: bold; text-align: center;\">&#10140;</div>\n\n    <!-- Step 3 -->\n    <div style=\"background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(118, 185, 0, 0.4); border-radius: 6px; padding: 12px;\">\n      <div style=\"color: #76B900; font-weight: 700; font-size: 12px; margin-bottom: 4px;\">3. EXPORTER (:9101)</div>\n      <div style=\"color: #94A3B8; font-size: 10px; margin-bottom: 6px;\">Polls APIs &amp; Enriches</div>\n      <div style=\"font-size: 11px; color: #CBD5E1; line-height: 1.5;\">\n        &bull; Authenticates session cookie<br/>\n        &bull; Calls Controller REST APIs<br/>\n        &bull; Labels: VPC, Cluster, Role<br/>\n        &bull; Serves OpenMetrics format\n      </div>\n      <div style=\"margin-top: 8px; font-size: 10px; background: rgba(118, 185, 0, 0.15); color: #A6E324; padding: 3px 6px; border-radius: 4px; text-align: center;\">GET :9101/metrics</div>\n    </div>\n\n    <!-- Arrow 3 -->\n    <div style=\"color: #94A3B8; font-size: 18px; font-weight: bold; text-align: center;\">&#10140;</div>\n\n    <!-- Step 4 -->\n    <div style=\"background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 6px; padding: 12px;\">\n      <div style=\"color: #C084FC; font-weight: 700; font-size: 12px; margin-bottom: 4px;\">4. PROMETHEUS &amp; GRAFANA</div>\n      <div style=\"color: #94A3B8; font-size: 10px; margin-bottom: 6px;\">Scrape &amp; PromQL Queries</div>\n      <div style=\"font-size: 11px; color: #CBD5E1; line-height: 1.5;\">\n        &bull; <b>Prometheus (:9090):</b> Scrapes Exporter every 15s<br/>\n        &bull; Stores in local TSDB blocks<br/>\n        &bull; <b>Grafana (:3000):</b> Queries PromQL over HTTP\n      </div>\n      <div style=\"margin-top: 8px; font-size: 10px; background: rgba(168, 85, 247, 0.15); color: #E9D5FF; padding: 3px 6px; border-radius: 4px; text-align: center;\">Visual Dashboard Panels</div>\n    </div>\n  </div>\n\n  <div style=\"background: rgba(255, 255, 255, 0.04); border-left: 3px solid #76B900; padding: 10px 14px; margin-top: 10px; font-size: 11px; color: #94A3B8; line-height: 1.6;\">\n    <b style=\"color: #FFFFFF;\">Why This Design Works for Customers:</b><br/>\n    &bull; <b>Zero Server Agents:</b> No software needed on GPU/compute nodes. All metrics originate directly from switch network operating systems.<br/>\n    &bull; <b>Single Pull Target:</b> Customer Prometheus or SIEM only scrapes one single endpoint (the Exporter container on <code>:9101/metrics</code>) rather than polling dozens of individual switches.<br/>\n    &bull; <b>Semantic Context:</b> Low-level port counters are enriched with high-level network topology (Cluster name, Tenant, VPC, connected server).\n  </div>\n</div>"
+      }
+    },
+    {
+      "id": 102,
+      "title": "Exporter Live Telemetry Pulse & Scrape Health",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "netris_up",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "DISCONNECTED",
+                  "color": "#FF3366"
+                },
+                "1": {
+                  "text": "AUTHENTICATED",
+                  "color": "#76B900"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#76B900",
+                "value": 1
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 103,
+      "title": "Total Metric Families Collected",
+      "type": "stat",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 4
+      },
+      "targets": [
+        {
+          "expr": "count(count by (__name__) ({__name__=~'netris_.*'}))",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#00D2FF"
+          },
+          "unit": "short"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 104,
+      "title": "Prometheus Scrape Interval in Demo",
+      "type": "stat",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "vector(15)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#FBBF24"
+          },
+          "unit": "s",
+          "displayName": "Scrape Cadence"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 105,
+      "title": "Total Active Enriched Time-Series",
+      "type": "stat",
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 8
+      },
+      "targets": [
+        {
+          "expr": "count({__name__=~'netris_.*'})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "#76B900"
+          },
+          "unit": "short"
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 106,
+      "title": "Active Data Source Types in this Demo Stack",
+      "type": "text",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 13
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"font-size: 12px; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;\">DATA FORMATS BY HOP:</div>\n  <div style=\"font-size: 11px; line-height: 1.5; color: #94A3B8;\">\n    &bull; <b>Switches &rarr; Controller:</b> Internal binary streams &amp; agent heartbeats<br/>\n    &bull; <b>Controller &rarr; Exporter:</b> JSON REST API payloads (HTTP GET/POST)<br/>\n    &bull; <b>Exporter &rarr; Prometheus:</b> OpenMetrics / Prometheus text lines (HTTP GET)<br/>\n    &bull; <b>Prometheus &rarr; Grafana:</b> PromQL JSON response (HTTP POST <code>/api/v1/query_range</code>)\n  </div>\n</div>"
+      }
+    },
+    {
+      "id": 200,
+      "title": "Controller Telemetry Endpoints, Polling Methods & Collected Data Types",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      }
+    },
+    {
+      "id": 201,
+      "title": "Streaming Counters & Rates (High-Frequency Time-Series)",
+      "type": "text",
+      "gridPos": {
+        "h": 12,
+        "w": 8,
+        "x": 0,
+        "y": 19
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(0, 210, 255, 0.35); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n    <span style=\"font-weight: 700; color: #00D2FF; font-size: 13px;\">1. STREAMING COUNTERS</span>\n    <span style=\"background: rgba(0, 210, 255, 0.15); color: #00D2FF; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;\">HIGH-FREQUENCY</span>\n  </div>\n  \n  <div style=\"font-size: 11px; line-height: 1.5;\">\n    <b style=\"color: #FFFFFF;\">Collection Method (API):</b><br/>\n    Exporter sends HTTP requests to telemetry endpoints:\n    <div style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 5px 8px; margin: 4px 0 6px 0; font-family: monospace; font-size: 10px; color: #00D2FF;\">\n      GET /api/v2/telemetry/interfaces?format=json\n    </div>\n\n    <b style=\"color: #FFFFFF;\">Original Data Type from Netris:</b><br/>\n    JSON Array of time-series datapoints: <code>[[value, timestamp], ...]</code><br/><br/>\n\n    <b style=\"color: #FFFFFF;\">Collected Metrics in this Demo:</b>\n    <ul style=\"margin: 4px 0 6px 16px; padding: 0;\">\n      <li><code>netris_interface_receive_bits_per_second</code> (Gauge)</li>\n      <li><code>netris_interface_transmit_bits_per_second</code> (Gauge)</li>\n      <li><code>netris_interface_receive_packets_per_second</code> (Gauge)</li>\n      <li><code>netris_interface_transmit_packets_per_second</code> (Gauge)</li>\n      <li><code>netris_interface_receive_errors_per_second</code> (Gauge)</li>\n      <li><code>netris_optical_power_rx_dbm</code> (Gauge per lane)</li>\n      <li><code>netris_node_cpu_percent</code> (Gauge per mode)</li>\n      <li><code>netris_softgate_conntrack_entries</code> (Gauge)</li>\n    </ul>\n  </div>\n</div>"
+      }
+    },
+    {
+      "id": 202,
+      "title": "State & Capacity Telemetry (Controller REST APIs)",
+      "type": "text",
+      "gridPos": {
+        "h": 12,
+        "w": 8,
+        "x": 8,
+        "y": 19
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(118, 185, 0, 0.35); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n    <span style=\"font-weight: 700; color: #76B900; font-size: 13px;\">2. HARDWARE STATE &amp; CAPACITY</span>\n    <span style=\"background: rgba(118, 185, 0, 0.15); color: #76B900; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;\">STATE &amp; ALLOCATION</span>\n  </div>\n  \n  <div style=\"font-size: 11px; line-height: 1.5;\">\n    <b style=\"color: #FFFFFF;\">Collection Method (APIs):</b><br/>\n    Exporter sends authenticated HTTP GET requests:\n    <div style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 5px 8px; margin: 4px 0 6px 0; font-family: monospace; font-size: 10px; color: #76B900;\">\n      GET /api/v2/hw<br/>\n      GET /api/v2/l4lb<br/>\n      GET /api/v2/ipam/subnets\n    </div>\n\n    <b style=\"color: #FFFFFF;\">Original Data Type from Netris:</b><br/>\n    Structured JSON objects with integer counts, strings, and boolean flags.<br/><br/>\n\n    <b style=\"color: #FFFFFF;\">Collected Metrics in this Demo:</b>\n    <ul style=\"margin: 4px 0 6px 16px; padding: 0;\">\n      <li><code>netris_switch_capacity_routes</code> &amp; <code>macs</code> (Gauge)</li>\n      <li><code>netris_switch_capacity_ingress_acls</code> (Gauge)</li>\n      <li><code>netris_switch_capacity_egress_acls</code> (Gauge)</li>\n      <li><code>netris_l4lb_vip_health_status</code> (1/0 Gauge)</li>\n      <li><code>netris_port_status</code> (1=UP, 0=DOWN Gauge)</li>\n      <li><code>netris_ebgp_session_state</code> &amp; prefixes (Gauge)</li>\n    </ul>\n  </div>\n</div>"
+      }
+    },
+    {
+      "id": 203,
+      "title": "Hardware Sensors & Active Assurance (Environmental & Diagnostics API)",
+      "type": "text",
+      "gridPos": {
+        "h": 12,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(251, 191, 36, 0.35); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;\">\n    <span style=\"font-weight: 700; color: #FBBF24; font-size: 13px;\">3. SENSORS &amp; ASSURANCE</span>\n    <span style=\"background: rgba(251, 191, 36, 0.15); color: #FBBF24; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600;\">HARDWARE HEALTH</span>\n  </div>\n  \n  <div style=\"font-size: 11px; line-height: 1.5;\">\n    <b style=\"color: #FFFFFF;\">Collection Method (APIs):</b><br/>\n    Exporter sends authenticated HTTP GET requests:\n    <div style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 5px 8px; margin: 4px 0 6px 0; font-family: monospace; font-size: 10px; color: #FBBF24;\">\n      GET /api/v2/dashboard/hardware-health<br/>\n      GET /api/v2/dashboard/agent-heartbeats<br/>\n      GET /api/v2/dashboard/hardware-alarms\n    </div>\n\n    <b style=\"color: #FFFFFF;\">Original Data Type from Netris:</b><br/>\n    Document lists with sub-check dictionaries and numeric sensor floats.<br/><br/>\n\n    <b style=\"color: #FFFFFF;\">Collected Metrics in this Demo:</b>\n    <ul style=\"margin: 4px 0 6px 16px; padding: 0;\">\n      <li><code>netris_sensor_temperature_celsius</code> (Float \u00b0C Gauge)</li>\n      <li><code>netris_sensor_fan_speed_rpm</code> (Float RPM Gauge)</li>\n      <li><code>netris_sensor_psu_status</code> (1=OK, 0=Fail Gauge)</li>\n      <li><code>netris_port_bit_error_rate</code> (Pre/Post-FEC BER Gauge)</li>\n      <li><code>netris_daemon_health_status</code> (switchd/frr/syscd Gauge)</li>\n      <li><code>netris_agent_heartbeat</code> (1=Alive Gauge)</li>\n      <li><code>netris_topology_wiring_valid</code> (LLDP Cabling Intent)</li>\n    </ul>\n  </div>\n</div>"
+      }
+    },
+    {
+      "id": 300,
+      "title": "How the Exporter Semantically Enriches Raw Telemetry",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      }
+    },
+    {
+      "id": 301,
+      "title": "Label Enrichment Workflow (How Raw Counters Become Intent-Aware)",
+      "type": "text",
+      "gridPos": {
+        "h": 10,
+        "w": 16,
+        "x": 0,
+        "y": 32
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"font-size: 13px; font-weight: 700; color: #76B900; margin-bottom: 8px;\">BEFORE &amp; AFTER: RAW SWITCH METRIC VS ENRICHED OPENMETRICS</div>\n  \n  <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;\">\n    <div>\n      <div style=\"color: #FF3366; font-weight: 700; margin-bottom: 4px;\">RAW COUNTER IN CONTROLLER (Generic Interface):</div>\n      <pre style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 8px; font-family: monospace; font-size: 10px; color: #F87171; overflow-x: auto; margin: 0;\">\nnetris.sw01.swp1.octets_rx: 4892182048\n# No context on:\n# - What is connected to swp1?\n# - Is it a GPU server, leaf, or spine?\n# - Which tenant, VPC, or AI cluster owns it?</pre>\n    </div>\n\n    <div>\n      <div style=\"color: #76B900; font-weight: 700; margin-bottom: 4px;\">ENRICHED OPENMETRICS (Port 9101 OpenMetrics):</div>\n      <pre style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 8px; font-family: monospace; font-size: 10px; color: #A6E324; overflow-x: auto; margin: 0;\">\nnetris_interface_receive_bits_per_second{\n  site=\"Datacenter-A\",\n  device_name=\"leaf-pod00-su0-r0\",\n  port=\"swp1s0\",\n  port_role=\"server_facing\",\n  remote_device=\"hgx-pod00-su0-h00\",\n  remote_port=\"eth1\",\n  server_cluster=\"Nexus-Compute-01\",\n  vpc=\"AI-Training-VPC\",\n  tenant=\"Admin\"\n} 39137456384</pre>\n    </div>\n  </div>\n\n  <div style=\"margin-top: 10px; font-size: 11px; color: #94A3B8;\">\n    <b>Enrichment Source:</b> Exporter periodically queries <code>/api/v2/link</code>, <code>/api/v2/vpc</code>, <code>/api/v2/server-cluster</code>, and caches the topological mapping in memory, enriching every scraped interface counter on the fly.\n  </div>\n</div>"
+      }
+    },
+    {
+      "id": 302,
+      "title": "Enrichment Labels Injected by Exporter",
+      "type": "text",
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 16,
+        "y": 32
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"font-size: 12px; font-weight: 700; color: #FFFFFF; margin-bottom: 8px;\">TOPOLOGICAL LABELS ADDED:</div>\n  <table style=\"width: 100%; font-size: 11px; border-collapse: collapse;\">\n    <tr style=\"border-bottom: 1px solid rgba(255, 255, 255, 0.08);\">\n      <td style=\"padding: 4px 0; color: #00D2FF; font-family: monospace;\">port_role</td>\n      <td style=\"padding: 4px 0; color: #CBD5E1;\">Separates server access vs fabric transit</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid rgba(255, 255, 255, 0.08);\">\n      <td style=\"padding: 4px 0; color: #76B900; font-family: monospace;\">remote_device</td>\n      <td style=\"padding: 4px 0; color: #CBD5E1;\">Identifies host/switch at opposite end of cable</td>\n    </tr>\n    <tr style=\"border-bottom: 1px solid rgba(255, 255, 255, 0.08);\">\n      <td style=\"padding: 4px 0; color: #FBBF24; font-family: monospace;\">vpc / tenant</td>\n      <td style=\"padding: 4px 0; color: #CBD5E1;\">Enables multi-tenant network chargeback</td>\n    </tr>\n    <tr>\n      <td style=\"padding: 4px 0; color: #C084FC; font-family: monospace;\">fabric_type</td>\n      <td style=\"padding: 4px 0; color: #CBD5E1;\">Distinguishes compute vs storage vs OOB</td>\n    </tr>\n  </table>\n</div>"
+      }
+    },
+    {
+      "id": 400,
+      "title": "How Grafana Queries Prometheus in this Demo (Real PromQL Queries)",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      }
+    },
+    {
+      "id": 401,
+      "title": "East-West GPU Cluster Throughput (PromQL)",
+      "type": "text",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 43
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 8px; padding: 12px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"font-size: 12px; font-weight: 700; color: #00D2FF; margin-bottom: 4px;\">QUERY: SERVER CLUSTER TRAFFIC</div>\n  <div style=\"font-size: 11px; color: #94A3B8; margin-bottom: 8px;\">Sums ingress throughput across all server-facing ports grouped by cluster:</div>\n  <pre style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 8px; font-family: monospace; font-size: 10px; color: #38BDF8; overflow-x: auto; margin: 0;\">\nsum by (server_cluster) (\n  netris_interface_receive_bits_per_second{\n    port_role=\"server_facing\",\n    server_cluster!=\"none\"\n  }\n)</pre>\n  <div style=\"margin-top: 8px; font-size: 10px; color: #94A3B8;\">Used in Fabric Overview dashboard to measure AI collective training bandwidth.</div>\n</div>"
+      }
+    },
+    {
+      "id": 402,
+      "title": "Hardware Assurance Alarms (PromQL)",
+      "type": "text",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 43
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 8px; padding: 12px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;\">\n  <div style=\"font-size: 12px; font-weight: 700; color: #FF3366; margin-bottom: 4px;\">QUERY: ACTIVE CABLING &amp; NODE ALARMS</div>\n  <div style=\"font-size: 11px; color: #94A3B8; margin-bottom: 8px;\">Finds switches with degraded subcomponents or cabling inconsistencies:</div>\n  <pre style=\"background: #090D16; border: 1px solid #1E293B; border-radius: 4px; padding: 8px; font-family: monospace; font-size: 10px; color: #F87171; overflow-x: auto; margin: 0;\">\n# Cabling mismatch:\nnetris_topology_wiring_valid == 0\n\n# Subcomponent failure:\nnetris_node_component_health == 0</pre>\n  <div style=\"margin-top: 8px; font-size: 10px; color: #94A3B8;\">Instantly alerts operator to miswired cables or failing power supplies.</div>\n</div>"
+      }
+    },
+    {
+      "id": 500,
+      "title": "Live Metric Catalog (Currently Exported & Queried in Prometheus)",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 51
+      }
+    },
+    {
+      "id": 501,
+      "title": "Exported Metric Catalog & Classification Table",
+      "type": "table",
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 52
+      },
+      "targets": [
+        {
+          "expr": "count by (__name__) ({__name__=~\"netris_.*\"})",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Active Series Count"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "__name__"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Metric Family Name"
+              }
+            ]
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "netris",
+    "observability",
+    "architecture",
+    "customer-facing"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Netris - Metrics Architecture & Export Showcase",
+  "uid": "netris-metrics-architecture",
+  "version": 1
+}

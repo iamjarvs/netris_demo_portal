@@ -71,8 +71,35 @@ def backfill(minutes: int = 90, step: int = 60, sim_data_path: str = "sim_data/t
             logger.error("Simulation data file '%s' not found! Please run './record.sh' first.", sim_data_path)
             sys.exit(1)
 
+    # Parse prometheus.yml to discover target labels (job, instance, etc.)
+    target_labels: dict[str, str] = {
+        "job": "netris",
+        "instance": f"netris-exporter:{config.exporter_port}",
+        "environment": "production",
+        "controller": "adam-ctl.netris.io",
+    }
+    prom_cfg_path = os.path.join(os.path.dirname(output_dir) if output_dir != "prometheus/data" else "prometheus", "prometheus.yml")
+    if os.path.exists(prom_cfg_path):
+        try:
+            import yaml
+            with open(prom_cfg_path, "r", encoding="utf-8") as pf:
+                pcfg = yaml.safe_load(pf)
+            for sc in pcfg.get("scrape_configs", []):
+                if sc.get("job_name") == "netris":
+                    target_labels["job"] = sc.get("job_name", "netris")
+                    for stc in sc.get("static_configs", []):
+                        if stc.get("targets"):
+                            target_labels["instance"] = stc["targets"][0]
+                        for lk, lv in stc.get("labels", {}).items():
+                            target_labels[lk] = str(lv)
+                    break
+            logger.info("Discovered Prometheus target labels for backfill: %s", target_labels)
+        except Exception as e:
+            logger.warning("Could not parse %s via PyYAML: %s. Using configured defaults.", prom_cfg_path, e)
+
     t_start_total = time.time()
-    now = int(time.time())
+    # End backfill 60 seconds before current time so initial live scrape continues seamlessly without overlap
+    now = int(time.time()) - 60
     num_steps = (minutes * 60) // step
     t0 = now - (num_steps * step)
 
@@ -117,7 +144,9 @@ def backfill(minutes: int = 90, step: int = 60, sim_data_path: str = "sim_data/t
 
             for sample in family.samples:
                 # sample: (name, labels_dict, value, timestamp, exemplar)
-                labels = sample[1]
+                labels = dict(sample[1])
+                # Merge target labels so TSDB series fingerprint matches live scrapes exactly
+                labels.update(target_labels)
                 val = sample[2]
                 lbl_str = ",".join(f'{k}="{v}"' for k, v in sorted(labels.items()))
                 series_data[fname][lbl_str].append((t, val))

@@ -1,0 +1,568 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "refresh": "15s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "netris",
+    "hardware",
+    "cpu",
+    "memory",
+    "fans",
+    "nos"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "device_name",
+        "label": "Device",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(netris_device_info, device_name)",
+        "query": {
+          "query": "label_values(netris_device_info, device_name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "sort": 1,
+        "includeAll": true,
+        "multi": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        }
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Netris - Hardware Overview",
+  "uid": "netris-hardware-overview",
+  "version": 1,
+  "panels": [
+    {
+      "id": 999,
+      "type": "text",
+      "title": "",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "mode": "html",
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\u26a1 Nexus Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
+      },
+      "transparent": true
+    },
+    {
+      "id": 100,
+      "title": "Chassis Subsystems, Cooling & Power Pulse",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "id": 101,
+      "title": "Peak ASIC Temperature (\u00b0C)",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "description": "Highest recorded internal ASIC junction temperature across all network nodes.",
+      "targets": [
+        {
+          "expr": "max(netris_sensor_temperature_celsius{sensor_type=\"asic\"}) or max(netris_sensor_temperature_celsius)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "celsius",
+          "min": 20,
+          "max": 90,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 65
+              },
+              {
+                "color": "#FF3366",
+                "value": 75
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 102,
+      "title": "Average Chassis Temperature (\u00b0C)",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 4
+      },
+      "description": "Average chassis ambient temperature across intake and exhaust sensors.",
+      "targets": [
+        {
+          "expr": "avg(netris_sensor_temperature_celsius)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "celsius",
+          "min": 20,
+          "max": 80,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 50
+              },
+              {
+                "color": "#FF3366",
+                "value": 65
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 103,
+      "title": "Average Cooling Fan Speed (RPM)",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 4
+      },
+      "description": "Mean fan tachometer rotational velocity across switch and SoftGate fan trays.",
+      "targets": [
+        {
+          "expr": "avg(netris_sensor_fan_speed_rpm)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "rotrpm",
+          "min": 1000,
+          "max": 25000,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 18000
+              },
+              {
+                "color": "#FF3366",
+                "value": 22000
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 104,
+      "title": "Healthy Power Supplies (PSU)",
+      "type": "gauge",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 4
+      },
+      "description": "Percentage of redundant dual power supplies operating in normal state.",
+      "targets": [
+        {
+          "expr": "(count(netris_sensor_psu_status == 1) / count(netris_sensor_psu_status) * 100) or vector(100)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "unit": "percent",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FF3366",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 95
+              },
+              {
+                "color": "#76B900",
+                "value": 100
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 200,
+      "title": "Control Plane Resource Utilization (CPU, Memory & Disk)",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      }
+    },
+    {
+      "id": 201,
+      "title": "Switch & SoftGate CPU 1m Load Average Trends",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 11
+      },
+      "description": "1-minute normalized system load average per switch/node.",
+      "targets": [
+        {
+          "expr": "netris_node_load_1m{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 202,
+      "title": "Switch & SoftGate Memory (RAM) % Utilization",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 11
+      },
+      "description": "System RAM utilization across network operating systems.",
+      "targets": [
+        {
+          "expr": "netris_node_memory_used_percent{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 75
+              },
+              {
+                "color": "#FF3366",
+                "value": 90
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 203,
+      "title": "Switch & SoftGate Disk % Utilization",
+      "type": "bargauge",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 11
+      },
+      "description": "Root partition and flash storage consumption per node.",
+      "targets": [
+        {
+          "expr": "netris_node_disk_used_percent{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 70
+              },
+              {
+                "color": "#FF3366",
+                "value": 85
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 300,
+      "title": "Environmental Thermals, Fans & Software Versions",
+      "type": "row",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      }
+    },
+    {
+      "id": 301,
+      "title": "Chassis Thermal Sensor Trends (\u00b0C)",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "description": "Continuous thermal readings across all internal temperature probes.",
+      "targets": [
+        {
+          "expr": "netris_sensor_temperature_celsius{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}} - {{sensor_name}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#76B900",
+                "value": null
+              },
+              {
+                "color": "#FF9900",
+                "value": 65
+              },
+              {
+                "color": "#FF3366",
+                "value": 75
+              }
+            ]
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 302,
+      "title": "Fan Tray Tachometer Speeds (RPM) Over Time",
+      "type": "timeseries",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "description": "Rotational speed trends demonstrating dynamic thermal curve management.",
+      "targets": [
+        {
+          "expr": "netris_sensor_fan_speed_rpm{device_name=~\"$device_name\"}",
+          "legendFormat": "{{device_name}} ({{fan_name}})",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "rotrpm",
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "id": 303,
+      "title": "Managed Fleet Inventory & Network Operating System (NOS) Versions",
+      "type": "table",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "description": "Comprehensive audit of all switches, border nodes, and compute gateways showing NOS and roles.",
+      "targets": [
+        {
+          "expr": "netris_device_info{device_name=~\"$device_name\"}",
+          "format": "table",
+          "instant": true,
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nos"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Network OS (NOS) Version"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "device_role"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Device Role"
+              }
+            ]
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ]
+}
