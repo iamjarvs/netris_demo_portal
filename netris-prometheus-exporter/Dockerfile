@@ -9,4 +9,4 @@ COPY config.py netris_client.py sim_client.py record.py enricher.py exporter.py 
 
 EXPOSE 9101
 
-CMD ["python", "exporter.py"]
+CMD ["python", "app/exporter.py"]

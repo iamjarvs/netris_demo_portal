@@ -7,7 +7,7 @@ Generates executive and engineering-grade Grafana dashboards for the Netris Obse
 3. netris-hardware-overview.json: Hardware Overview (CPU, Disk, Memory, Fans, PSUs, NOS software versions)
 4. netris-softgates.json: SoftGates Border & NAT Telemetry (Conntrack, throughput, VIPs, CPU/RAM)
 5. netris-switch-info.json: Switch Information (FIB route capacity, MAC capacity, TCAM ACL quotas, throughput, latency, error spikes)
-6. netris-mistic-cluster.json: Nexus Cluster (Compute GPU cluster throughput, server downlinks, VPC allocations, port status)
+6. netris-mistic-cluster.json: Netris Cluster (Compute GPU cluster throughput, server downlinks, VPC allocations, port status)
 7. netris-metrics-architecture.json: Metrics Architecture & Export Showcase (Data paths, PromQL query catalog, metric registry)
 
 Schema version: 38 (Grafana 10+)
@@ -25,7 +25,7 @@ def get_nav_banner(active_tab: str) -> str:
         ("hardware", "💻 Hardware Overview", "/d/netris-hardware-overview"),
         ("softgates", "🛡️ SoftGates", "/d/netris-softgates"),
         ("switch_info", "🔀 Switch Information", "/d/netris-switch-info"),
-        ("mistic", "⚡ Nexus Cluster", "/d/netris-mistic-cluster"),
+        ("mistic", "⚡ Netris Cluster", "/d/netris-mistic-cluster"),
         ("architecture", "📐 Metrics & Architecture", "/d/netris-metrics-architecture"),
     ]
 

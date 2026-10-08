@@ -205,6 +205,31 @@ class SimulatedNetrisClient:
                     if mem_match:
                         m_val = min(98.0, max(10.0, round(float(mem_match.group(1)) + random.uniform(-1.2, 1.2), 1)))
                         chk["message"] = f"{m_val} % Used"
+
+                # Realistic deliberate simulation alerts for demonstration
+                dname = dev.get("name", "")
+                if dname == "leaf-pod00-su0-r0" and cname == "check_fan":
+                    chk["status"] = "critical"
+                    chk["severity"] = "critical"
+                    chk["message"] = "Fan 2 failed (0 RPM)"
+                    chk["ok_brief_message"] = "Fan fault detected"
+                elif dname == "ns-leaf-1" and cname == "check_topology":
+                    chk["status"] = "critical"
+                    chk["severity"] = "critical"
+                    chk["message"] = "LLDP mismatch: swp48 connected to spine-2 instead of spine-1"
+                elif dname == "leaf-pod00-su1-r2" and cname == "check_psu":
+                    chk["status"] = "critical"
+                    chk["severity"] = "critical"
+                    chk["message"] = "PSU1(OK), PSU2(Fault/No Power)"
+                elif cname == "check_port":
+                    pname = chk.get("port", "")
+                    # Give 2 specific ports active BER errors with elevated bit errors
+                    if (dname == "spine-3-pod00" and pname == "swp1s1") or (dname == "leaf-pod00-su0-r0" and pname == "swp53s0"):
+                        chk["message"] = f"{pname} port is UP, in-drops:critical,out-drops:ok,in-errors:critical,out-errors:ok, Bit Error Rate: 4.8e-09 CRITICAL, 12% RX Utilized of 100 Gbps, 8% TX Utilized of 100 Gbps"
+                    else:
+                        # Clean normal port reporting 0 BER
+                        if "Bit Error Rate:" in msg:
+                            chk["message"] = re.sub(r"Bit Error Rate:\s*[^\,]+", "Bit Error Rate: 0 (Nominal)", msg)
         return cloned_health
 
     def get_agent_heartbeats(self) -> list[dict]:
@@ -276,6 +301,8 @@ class SimulatedNetrisClient:
 
                 if wants_errors:
                     err_val = 0.0
+                    if (dev == "spine-3-pod00" and port == "swp1s1") or (dev == "leaf-pod00-su0-r0" and port == "swp53s0"):
+                        err_val = round(random.uniform(42.0, 180.0), 1)
                     simulated_series.append({
                         "target": f"collectd.{dev}.interface-{port}.if_errors.{direction}",
                         "datapoints": [[err_val, now_ts]]

@@ -7,7 +7,7 @@ Generates executive and engineering-grade Grafana dashboards matching the reques
 3. netris-hardware-overview.json: Hardware Overview (CPU, Disk, Memory, Fans, PSUs, NOS software versions)
 4. netris-softgates.json: Soft Gates (SoftGate nodes, conntrack, throughput, VIPs, CPU/RAM)
 5. netris-switch-info.json: Switch Information (FIB route capacity, MAC capacity, TCAM ACL quotas, throughput, latency, error spikes)
-6. netris-mistic-cluster.json: Nexus Cluster (Compute GPU cluster throughput, server downlinks, VPC allocations, port status)
+6. netris-mistic-cluster.json: Netris Cluster (Compute GPU cluster throughput, server downlinks, VPC allocations, port status)
 7. netris-metrics-architecture.json: Metrics Architecture & Export Showcase (Data paths, PromQL query catalog, metric registry)
 
 Schema version: 38 (Grafana 10+)
@@ -25,7 +25,7 @@ def get_nav_banner(active_tab: str) -> str:
         ("hardware", "💻 Hardware Overview", "/d/netris-hardware-overview"),
         ("softgates", "🛡️ Soft Gates", "/d/netris-softgates"),
         ("switch_info", "🔀 Switch Information", "/d/netris-switch-info"),
-        ("mistic", "⚡ Nexus Cluster", "/d/netris-mistic-cluster"),
+        ("mistic", "⚡ Netris Cluster", "/d/netris-mistic-cluster"),
         ("architecture", "📐 Metrics & Architecture", "/d/netris-metrics-architecture"),
     ]
 
@@ -71,12 +71,28 @@ def get_nav_links():
 PROM_DS = {"type": "prometheus", "uid": "prometheus"}
 
 def finalize_dashboard(dash):
-    """Walks all panels and assigns the correct Prometheus data source."""
+    """Walks all panels and assigns the correct Prometheus data source and smooth line interpolation."""
     def _fix_panel(p):
         ptype = p.get("type")
-        if ptype in ("stat", "timeseries", "gauge", "bargauge", "table", "piechart", "barchart"):
+        if ptype in ("stat", "timeseries", "gauge", "bargauge", "table", "piechart", "barchart", "heatmap"):
             if "datasource" not in p:
                 p["datasource"] = PROM_DS
+        if ptype == "timeseries":
+            custom = p.setdefault("fieldConfig", {}).setdefault("defaults", {}).setdefault("custom", {})
+            custom["lineInterpolation"] = "smooth"
+            custom["lineWidth"] = 2
+            custom["showPoints"] = "never"
+            custom["spanNulls"] = False
+
+            unit = p.get("fieldConfig", {}).get("defaults", {}).get("unit", "")
+            # Only apply subtle area gradient fill on positive bandwidth/throughput curves (bps).
+            # Negative-scale metrics like optical dBm fill upwards towards 0 dBm, creating a solid opaque
+            # block that hides the background and grid lines.
+            if unit == "bps":
+                custom["fillOpacity"] = 8
+                custom["gradientMode"] = "opacity"
+            else:
+                custom["fillOpacity"] = 0
         elif ptype == "row":
             p.pop("datasource", None)
             if "panels" in p:
@@ -349,166 +365,450 @@ def build_overview_dashboard():
 # 2. OPTICS DASHBOARD
 # ==============================================================================
 def build_optics_dashboard():
-    panels = [
-        # Top Banner
-        {
-            "id": 999,
-            "type": "text",
-            "title": "",
-            "gridPos": {"h": 3, "w": 24, "x": 0, "y": 0},
-            "options": {"mode": "html", "content": get_nav_banner("optics")},
-            "transparent": True
-        },
-        # Row 100: Transceiver Physical Layer KPIs
-        {"id": 100, "title": "Optical Transceiver Physical Layer Health & Power", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 3}},
-        {
-            "id": 101,
-            "title": "Minimum Optical RX Power",
-            "type": "gauge",
-            "gridPos": {"h": 6, "w": 6, "x": 0, "y": 4},
-            "description": "Lowest received optical power level recorded across all monitored transceiver lanes.",
-            "targets": [{"expr": 'min(netris_optical_power_rx_dbm{device_name=~"$device_name"})', "refId": "A"}],
-            "fieldConfig": {
-                "defaults": {
-                    "color": {"mode": "thresholds"},
-                    "unit": "dBm",
-                    "min": -20, "max": 0,
-                    "thresholds": {"mode": "absolute", "steps": [{"color": "#FF3366", "value": None}, {"color": "#FF9900", "value": -14}, {"color": "#76B900", "value": -10}]}
-                }
-            }
-        },
-        {
-            "id": 102,
-            "title": "Average Optical RX Power",
-            "type": "gauge",
-            "gridPos": {"h": 6, "w": 6, "x": 6, "y": 4},
-            "description": "Mean optical received power level across active transceivers.",
-            "targets": [{"expr": 'avg(netris_optical_power_rx_dbm{device_name=~"$device_name"})', "refId": "A"}],
-            "fieldConfig": {
-                "defaults": {
-                    "color": {"mode": "thresholds"},
-                    "unit": "dBm",
-                    "min": -20, "max": 0,
-                    "thresholds": {"mode": "absolute", "steps": [{"color": "#FF3366", "value": None}, {"color": "#FF9900", "value": -14}, {"color": "#76B900", "value": -10}]}
-                }
-            }
-        },
-        {
-            "id": 103,
-            "title": "Total Monitored Optical Lanes",
-            "type": "stat",
-            "gridPos": {"h": 6, "w": 6, "x": 12, "y": 4},
-            "description": "Total parallel optical lanes actively reporting diagnostic DDM telemetry.",
-            "targets": [{"expr": 'count(netris_optical_power_rx_dbm{device_name=~"$device_name"})', "refId": "A"}],
-            "fieldConfig": {"defaults": {"color": {"mode": "fixed", "fixedColor": "#00F5D4"}, "unit": "short"}}
-        },
-        {
-            "id": 104,
-            "title": "Degraded Signal Links (BER Alarm)",
-            "type": "stat",
-            "gridPos": {"h": 6, "w": 6, "x": 18, "y": 4},
-            "description": "Count of links exceeding acceptable pre-FEC or post-FEC Bit Error Rate thresholds.",
-            "targets": [{"expr": '(count(netris_port_bit_error_rate{device_name=~"$device_name"} > 1e-12)) or vector(0)', "refId": "A"}],
-            "fieldConfig": {
-                "defaults": {
-                    "color": {"mode": "thresholds"},
-                    "unit": "short",
-                    "thresholds": {"mode": "absolute", "steps": [{"color": "#76B900", "value": None}, {"color": "#FF3366", "value": 1}]}
-                }
-            }
-        },
-
-        # Row 200: Optical Power Signals Over Time
-        {"id": 200, "title": "Optical Power (dBm) Signals & Signal Drift Analysis", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 10}},
-        {
-            "id": 201,
-            "title": "Optical Power RX (dBm) Trends Across Lanes",
-            "type": "timeseries",
-            "gridPos": {"h": 8, "w": 16, "x": 0, "y": 11},
-            "description": "Real-time streaming light intensity per lane. Drops in dBm indicate dirty fibre connectors or laser aging.",
-            "targets": [{"expr": 'netris_optical_power_rx_dbm{device_name=~"$device_name"}', "legendFormat": "{{device_name}} {{port}} [{{lane}}]", "refId": "A"}],
-            "fieldConfig": {"defaults": {"unit": "dBm", "color": {"mode": "palette-classic"}}}
-        },
-        {
-            "id": 202,
-            "title": "Optics Health & dBm Diagnostics Note",
-            "type": "text",
-            "gridPos": {"h": 8, "w": 8, "x": 16, "y": 11},
-            "options": {
-                "mode": "html",
-                "content": '''<div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 8px; padding: 14px; font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; height: 100%; box-sizing: border-box;">
-  <div style="font-size: 13px; font-weight: 700; color: #00D2FF; margin-bottom: 6px;">TRANSCEIVER DDM TELEMETRY</div>
-  <div style="font-size: 11px; line-height: 1.6; color: #CBD5E1;">
-    &bull; <b>Optical Budget Normal:</b> Standard 100G/400G SR4/DR4/FR4 transceivers operate between -3 dBm and -10 dBm.<br/><br/>
-    &bull; <b>Early Warning Detection:</b> A progressive dBm decay towards -14 dBm triggers automated pre-emptive alerting before link flap occurs, preventing disruption to AI workloads.
-  </div>
-</div>'''
-            }
-        },
-
-        # Row 300: Signal Integrity & BER
-        {"id": 300, "title": "Physical Layer Signal Quality & Bit Error Rate (BER)", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 19}},
-        {
-            "id": 301,
-            "title": "Physical Layer Bit Error Rate (BER) Trends",
-            "type": "timeseries",
-            "gridPos": {"h": 8, "w": 12, "x": 0, "y": 20},
-            "description": "Continuous FEC monitoring. Elevated bit errors trigger predictive transceiver maintenance.",
-            "targets": [{"expr": 'topk(10, netris_port_bit_error_rate{device_name=~"$device_name"})', "legendFormat": "{{device_name}} {{port}} BER", "refId": "A"}],
-            "fieldConfig": {"defaults": {"color": {"mode": "palette-classic"}}}
-        },
-        {
-            "id": 302,
-            "title": "Transceiver Optical Power Diagnostic Audit",
-            "type": "table",
-            "gridPos": {"h": 8, "w": 12, "x": 12, "y": 20},
-            "description": "Detailed snapshot of optical RX power levels per transceiver and lane.",
-            "targets": [{"expr": 'netris_optical_power_rx_dbm{device_name=~"$device_name"}', "format": "table", "instant": True, "refId": "A"}],
-            "fieldConfig": {"defaults": {"unit": "dBm"}}
-        }
-    ]
-
-    return {
-        "annotations": {"list": []},
-        "editable": True,
-        "fiscalYearStartMonth": 0,
-        "graphTooltip": 1,
-        "id": None,
-        "links": get_nav_links(),
-        "liveNow": False,
-        "refresh": "15s",
-        "schemaVersion": 38,
-        "style": "dark",
-        "tags": ["netris", "optics", "transceivers", "telemetry"],
-        "templating": {
-            "list": [
-                {
-                    "name": "device_name",
-                    "label": "Device",
-                    "type": "query",
-                    "datasource": PROM_DS,
-                    "definition": 'label_values(netris_device_info{device_role=~"leaf|spine|oob_leaf"}, device_name)',
-                    "query": {
-                        "query": 'label_values(netris_device_info{device_role=~"leaf|spine|oob_leaf"}, device_name)',
-                        "refId": "StandardVariableQuery"
-                    },
-                    "refresh": 1,
-                    "sort": 1,
-                    "includeAll": True,
-                    "multi": True,
-                    "allValue": ".*",
-                    "current": {"selected": True, "text": "All", "value": "$__all"}
-                }
-            ]
-        },
-        "time": {"from": "now-30m", "to": "now"},
-        "timepicker": {},
-        "timezone": "browser",
-        "title": "Netris - Optics & Physical Layer",
-        "uid": "netris-optics",
-        "version": 1,
-        "panels": panels
-    }
+    return {   'annotations': {   'list': [   {   'builtIn': 1,
+                                       'datasource': {'type': 'grafana', 'uid': '-- Grafana --'},
+                                       'enable': True,
+                                       'hide': True,
+                                       'iconColor': 'rgba(0, 211, 255, 1)',
+                                       'name': 'Annotations & Alerts',
+                                       'type': 'dashboard'}]},
+    'editable': True,
+    'fiscalYearStartMonth': 0,
+    'graphTooltip': 1,
+    'links': [],
+    'liveNow': False,
+    'panels': [   {   'gridPos': {'h': 3, 'w': 24, 'x': 0, 'y': 0},
+                      'id': 999,
+                      'options': {   'code': {'language': 'plaintext', 'showLineNumbers': False, 'showMiniMap': False},
+                                     'content': '<div style="background: linear-gradient(135deg, #0A0D14 0%, #111827 '
+                                                '50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: '
+                                                '8px; padding: 12px 20px; display: flex; justify-content: '
+                                                'space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, '
+                                                '51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); '
+                                                'border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px '
+                                                'solid rgba(255, 255, 255, 0.05);">\n'
+                                                '  <div style="display: flex; align-items: center; gap: 14px;">\n'
+                                                '    <div style="background: #FF3366; color: #FFFFFF; font-weight: '
+                                                '900; font-size: 15px; padding: 5px 12px; border-radius: 6px; '
+                                                'letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); '
+                                                'font-family: Inter, -apple-system, sans-serif;">\n'
+                                                '      NETRIS\n'
+                                                '    </div>\n'
+                                                '    <div>\n'
+                                                '      <div style="color: #FFFFFF; font-size: 16px; font-weight: 700; '
+                                                'letter-spacing: 0.5px; font-family: Inter, -apple-system, '
+                                                'sans-serif;">\n'
+                                                '        FABRIC OBSERVABILITY\n'
+                                                '      </div>\n'
+                                                '    </div>\n'
+                                                '  </div>\n'
+                                                '  <div style="display: flex; align-items: center; gap: 8px; '
+                                                'flex-wrap: wrap;">\n'
+                                                '    <a href="/d/netris-fabric-overview" style="text-decoration: none; '
+                                                'background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px '
+                                                'solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: '
+                                                '6px; font-size: 11px; font-weight: 600; transition: all 0.2s;">🏠 '
+                                                'General Overview</a> <a href="/d/netris-optics" '
+                                                'style="text-decoration: none; background: #FF3366; color: #FFFFFF; '
+                                                'border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; '
+                                                'font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, '
+                                                '102, 0.4);">🔬 Optics</a> <a href="/d/netris-hardware-overview" '
+                                                'style="text-decoration: none; background: rgba(255, 255, 255, 0.06); '
+                                                'color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: '
+                                                '6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; '
+                                                'transition: all 0.2s;">💻 Hardware Overview</a> <a '
+                                                'href="/d/netris-softgates" style="text-decoration: none; background: '
+                                                'rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid '
+                                                'rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; '
+                                                'font-size: 11px; font-weight: 600; transition: all 0.2s;">🛡️ Soft '
+                                                'Gates</a> <a href="/d/netris-switch-info" style="text-decoration: '
+                                                'none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: '
+                                                '1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; '
+                                                'border-radius: 6px; font-size: 11px; font-weight: 600; transition: '
+                                                'all 0.2s;">🔀 Switch Information</a> <a '
+                                                'href="/d/netris-mistic-cluster" style="text-decoration: none; '
+                                                'background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px '
+                                                'solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: '
+                                                '6px; font-size: 11px; font-weight: 600; transition: all 0.2s;">⚡ '
+                                                'Netris Cluster</a> <a href="/d/netris-metrics-architecture" '
+                                                'style="text-decoration: none; background: rgba(255, 255, 255, 0.06); '
+                                                'color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: '
+                                                '6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; '
+                                                'transition: all 0.2s;">📐 Metrics & Architecture</a>\n'
+                                                '  </div>\n'
+                                                '</div>',
+                                     'mode': 'html'},
+                      'pluginVersion': '10.3.3',
+                      'transparent': True,
+                      'type': 'text'},
+                  {   'gridPos': {'h': 1, 'w': 24, 'x': 0, 'y': 3},
+                      'id': 100,
+                      'title': 'Optical Transceiver Physical Layer Health & Power',
+                      'type': 'row'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'Lowest received optical power level recorded across all monitored transceiver '
+                                     'lanes.',
+                      'fieldConfig': {   'defaults': {   'color': {'mode': 'thresholds'},
+                                                         'mappings': [],
+                                                         'max': 0,
+                                                         'min': -20,
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': '#FF3366',
+                                                                                            'value': None},
+                                                                                        {   'color': '#FF9900',
+                                                                                            'value': -14},
+                                                                                        {   'color': '#76B900',
+                                                                                            'value': -10}]},
+                                                         'unit': 'dBm',
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 6, 'w': 6, 'x': 0, 'y': 4},
+                      'id': 101,
+                      'options': {   'minVizHeight': 75,
+                                     'minVizWidth': 75,
+                                     'orientation': 'auto',
+                                     'reduceOptions': {'calcs': ['lastNotNull'], 'fields': '', 'values': False},
+                                     'showThresholdLabels': False,
+                                     'showThresholdMarkers': True,
+                                     'sizing': 'auto'},
+                      'pluginVersion': '10.3.3',
+                      'targets': [   {   'expr': 'min(netris_optical_power_rx_dbm{device_name=~"$device_name"})',
+                                         'refId': 'A'}],
+                      'title': 'Minimum Optical RX Power',
+                      'type': 'gauge'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'Mean optical received power level across active transceivers.',
+                      'fieldConfig': {   'defaults': {   'color': {'mode': 'thresholds'},
+                                                         'mappings': [],
+                                                         'max': 0,
+                                                         'min': -20,
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': '#FF3366',
+                                                                                            'value': None},
+                                                                                        {   'color': '#FF9900',
+                                                                                            'value': -14},
+                                                                                        {   'color': '#76B900',
+                                                                                            'value': -10}]},
+                                                         'unit': 'dBm',
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 6, 'w': 6, 'x': 6, 'y': 4},
+                      'id': 102,
+                      'options': {   'minVizHeight': 75,
+                                     'minVizWidth': 75,
+                                     'orientation': 'auto',
+                                     'reduceOptions': {'calcs': ['lastNotNull'], 'fields': '', 'values': False},
+                                     'showThresholdLabels': False,
+                                     'showThresholdMarkers': True,
+                                     'sizing': 'auto'},
+                      'pluginVersion': '10.3.3',
+                      'targets': [   {   'expr': 'avg(netris_optical_power_rx_dbm{device_name=~"$device_name"})',
+                                         'refId': 'A'}],
+                      'title': 'Average Optical RX Power',
+                      'type': 'gauge'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'Total parallel optical lanes actively reporting diagnostic DDM telemetry.',
+                      'fieldConfig': {   'defaults': {   'color': {'fixedColor': '#00F5D4', 'mode': 'fixed'},
+                                                         'mappings': [],
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': 'green',
+                                                                                            'value': None},
+                                                                                        {'color': 'red', 'value': 80}]},
+                                                         'unit': 'short',
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 6, 'w': 6, 'x': 12, 'y': 4},
+                      'id': 103,
+                      'options': {   'colorMode': 'value',
+                                     'graphMode': 'area',
+                                     'justifyMode': 'auto',
+                                     'orientation': 'auto',
+                                     'reduceOptions': {'calcs': ['lastNotNull'], 'fields': '', 'values': False},
+                                     'showPercentChange': False,
+                                     'textMode': 'auto',
+                                     'wideLayout': True},
+                      'pluginVersion': '10.3.3',
+                      'targets': [   {   'expr': 'count(netris_optical_power_rx_dbm{device_name=~"$device_name"})',
+                                         'refId': 'A'}],
+                      'title': 'Total Monitored Optical Lanes',
+                      'type': 'stat'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'Count of links exceeding acceptable pre-FEC or post-FEC Bit Error Rate '
+                                     'thresholds.',
+                      'fieldConfig': {   'defaults': {   'color': {'mode': 'thresholds'},
+                                                         'mappings': [],
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': '#76B900',
+                                                                                            'value': None},
+                                                                                        {   'color': '#FF3366',
+                                                                                            'value': 1}]},
+                                                         'unit': 'short',
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 6, 'w': 6, 'x': 18, 'y': 4},
+                      'id': 104,
+                      'options': {   'colorMode': 'value',
+                                     'graphMode': 'area',
+                                     'justifyMode': 'auto',
+                                     'orientation': 'auto',
+                                     'reduceOptions': {'calcs': ['lastNotNull'], 'fields': '', 'values': False},
+                                     'showPercentChange': False,
+                                     'textMode': 'auto',
+                                     'wideLayout': True},
+                      'pluginVersion': '10.3.3',
+                      'targets': [   {   'expr': '(count(netris_port_bit_error_rate{device_name=~"$device_name"} > '
+                                                 '1e-12)) or vector(0)',
+                                         'refId': 'A'}],
+                      'title': 'Degraded Signal Links (BER Alarm)',
+                      'type': 'stat'},
+                  {   'gridPos': {'h': 1, 'w': 24, 'x': 0, 'y': 10},
+                      'id': 200,
+                      'title': 'Optical Power (dBm) Signals & Signal Drift Analysis (3 View Options)',
+                      'type': 'row'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'PURPOSE: Surfaces the 3 lowest-power optical lanes in the fabric alongside fleet '
+                                     'mean. WHAT TO DO: If a lane drops below the dashed amber line (-10 dBm), clean '
+                                     'or re-seat the fiber connector.',
+                      'fieldConfig': {   'defaults': {   'color': {'mode': 'palette-classic'},
+                                                         'custom': {   'axisBorderShow': False,
+                                                                       'axisCenteredZero': False,
+                                                                       'axisColorMode': 'text',
+                                                                       'axisLabel': '',
+                                                                       'axisPlacement': 'auto',
+                                                                       'barAlignment': 0,
+                                                                       'drawStyle': 'line',
+                                                                       'fillOpacity': 17,
+                                                                       'gradientMode': 'none',
+                                                                       'hideFrom': {   'legend': False,
+                                                                                       'tooltip': False,
+                                                                                       'viz': False},
+                                                                       'insertNulls': False,
+                                                                       'lineInterpolation': 'smooth',
+                                                                       'lineWidth': 3,
+                                                                       'pointSize': 5,
+                                                                       'scaleDistribution': {'type': 'linear'},
+                                                                       'showPoints': 'never',
+                                                                       'spanNulls': False,
+                                                                       'stacking': {'group': 'A', 'mode': 'none'},
+                                                                       'thresholdsStyle': {'mode': 'line'}},
+                                                         'mappings': [],
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': '#FF3366',
+                                                                                            'value': None},
+                                                                                        {   'color': '#F59E0B',
+                                                                                            'value': -10},
+                                                                                        {   'color': '#76B900',
+                                                                                            'value': -8}]},
+                                                         'unit': 'dBm',
+                                                         'unitScale': True},
+                                         'overrides': [   {   'matcher': {   'id': 'byName',
+                                                                             'options': 'Fleet Average Baseline'},
+                                                              'properties': [   {   'id': 'custom.lineStyle',
+                                                                                    'value': {   'dash': [4, 4],
+                                                                                                 'fill': 'dash'}},
+                                                                                {   'id': 'color',
+                                                                                    'value': {   'fixedColor': '#00D2FF',
+                                                                                                 'mode': 'fixed'}}]}]},
+                      'gridPos': {'h': 8, 'w': 24, 'x': 0, 'y': 11},
+                      'id': 201,
+                      'options': {   'legend': {   'calcs': [],
+                                                   'displayMode': 'list',
+                                                   'placement': 'bottom',
+                                                   'showLegend': True},
+                                     'tooltip': {'mode': 'single', 'sort': 'none'}},
+                      'targets': [   {   'expr': 'bottomk(3, '
+                                                 'avg_over_time(netris_optical_power_rx_dbm{device_name=~"$device_name"}[5m]))',
+                                         'legendFormat': 'Lowest Lane: {{device_name}} {{port}} [{{lane}}]',
+                                         'refId': 'A'},
+                                     {   'expr': 'avg(netris_optical_power_rx_dbm{device_name=~"$device_name"})',
+                                         'legendFormat': 'Fleet Average Baseline',
+                                         'refId': 'B'}],
+                      'title': 'Option 1: 3 Weakest Lanes Watchlist (Outlier Focus)',
+                      'type': 'timeseries'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'PURPOSE: Aggregates all 128+ lanes into density buckets without spaghetti lines. '
+                                     'Blue/Cyan cluster = normal density. WHAT TO DO: Watch for any isolated dark '
+                                     'trails peeling downward away from the main band.',
+                      'fieldConfig': {   'defaults': {   'custom': {   'hideFrom': {   'legend': False,
+                                                                                       'tooltip': False,
+                                                                                       'viz': False},
+                                                                       'scaleDistribution': {'type': 'linear'}},
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 8, 'w': 16, 'x': 0, 'y': 19},
+                      'id': 203,
+                      'options': {   'calculate': True,
+                                     'calculation': {'yBuckets': {'mode': 'count', 'value': '24'}},
+                                     'cellGap': 1,
+                                     'color': {   'exponent': 0.5,
+                                                  'fill': 'dark-orange',
+                                                  'mode': 'scheme',
+                                                  'reverse': False,
+                                                  'scale': 'exponential',
+                                                  'scheme': 'Blues',
+                                                  'steps': 111},
+                                     'exemplars': {'color': 'rgba(255,0,255,0.7)'},
+                                     'filterValues': {'le': 1e-09},
+                                     'legend': {'show': True},
+                                     'rowsFrame': {'layout': 'auto'},
+                                     'tooltip': {'mode': 'single', 'showColorScale': False, 'yHistogram': False},
+                                     'yAxis': {'axisPlacement': 'left', 'reverse': False, 'unit': 'dBm'}},
+                      'pluginVersion': '10.3.3',
+                      'targets': [   {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                                         'editorMode': 'builder',
+                                         'expr': 'netris_optical_power_rx_dbm{device_name=~"$device_name"}',
+                                         'legendFormat': '{{device_name}} {{port}} [{{lane}}]',
+                                         'range': True,
+                                         'refId': 'A'}],
+                      'title': 'Option 2: Density Distribution Heatmap (Blues Scheme)',
+                      'type': 'heatmap'},
+                  {   'gridPos': {'h': 8, 'w': 8, 'x': 16, 'y': 19},
+                      'id': 204,
+                      'options': {   'code': {'language': 'plaintext', 'showLineNumbers': False, 'showMiniMap': False},
+                                     'content': '<div style="background: rgba(15, 23, 42, 0.75); border: 1px solid '
+                                                'rgba(0, 210, 255, 0.3); border-radius: 8px; padding: 14px; '
+                                                'font-family: Inter, -apple-system, sans-serif; color: #E2E8F0; '
+                                                'height: 100%; box-sizing: border-box; overflow-y: auto;">\n'
+                                                '  <div style="font-size: 13px; font-weight: 700; color: #00D2FF; '
+                                                'margin-bottom: 8px; letter-spacing: 0.5px;">HOW TO USE THESE '
+                                                'PANELS</div>\n'
+                                                '  \n'
+                                                '  <div style="margin-bottom: 10px;">\n'
+                                                '    <div style="color: #38BDF8; font-weight: 700; font-size: '
+                                                '11px;">1. ENVELOPE (Option 3 - Top Right)</div>\n'
+                                                '    <div style="font-size: 11px; color: #CBD5E1; line-height: 1.5;">\n'
+                                                '      <b>Action:</b> Glance at the red Min line. As long as it floats '
+                                                'safely above the amber dashed line (-10 dBm), <b>take no '
+                                                'action</b>—the entire fabric is 100% nominal.\n'
+                                                '    </div>\n'
+                                                '  </div>\n'
+                                                '\n'
+                                                '  <div style="margin-bottom: 10px;">\n'
+                                                '    <div style="color: #38BDF8; font-weight: 700; font-size: '
+                                                '11px;">2. HEATMAP (Option 2 - Bottom Left)</div>\n'
+                                                '    <div style="font-size: 11px; color: #CBD5E1; line-height: 1.5;">\n'
+                                                '      <b>Action:</b> Cool blue/cyan band at -4 dBm represents the '
+                                                "healthy fleet. If a lane's laser begins dying, a stray blue streak "
+                                                'will separate and drift downward toward -10 dBm.\n'
+                                                '    </div>\n'
+                                                '  </div>\n'
+                                                '\n'
+                                                '  <div>\n'
+                                                '    <div style="color: #38BDF8; font-weight: 700; font-size: '
+                                                '11px;">3. OUTLIER WATCHLIST (Option 1 - Top Left)</div>\n'
+                                                '    <div style="font-size: 11px; color: #CBD5E1; line-height: 1.5;">\n'
+                                                '      <b>Action:</b> Specifically names the 3 weakest links in the '
+                                                'fabric. If any link breaches -10 dBm, dispatch a technician to clean '
+                                                'or re-seat the MPO/LC fiber.\n'
+                                                '    </div>\n'
+                                                '  </div>\n'
+                                                '</div>',
+                                     'mode': 'html'},
+                      'pluginVersion': '10.3.3',
+                      'title': 'Operational Decision Guide (What To Do)',
+                      'type': 'text'},
+                  {   'gridPos': {'h': 1, 'w': 24, 'x': 0, 'y': 27},
+                      'id': 300,
+                      'title': 'Physical Layer Signal Quality & Bit Error Rate (BER)',
+                      'type': 'row'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'Continuous FEC monitoring. Elevated bit errors trigger predictive transceiver '
+                                     'maintenance.',
+                      'fieldConfig': {   'defaults': {   'color': {'mode': 'palette-classic'},
+                                                         'custom': {   'axisBorderShow': False,
+                                                                       'axisCenteredZero': False,
+                                                                       'axisColorMode': 'text',
+                                                                       'axisLabel': '',
+                                                                       'axisPlacement': 'auto',
+                                                                       'barAlignment': 0,
+                                                                       'drawStyle': 'line',
+                                                                       'fillOpacity': 0,
+                                                                       'gradientMode': 'none',
+                                                                       'hideFrom': {   'legend': False,
+                                                                                       'tooltip': False,
+                                                                                       'viz': False},
+                                                                       'insertNulls': False,
+                                                                       'lineInterpolation': 'smooth',
+                                                                       'lineWidth': 2,
+                                                                       'pointSize': 5,
+                                                                       'scaleDistribution': {'type': 'linear'},
+                                                                       'showPoints': 'never',
+                                                                       'spanNulls': False,
+                                                                       'stacking': {'group': 'A', 'mode': 'none'},
+                                                                       'thresholdsStyle': {'mode': 'off'}},
+                                                         'mappings': [],
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': 'green',
+                                                                                            'value': None},
+                                                                                        {'color': 'red', 'value': 80}]},
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 8, 'w': 12, 'x': 0, 'y': 28},
+                      'id': 301,
+                      'options': {   'legend': {   'calcs': [],
+                                                   'displayMode': 'list',
+                                                   'placement': 'bottom',
+                                                   'showLegend': True},
+                                     'tooltip': {'mode': 'single', 'sort': 'none'}},
+                      'targets': [   {   'expr': 'topk(10, netris_port_bit_error_rate{device_name=~"$device_name"})',
+                                         'legendFormat': '{{device_name}} {{port}} BER',
+                                         'refId': 'A'}],
+                      'title': 'Physical Layer Bit Error Rate (BER) Trends',
+                      'type': 'timeseries'},
+                  {   'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                      'description': 'Detailed snapshot of optical RX power levels per transceiver and lane.',
+                      'fieldConfig': {   'defaults': {   'custom': {   'align': 'auto',
+                                                                       'cellOptions': {'type': 'auto'},
+                                                                       'inspect': False},
+                                                         'mappings': [],
+                                                         'thresholds': {   'mode': 'absolute',
+                                                                           'steps': [   {   'color': 'green',
+                                                                                            'value': None},
+                                                                                        {'color': 'red', 'value': 80}]},
+                                                         'unit': 'dBm',
+                                                         'unitScale': True},
+                                         'overrides': []},
+                      'gridPos': {'h': 8, 'w': 12, 'x': 12, 'y': 28},
+                      'id': 302,
+                      'options': {   'cellHeight': 'sm',
+                                     'footer': {'countRows': False, 'fields': '', 'reducer': ['sum'], 'show': False},
+                                     'showHeader': True},
+                      'pluginVersion': '10.3.3',
+                      'targets': [   {   'expr': 'netris_optical_power_rx_dbm{device_name=~"$device_name"}',
+                                         'format': 'table',
+                                         'instant': True,
+                                         'refId': 'A'}],
+                      'title': 'Transceiver Optical Power Diagnostic Audit',
+                      'type': 'table'}],
+    'refresh': False,
+    'schemaVersion': 39,
+    'tags': ['netris', 'optics', 'transceivers', 'telemetry'],
+    'templating': {   'list': [   {   'allValue': '.*',
+                                      'current': {'selected': False, 'text': 'All', 'value': '$__all'},
+                                      'datasource': {'type': 'prometheus', 'uid': 'prometheus'},
+                                      'definition': 'label_values(netris_device_info{device_role=~"leaf|spine|oob_leaf"}, '
+                                                    'device_name)',
+                                      'hide': 0,
+                                      'includeAll': True,
+                                      'label': 'Device',
+                                      'multi': True,
+                                      'name': 'device_name',
+                                      'options': [],
+                                      'query': {   'query': 'label_values(netris_device_info{device_role=~"leaf|spine|oob_leaf"}, '
+                                                            'device_name)',
+                                                   'refId': 'StandardVariableQuery'},
+                                      'refresh': 1,
+                                      'regex': '',
+                                      'skipUrlSync': False,
+                                      'sort': 1,
+                                      'type': 'query'}]},
+    'time': {'from': '2026-10-06T21:31:01.107Z', 'to': '2026-10-06T21:33:04.194Z'},
+    'timepicker': {},
+    'timezone': 'browser',
+    'title': 'Netris - Optics & Physical Layer',
+    'uid': 'netris-optics',
+    'version': 7,
+    'weekStart': ''}
 
 
 # ==============================================================================
@@ -1115,14 +1415,14 @@ def build_mistic_cluster_dashboard():
             "options": {"mode": "html", "content": get_nav_banner("mistic")},
             "transparent": True
         },
-        # Row 100: Nexus Cluster Scale & Workload KPIs
+        # Row 100: Netris Cluster Scale & Workload KPIs
         {"id": 100, "title": "Nexus Compute Cluster Architecture & Workload Scale", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 3}},
         {
             "id": 101,
             "title": "Connected HGX GPU Servers",
             "type": "stat",
             "gridPos": {"h": 5, "w": 6, "x": 0, "y": 4},
-            "description": "Total HGX supercomputing compute nodes connected to the Nexus leaf fabric.",
+            "description": "Total HGX supercomputing compute nodes connected to the Netris leaf fabric.",
             "targets": [{"expr": 'count(netris_device_info{device_role="server"}) or vector(0)', "refId": "A"}],
             "fieldConfig": {"defaults": {"color": {"mode": "fixed", "fixedColor": "#76B900"}, "unit": "short"}}
         },
@@ -1131,7 +1431,7 @@ def build_mistic_cluster_dashboard():
             "title": "Cluster Workload Tenants / VPCs",
             "type": "stat",
             "gridPos": {"h": 5, "w": 6, "x": 6, "y": 4},
-            "description": "Total active isolated tenant VPCs partitioned across the Nexus fabric.",
+            "description": "Total active isolated tenant VPCs partitioned across the Netris fabric.",
             "targets": [{"expr": 'count(count by (vpc) (netris_port_status{vpc!="none"})) or vector(2)', "refId": "A"}],
             "fieldConfig": {"defaults": {"color": {"mode": "fixed", "fixedColor": "#00F5D4"}, "unit": "short"}}
         },
@@ -1149,13 +1449,13 @@ def build_mistic_cluster_dashboard():
             "title": "Cluster East-West Bandwidth",
             "type": "stat",
             "gridPos": {"h": 5, "w": 6, "x": 18, "y": 4},
-            "description": "Total aggregate inter-GPU collective training throughput across the Nexus cluster.",
+            "description": "Total aggregate inter-GPU collective training throughput across the Netris cluster.",
             "targets": [{"expr": 'sum(netris_interface_receive_bits_per_second{port_role="server_facing", server_cluster!="none"})', "refId": "A"}],
             "fieldConfig": {"defaults": {"color": {"mode": "fixed", "fixedColor": "#A78BFA"}, "unit": "bps"}}
         },
 
-        # Row 200: Nexus Cluster Traffic Dynamics
-        {"id": 200, "title": "Nexus Workload Traffic Dynamics & RoCE AI Fabric Bandwidth", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 9}},
+        # Row 200: Netris Cluster Traffic Dynamics
+        {"id": 200, "title": "Netris Workload Traffic Dynamics & RoCE AI Fabric Bandwidth", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 9}},
         {
             "id": 201,
             "title": "HGX GPU Server Downlink Bandwidth by Workload",
@@ -1170,7 +1470,7 @@ def build_mistic_cluster_dashboard():
         },
         {
             "id": 202,
-            "title": "Spine Backbone Bandwidth Supporting Nexus Nodes",
+            "title": "Spine Backbone Bandwidth Supporting Netris Nodes",
             "type": "timeseries",
             "gridPos": {"h": 8, "w": 12, "x": 12, "y": 10},
             "description": "Aggregate spine forwarding capacity serving high-throughput collective communications.",
@@ -1182,7 +1482,7 @@ def build_mistic_cluster_dashboard():
         },
 
         # Row 300: Workload Distribution & Port Inventory
-        {"id": 300, "title": "Nexus Node Port Allocations & Topology Enriched Status", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 18}},
+        {"id": 300, "title": "Netris Node Port Allocations & Topology Enriched Status", "type": "row", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 18}},
         {
             "id": 301,
             "title": "Fabric Port Allocations by Workload",
@@ -1194,7 +1494,7 @@ def build_mistic_cluster_dashboard():
         },
         {
             "id": 302,
-            "title": "Nexus GPU Server-Facing Links Operational Status",
+            "title": "Netris GPU Server-Facing Links Operational Status",
             "type": "table",
             "gridPos": {"h": 8, "w": 18, "x": 6, "y": 19},
             "description": "Live mapping showing remote GPU hostnames, connected ports, assigned VPC, and link states.",
@@ -1228,7 +1528,7 @@ def build_mistic_cluster_dashboard():
         "time": {"from": "now-30m", "to": "now"},
         "timepicker": {},
         "timezone": "browser",
-        "title": "Netris - Nexus Cluster",
+        "title": "Netris - Netris Cluster",
         "uid": "netris-mistic-cluster",
         "version": 1,
         "panels": panels
@@ -1711,7 +2011,7 @@ def main():
 
     dashboards = {
         "netris-fabric-overview.json": finalize_dashboard(build_overview_dashboard()),
-        "netris-optics.json": finalize_dashboard(build_optics_dashboard()),
+        "netris-optics.json": build_optics_dashboard(),
         "netris-hardware-overview.json": finalize_dashboard(build_hardware_dashboard()),
         "netris-softgates.json": finalize_dashboard(build_softgates_dashboard()),
         "netris-switch-info.json": finalize_dashboard(build_switch_info_dashboard()),

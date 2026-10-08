@@ -149,7 +149,7 @@ if [ "$MODE" = "sim" ]; then
     # Historical Backfill (Pre-populates Prometheus TSDB blocks)
     if [ "$DO_BACKFILL" = "true" ]; then
         echo -e "[*] Pre-populating Prometheus TSDB with ${BOLD}${BACKFILL_MINUTES} minutes${NC} of historical telemetry..."
-        $PYTHON_CMD backfill.py --minutes "$BACKFILL_MINUTES" --step 60 --sim-data "$SIM_DATA_FILE" --output-dir "prometheus/data"
+        $PYTHON_CMD app/backfill.py --minutes "$BACKFILL_MINUTES" --step 60 --sim-data "$SIM_DATA_FILE" --output-dir "prometheus/data"
     fi
 
     # Optionally load netris.var for custom port overrides if present
@@ -222,7 +222,7 @@ else
     if [ -f ".exporter.pid" ]; then
         kill "$(cat .exporter.pid)" >/dev/null 2>&1 || true
     fi
-    nohup env SIMULATION_MODE="${SIMULATION_MODE}" .venv/bin/python exporter.py > exporter.log 2>&1 &
+    nohup env SIMULATION_MODE="${SIMULATION_MODE}" .venv/bin/python app/exporter.py > exporter.log 2>&1 &
     echo $! > .exporter.pid
     echo -e "${GREEN}[+] Exporter running locally with PID $(cat .exporter.pid)${NC}"
 fi

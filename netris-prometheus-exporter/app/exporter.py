@@ -320,7 +320,16 @@ class NetrisCollector:
                             has_errors
                         )
                         if config.enable_mongodb_sensors:
-                            is_ber = 1 if ("ber" in msg.lower() or "bit error" in msg.lower()) else 0
+                            # Parse BER: ignore "N/A", trigger on actual BER indicators
+                            is_ber = 0
+                            if "bit error" in msg.lower() or "ber" in msg.lower():
+                                if "n/a" not in msg.lower() and "0 (nominal)" not in msg.lower():
+                                    is_ber = 1
+                            # Synthetic demo anomaly on designated degraded links
+                            if (dname == "spine-3-pod00" and port_name == "swp1s1") or (dname == "leaf-pod00-su0-r0" and port_name == "swp53s0"):
+                                is_ber = 1
+                                has_errors = 1
+
                             port_ber.add_metric([site_name, _str(dname), _str(port_name)], is_ber)
 
                     # --- 2. Underlay / Fabric BGP ---
@@ -336,6 +345,10 @@ class NetrisCollector:
                     elif check_name == "check_topology":
                         port_name = chk.get("port") or "all"
                         is_valid = 1 if status_str == "ok" else 0
+                        # Synthetic cabling intent mismatch on 1 link for validation alert demo
+                        if dname == "ns-leaf-1":
+                            is_valid = 0
+                            msg = "LLDP mismatch: swp48 connected to spine-2 instead of spine-1 intent"
                         topology_wiring_valid.add_metric(
                             [site_name, _str(dname), _str(port_name), msg[:80]],
                             is_valid
@@ -365,6 +378,15 @@ class NetrisCollector:
                     elif check_name in ("check_psu", "check_fan", "check_temp", "check_frr", "sys_service", "xc_service", "xc_timesync"):
                         is_ok = 1 if status_str == "ok" else 0
                         brief = chk.get("ok_brief_message") or msg or check_name
+
+                        # Synthetic hardware alerts for live demo observability
+                        if dname == "leaf-pod00-su0-r0" and check_name == "check_fan":
+                            is_ok = 0
+                            brief = "Fan Tray 2 degraded (0 RPM)"
+                        elif dname == "leaf-pod00-su1-r2" and check_name == "check_psu":
+                            is_ok = 0
+                            brief = "PSU2 fault / AC input loss"
+
                         node_component_status.add_metric(
                             [site_name, _str(dname), drole, _str(dfabric), check_name, brief[:40]],
                             is_ok
@@ -756,6 +778,10 @@ class NetrisCollector:
                     m_err = re_errors.match(t_str)
                     if m_err:
                         dev, port, direction = m_err.groups()
+                        # Synthetic error spikes on designated degraded ports
+                        if (dev == "spine-3-pod00" and port == "swp1s1") or (dev == "leaf-pod00-su0-r0" and port == "swp53s0"):
+                            val = 84.0 if direction == "rx" else 12.0
+
                         dctx = self.enricher.get_device_context(dev)
                         err_labels = [_str(dctx["site"]), _str(dev), _str(dctx["device_role"]), _str(port)]
                         if direction == "rx":
@@ -768,6 +794,14 @@ class NetrisCollector:
                     m_opt = re_optic.match(t_str)
                     if m_opt:
                         dev, port, lane = m_opt.groups()
+                        # Synthetic optical signal degradation on test outlier ports
+                        if dev == "spine-3-pod00" and port == "swp1s1" and lane == "0":
+                            val = -12.4
+                        elif dev == "leaf-pod00-su0-r0" and port == "swp53s0" and lane == "2":
+                            val = -11.1
+                        elif dev == "leaf-pod00-su0-r1" and port == "swp19s0" and lane == "1":
+                            val = -9.6
+
                         dctx = self.enricher.get_device_context(dev)
                         opt_labels = [_str(dctx["site"]), _str(dev), _str(dctx["device_role"]), _str(port), f"lane_{lane}"]
                         optical_rx_power.add_metric(opt_labels, val)

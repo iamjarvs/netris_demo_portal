@@ -42,4 +42,4 @@ else
     PYTHON_CMD="python3"
 fi
 
-$PYTHON_CMD record.py --duration "$DURATION" --interval "$INTERVAL" --output "$OUTPUT"
+$PYTHON_CMD app/record.py --duration "$DURATION" --interval "$INTERVAL" --output "$OUTPUT"
