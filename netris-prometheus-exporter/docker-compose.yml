@@ -15,6 +15,7 @@ services:
       - SIM_DATA_FILE=${SIM_DATA_FILE:-sim_data/telemetry_recording.json}
     volumes:
       - ./sim_data:/app/sim_data:ro
+      - .:/app
     ports:
       - "${EXPORTER_PORT:-9101}:9101"
 

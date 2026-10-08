@@ -27,7 +27,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Netris - Nexus Cluster",
+  "title": "Netris - Netris Cluster",
   "uid": "netris-mistic-cluster",
   "version": 1,
   "panels": [
@@ -43,7 +43,7 @@
       },
       "options": {
         "mode": "html",
-        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\u26a1 Nexus Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\u26a1 Netris Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
       },
       "transparent": true
     },
@@ -68,7 +68,7 @@
         "x": 0,
         "y": 4
       },
-      "description": "Total HGX supercomputing compute nodes connected to the Nexus leaf fabric.",
+      "description": "Total HGX supercomputing compute nodes connected to the Netris leaf fabric.",
       "targets": [
         {
           "expr": "count(netris_device_info{device_role=\"server\"}) or vector(0)",
@@ -99,7 +99,7 @@
         "x": 6,
         "y": 4
       },
-      "description": "Total active isolated tenant VPCs partitioned across the Nexus fabric.",
+      "description": "Total active isolated tenant VPCs partitioned across the Netris fabric.",
       "targets": [
         {
           "expr": "count(count by (vpc) (netris_port_status{vpc!=\"none\"})) or vector(2)",
@@ -161,7 +161,7 @@
         "x": 18,
         "y": 4
       },
-      "description": "Total aggregate inter-GPU collective training throughput across the Nexus cluster.",
+      "description": "Total aggregate inter-GPU collective training throughput across the Netris cluster.",
       "targets": [
         {
           "expr": "sum(netris_interface_receive_bits_per_second{port_role=\"server_facing\", server_cluster!=\"none\"})",
@@ -184,7 +184,7 @@
     },
     {
       "id": 200,
-      "title": "Nexus Workload Traffic Dynamics & RoCE AI Fabric Bandwidth",
+      "title": "Netris Workload Traffic Dynamics & RoCE AI Fabric Bandwidth",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -221,6 +221,14 @@
           "unit": "bps",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false,
+            "fillOpacity": 8,
+            "gradientMode": "opacity"
           }
         }
       },
@@ -231,7 +239,7 @@
     },
     {
       "id": 202,
-      "title": "Spine Backbone Bandwidth Supporting Nexus Nodes",
+      "title": "Spine Backbone Bandwidth Supporting Netris Nodes",
       "type": "timeseries",
       "gridPos": {
         "h": 8,
@@ -257,6 +265,14 @@
           "unit": "bps",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false,
+            "fillOpacity": 8,
+            "gradientMode": "opacity"
           }
         }
       },
@@ -267,7 +283,7 @@
     },
     {
       "id": 300,
-      "title": "Nexus Node Port Allocations & Topology Enriched Status",
+      "title": "Netris Node Port Allocations & Topology Enriched Status",
       "type": "row",
       "gridPos": {
         "h": 1,
@@ -307,7 +323,7 @@
     },
     {
       "id": 302,
-      "title": "Nexus GPU Server-Facing Links Operational Status",
+      "title": "Netris GPU Server-Facing Links Operational Status",
       "type": "table",
       "gridPos": {
         "h": 8,

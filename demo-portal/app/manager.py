@@ -11,6 +11,7 @@ import time
 from typing import Any, Dict, List, Optional
 
 import httpx
+import yaml
 
 from app.models import ToolInfo
 
@@ -90,8 +91,8 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "port": 8001,
         "popout_url": "http://localhost:8001",
         "health_endpoint": "http://localhost:8090/health",
-        "start_script": ["docker", "compose", "up", "-d"],
-        "stop_script": ["docker", "compose", "down"],
+        "start_script": ["./start.sh"],
+        "stop_script": ["./stop.sh"],
         "cwd": REPO_ROOT / "netbox-netris",
         "summary_command": "./start-netbox-integration.sh",
     },
@@ -107,7 +108,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "start_script": ["docker", "compose", "up", "-d"],
         "stop_script": ["docker", "compose", "down"],
         "cwd": REPO_ROOT / "gpu-ai-fabric-traffic-sim",
-        "summary_command": "docker compose up -d",
+        "summary_command": "./start.sh",
     },
     "netris-controller-gpu-traffic-sim": {
         "id": "netris-controller-gpu-traffic-sim",
@@ -145,12 +146,12 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "port": 8743,
         "popout_url": "http://localhost:8743",
         "health_endpoint": "http://localhost:8743/api/health",
-        "start_script": ["./start_web.sh"],
+        "start_script": ["./start.sh"],
         "stop_script": [],
-        "default_args": ["./start_web.sh"],
+        "default_args": ["./start.sh"],
         "cli_args": ["./run.sh"],
         "cwd": REPO_ROOT / "cli-inspector",
-        "summary_command": "./start_web.sh",
+        "summary_command": "./start.sh",
         "cli_summary_command": "./run.sh",
     },
     "fabric-builder-ui": {
@@ -167,6 +168,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "default_args": [PYTHON_EXE, "app.py"],
         "cwd": REPO_ROOT / "fabric-builder-ui" / "backend",
         "summary_command": "./start.sh",
+
     },
     "remote-tf-viewer": {
         "id": "remote-tf-viewer",
@@ -436,6 +438,44 @@ def is_port_open(port: int, host: str = "127.0.0.1", timeout: float = 0.5) -> bo
         return False
 
 
+
+# Load Dynamic Tools from tools.yaml
+def load_dynamic_tools():
+    yaml_path = REPO_ROOT / "demo-portal" / "tools.yaml"
+    if yaml_path.exists():
+        try:
+            with open(yaml_path, "r") as f:
+                data = yaml.safe_load(f)
+                if data and "tools" in data:
+                    for t in data["tools"]:
+                        t_id = t.get("id") or t.get("name", "").lower().replace(" ", "-")
+                        t_path = REPO_ROOT / "demo-portal" / t.get("path", "")
+                        
+                        existing = TOOLS_METADATA.get(t_id, {})
+                        
+                        TOOLS_METADATA[t_id] = {
+                            **existing,
+                            "id": t_id,
+                            "name": t.get("name", existing.get("name")),
+                            "category": existing.get("category", "Dynamically Loaded"),
+                            "description": t.get("description", existing.get("description", "")),
+                            "tool_type": t.get("tool_type", existing.get("tool_type", "docker" if t.get("type") == "git" else "subprocess")),
+                            "cwd": t_path.resolve(),
+                            "optional": t.get("optional", False),
+                            "url": t.get("url")
+                        }
+                        if "start_script" not in TOOLS_METADATA[t_id]:
+                            TOOLS_METADATA[t_id]["start_script"] = ["./start.sh"]
+                        if "stop_script" not in TOOLS_METADATA[t_id]:
+                            TOOLS_METADATA[t_id]["stop_script"] = ["./stop.sh"]
+                        if "summary_command" not in TOOLS_METADATA[t_id]:
+                            TOOLS_METADATA[t_id]["summary_command"] = "./start.sh"
+
+        except Exception as e:
+            logger.error(f"Failed to load tools.yaml: {e}")
+
+load_dynamic_tools()
+
 def _append_log(tool_id: str, line: str) -> None:
     timestamp = time.strftime("%H:%M:%S")
     _LOG_BUFFERS[tool_id].append(f"[{timestamp}] {line.rstrip()}")
@@ -509,12 +549,47 @@ def get_all_tools() -> List[ToolInfo]:
             is_running=is_running,
             pid=pid,
             uptime=uptime,
-            summary_command=meta["summary_command"],
+            summary_command=meta.get("summary_command", ""),
+            is_optional=meta.get("optional", False),
+            is_downloaded=meta.get("cwd").exists() if meta.get("cwd") else True,
             credentials=get_tool_credentials(tool_id),
             session_options=SESSION_OPTIONS_REGISTRY.get(tool_id),
         ))
     return results
 
+
+import shutil
+
+def check_dependencies(tool_type: str, has_git_url: bool) -> tuple[bool, str]:
+    missing = []
+    import shutil, subprocess
+    if has_git_url:
+        if not shutil.which("git"):
+            missing.append("git")
+    
+    if tool_type == "docker":
+        docker_path = shutil.which("docker")
+        if not docker_path:
+            missing.append("docker")
+        else:
+            # Try both docker compose and docker-compose
+            try:
+                res = subprocess.run([docker_path, "compose", "version"], capture_output=True, text=True)
+                if res.returncode != 0:
+                    res2 = subprocess.run(["docker-compose", "version"], capture_output=True, text=True)
+                    if res2.returncode != 0:
+                        missing.append("docker compose")
+            except Exception:
+                try:
+                    res2 = subprocess.run(["docker-compose", "version"], capture_output=True, text=True)
+                    if res2.returncode != 0:
+                        missing.append("docker compose")
+                except:
+                    missing.append("docker compose")
+                    
+    if missing:
+        return False, f"Missing system dependencies: {', '.join(missing)}. Please install them and try again."
+    return True, ""
 
 def start_tool(
     tool_id: str,
@@ -527,10 +602,38 @@ def start_tool(
         return False, f"Tool '{tool_id}' not found."
 
     cwd = meta["cwd"]
-    if not cwd.exists():
+    has_git = bool(meta.get("tool_type") == "git" or "url" in meta)
+    
+    if not cwd.exists() and not has_git:
         return False, f"Directory '{cwd}' does not exist."
 
     _append_log(tool_id, f"Initiating start sequence for {meta['name']}...")
+    
+    has_git = bool(meta.get("tool_type") == "git" or "url" in meta)
+    deps_ok, deps_msg = check_dependencies(meta["tool_type"], has_git)
+    if not deps_ok:
+        _append_log(tool_id, deps_msg)
+        return False, deps_msg
+    
+    # --- Dynamic Git Cloning Logic ---
+    if meta.get("tool_type") == "git" or "url" in meta:
+        git_url = meta.get("url")
+        if not cwd.exists():
+            _append_log(tool_id, f"Cloning repository {git_url} into {cwd}...")
+            cwd.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                subprocess.run(["git", "clone", git_url, str(cwd)], check=True, capture_output=True, text=True)
+                _append_log(tool_id, f"Successfully cloned {git_url}.")
+            except subprocess.CalledProcessError as e:
+                _append_log(tool_id, f"Failed to clone repository: {e.stderr}")
+                return False, f"Failed to clone {git_url}"
+        else:
+            _append_log(tool_id, f"Repository already exists at {cwd}. Pulling latest changes...")
+            try:
+                subprocess.run(["git", "pull"], cwd=cwd, check=True, capture_output=True, text=True)
+            except subprocess.CalledProcessError as e:
+                _append_log(tool_id, f"Warning: Failed to pull latest changes: {e.stderr}")
+
 
     effective_cmd = custom_args
     if not effective_cmd and session_params:

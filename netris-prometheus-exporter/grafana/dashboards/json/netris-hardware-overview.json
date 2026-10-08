@@ -69,7 +69,7 @@
       },
       "options": {
         "mode": "html",
-        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\u26a1 Nexus Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
+        "content": "<div style=\"background: linear-gradient(135deg, #0A0D14 0%, #111827 50%, #1E293B 100%); border-left: 6px solid #FF3366; border-radius: 8px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(255, 51, 102, 0.15); border-top: 1px solid rgba(255, 51, 102, 0.25); border-right: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05);\">\n  <div style=\"display: flex; align-items: center; gap: 14px;\">\n    <div style=\"background: #FF3366; color: #FFFFFF; font-weight: 900; font-size: 15px; padding: 5px 12px; border-radius: 6px; letter-spacing: 1.5px; box-shadow: 0 0 15px rgba(255, 51, 102, 0.45); font-family: Inter, -apple-system, sans-serif;\">\n      NETRIS\n    </div>\n    <div>\n      <div style=\"color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; font-family: Inter, -apple-system, sans-serif;\">\n        FABRIC OBSERVABILITY\n      </div>\n    </div>\n  </div>\n  <div style=\"display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\">\n    <a href=\"/d/netris-fabric-overview\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83c\udfe0 General Overview</a> <a href=\"/d/netris-optics\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd2c Optics</a> <a href=\"/d/netris-hardware-overview\" style=\"text-decoration: none; background: #FF3366; color: #FFFFFF; border: 1px solid #FF3366; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; box-shadow: 0 0 10px rgba(255, 51, 102, 0.4);\">\ud83d\udcbb Hardware Overview</a> <a href=\"/d/netris-softgates\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udee1\ufe0f Soft Gates</a> <a href=\"/d/netris-switch-info\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udd00 Switch Information</a> <a href=\"/d/netris-mistic-cluster\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\u26a1 Netris Cluster</a> <a href=\"/d/netris-metrics-architecture\" style=\"text-decoration: none; background: rgba(255, 255, 255, 0.06); color: #94A3B8; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; transition: all 0.2s;\">\ud83d\udcd0 Metrics & Architecture</a>\n  </div>\n</div>"
       },
       "transparent": true
     },
@@ -314,6 +314,13 @@
           "unit": "short",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false,
+            "fillOpacity": 0
           }
         }
       },
@@ -364,6 +371,13 @@
                 "value": 90
               }
             ]
+          },
+          "custom": {
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false,
+            "fillOpacity": 0
           }
         }
       },
@@ -473,6 +487,13 @@
                 "value": 75
               }
             ]
+          },
+          "custom": {
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false,
+            "fillOpacity": 0
           }
         }
       },
@@ -504,6 +525,13 @@
           "unit": "rotrpm",
           "color": {
             "mode": "palette-classic"
+          },
+          "custom": {
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never",
+            "spanNulls": false,
+            "fillOpacity": 0
           }
         }
       },

@@ -41,6 +41,20 @@ async def add_cache_control_headers(request, call_next):
         response.headers["Expires"] = "0"
     return response
 
+
+@app.post("/api/system/update")
+async def update_portal():
+    import subprocess
+    from fastapi import HTTPException
+    from app.manager import REPO_ROOT
+    try:
+        res = subprocess.run(["git", "pull", "--rebase"], cwd=REPO_ROOT, check=True, capture_output=True, text=True)
+        return {"success": True, "message": "Demo portal updated: " + res.stdout.strip()}
+    except subprocess.CalledProcessError as e:
+        raise HTTPException(status_code=400, detail=f"Git pull failed: {e.stderr or e.output}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal Error: {str(e)}")
+
 app.include_router(tools_router)
 app.include_router(config_router)
 app.include_router(layout_router)

@@ -1,0 +1,28 @@
+tools:
+  - id: "switch-isolation-cli"
+    name: "Switch Isolation CLI"
+    type: "local"
+    path: "../switch-isolation-cli"
+    description: "Netris switch isolation tool"
+    optional: false
+  - id: "netris-prometheus-exporter"
+    name: "Prometheus Exporter"
+    type: "git"
+    url: "https://github.com/iamjarvs/netris-prometheus-exporter.git"
+    path: "./managed-tools/netris-prometheus-exporter"
+    description: "Netris metrics exporter for Prometheus"
+    optional: true
+  - id: "netbox-netris"
+    name: "NetBox Netris Sync"
+    type: "git"
+    url: "https://github.com/iamjarvs/netbox-netris-integration.git"
+    path: "./managed-tools/netbox-netris"
+    description: "Bi-directional IPAM Sync between NetBox and Netris"
+    optional: true
+  - id: "cli-inspector"
+    name: "CLI Inspector"
+    type: "git"
+    url: "https://github.com/iamjarvs/netris-cli-inspector.git"
+    path: "./managed-tools/cli-inspector"
+    description: "Interactive CLI Inspector and config auditor"
+    optional: true

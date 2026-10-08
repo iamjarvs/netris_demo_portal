@@ -18,6 +18,8 @@ class ToolInfo(BaseModel):
     pid: Optional[int] = None
     uptime: Optional[str] = None
     summary_command: str
+    is_optional: bool = False
+    is_downloaded: bool = True
     credentials: List[Dict[str, Any]] = Field(default_factory=list)
     session_options: Optional[Dict[str, Any]] = None
 

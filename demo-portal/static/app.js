@@ -813,9 +813,231 @@ function TelemetryRecordingModal({ isOpen, onClose, notify, recordingState, setR
   );
 }
 
+
+
+function ToolDetailView(props) {
+  return <ErrorBoundary><ToolDetailViewContent {...props} /></ErrorBoundary>;
+}
+
+function ToolDetailViewContent({
+ tool, onStart, onStop, onRestart, fetchLogs, configCatalog, fetchConfigFile, saveConfigFile, openTerminal, actionLoading, openSessionModal, handleUpdateTool }) {
+  const [logs, setLogs] = React.useState([]);
+  const [activeSubTab, setActiveSubTab] = React.useState('config');
+  const [fileContent, setFileContent] = React.useState('');
+  const [selectedFile, setSelectedFile] = React.useState(null);
+  const [fileDirty, setFileDirty] = React.useState(false);
+  const [fileSaving, setFileSaving] = React.useState(false);
+  const [loadingFile, setLoadingFile] = React.useState(false);
+
+  if (!tool) return null; const toolConfig = configCatalog.find(c => c.tool_id === tool.id);
+  
+  React.useEffect(() => {
+    let interval;
+    if (activeSubTab === 'logs') {
+      const loadLogs = () => {
+        fetchLogs(tool.id).then(res => setLogs(res.lines || [])).catch(console.error);
+      };
+      loadLogs();
+      interval = setInterval(loadLogs, 3000);
+    }
+    return () => clearInterval(interval);
+  }, [activeSubTab, tool.id, fetchLogs]);
+
+  React.useEffect(() => {
+    if (toolConfig && toolConfig.files.length > 0) {
+      handleSelectFile(toolConfig.files[0].id);
+    } else {
+      setSelectedFile(null);
+      setFileContent('');
+    }
+  }, [tool.id, configCatalog]);
+
+  const handleSelectFile = async (fileId) => {
+    setSelectedFile(fileId);
+    setLoadingFile(true);
+    setFileDirty(false);
+    try {
+      const data = await fetchConfigFile(tool.id, fileId);
+      setFileContent(data.content);
+    } catch (e) {
+      setFileContent('Error loading file');
+    } finally {
+      setLoadingFile(false);
+    }
+  };
+
+  const handleSave = async () => {
+    setFileSaving(true);
+    try {
+      await saveConfigFile(tool.id, selectedFile, fileContent);
+      setFileDirty(false);
+    } catch (e) {
+      alert("Save failed: " + e.message);
+    } finally {
+      setFileSaving(false);
+    }
+  };
+
+  const isInstalling = tool.is_optional && !tool.is_downloaded;
+
+  return (
+    <div className="flex flex-col h-full min-h-[75vh] bg-white rounded-xl shadow-theme-sm border border-gray-200 overflow-hidden">
+      {/* Header */}
+      <div className="p-6 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+        <div>
+          <div className="flex items-center gap-3 mb-1">
+            <h3 className="text-xl font-bold text-gray-900">{tool.name}</h3>
+            {tool.status === 'running' ? (
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-success-50 text-success-700 border border-success-200">RUNNING</span>
+            ) : (
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">STOPPED</span>
+            )}
+            {isInstalling && (
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">MARKETPLACE EXTENSION</span>
+            )}
+          </div>
+          <p className="text-sm text-gray-500">{tool.description}</p>
+        </div>
+        
+        <div className="flex items-center gap-3">
+          {tool.tool_type === 'interactive' && tool.status === 'running' && (
+            <button onClick={() => openTerminal(tool)} className="px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-semibold hover:bg-gray-800">
+              Open Terminal
+            </button>
+          )}
+          
+          {tool.status === 'running' ? (
+            <>
+              <button onClick={() => onRestart(tool.id)} disabled={actionLoading[tool.id]} className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50">
+                Restart
+              </button>
+              <button onClick={() => onStop(tool.id)} disabled={actionLoading[tool.id]} className="px-4 py-2 bg-white border border-red-200 text-error-600 rounded-lg text-sm font-semibold hover:bg-red-50">
+                Stop
+              </button>
+            </>
+          ) : (
+            <button 
+              onClick={() => {
+                if (!isInstalling && tool.session_options) {
+                  openSessionModal(tool);
+                } else {
+                  onStart(tool.id);
+                }
+              }} 
+              disabled={actionLoading[tool.id]} 
+              className="px-4 py-2 bg-coral-600 text-white rounded-lg text-sm font-semibold hover:bg-coral-700 shadow-theme-xs"
+            >
+              {actionLoading[tool.id] ? 'Starting...' : isInstalling ? 'Install & Start' : tool.session_options ? 'Configure & Start' : 'Start'}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Tabs */}
+      {!isInstalling && (
+      <div className="flex border-b border-gray-200 px-4">
+        <button 
+          onClick={() => setActiveSubTab('config')} 
+          className={`px-4 py-3 text-sm font-medium border-b-2 ${activeSubTab === 'config' ? 'border-coral-600 text-coral-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+        >
+          Configuration Files
+        </button>
+        <button 
+          onClick={() => setActiveSubTab('logs')} 
+          className={`px-4 py-3 text-sm font-medium border-b-2 ${activeSubTab === 'logs' ? 'border-coral-600 text-coral-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+        >
+          Process Logs
+        </button>
+      </div>
+      )}
+
+      {/* Content */}
+      <div className="flex-1 overflow-hidden flex flex-col relative bg-[#1E1E1E]">
+        {isInstalling ? (
+          <div className="flex-1 flex items-center justify-center bg-gray-50 text-gray-500">
+             <div className="text-center">
+               <svg className="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+               <h3 className="text-lg font-medium text-gray-900 mb-1">Tool Not Installed</h3>
+               <p className="text-sm">Click "Install & Start" above to clone and initialize this tool.</p>
+             </div>
+          </div>
+        ) : activeSubTab === 'logs' ? (
+          <div className="flex-1 overflow-y-auto p-4 font-mono text-xs text-gray-300">
+            {logs.length === 0 ? (
+              <div className="text-gray-500 italic text-center mt-10">No logs available</div>
+            ) : (
+              logs.map((l, i) => <div key={i} className="mb-1 whitespace-pre-wrap">{l}</div>)
+            )}
+          </div>
+        ) : (
+          <div className="flex-1 flex overflow-hidden">
+            {toolConfig && toolConfig.files.length > 0 ? (
+              <>
+                <div className="w-64 bg-gray-50 border-r border-gray-200 flex flex-col">
+                  {toolConfig.files.map(f => (
+                    <button 
+                      key={f.id} 
+                      onClick={() => handleSelectFile(f.id)}
+                      className={`text-left px-4 py-3 text-sm font-medium border-b border-gray-200 ${selectedFile === f.id ? 'bg-white text-coral-600 border-l-4 border-l-coral-600' : 'text-gray-700 hover:bg-gray-100 border-l-4 border-l-transparent'}`}
+                    >
+                      {f.name}
+                    </button>
+                  ))}
+                </div>
+                <div className="flex-1 flex flex-col bg-[#1E1E1E]">
+                  <div className="h-12 bg-[#2D2D2D] border-b border-[#404040] flex items-center justify-between px-4">
+                    <span className="text-xs font-mono text-gray-300">{selectedFile} {fileDirty && '*'}</span>
+                    <button 
+                      onClick={handleSave} 
+                      disabled={!fileDirty || fileSaving}
+                      className={`text-xs px-3 py-1 rounded font-semibold ${fileDirty ? 'bg-coral-600 text-white hover:bg-coral-700' : 'bg-[#404040] text-gray-500 cursor-not-allowed'}`}
+                    >
+                      {fileSaving ? 'Saving...' : 'Save File'}
+                    </button>
+                  </div>
+                  <textarea 
+                    value={fileContent} 
+                    onChange={e => { setFileContent(e.target.value); setFileDirty(true); }}
+                    className="flex-1 w-full bg-[#1E1E1E] text-[#D4D4D4] font-mono text-sm p-4 focus:outline-none resize-none"
+                    spellCheck={false}
+                    disabled={loadingFile}
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="flex-1 flex items-center justify-center text-gray-500 italic bg-gray-50">
+                No configuration files exposed for this tool.
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { hasError: false, error: null }; }
+  static getDerivedStateFromError(error) { return { hasError: true, error }; }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 text-center text-red-600 bg-red-50 rounded-xl border border-red-200 m-8">
+          <h2 className="text-xl font-bold mb-2">Something went wrong.</h2>
+          <pre className="text-sm font-mono overflow-auto text-left p-4 bg-red-100 rounded">{this.state.error.toString()}</pre>
+          <button onClick={() => this.setState({hasError: false})} className="mt-4 px-4 py-2 bg-white border border-red-200 rounded shadow-sm text-gray-700">Try Again</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // --- App Root Component ---
+
 function App() {
-  const [activeTab, setActiveTab] = useState('overview'); // overview, global-config, tool-configs, logs
+  const [activeTab, setActiveTab] = useState('global-config'); // overview, global-config, tool-configs, logs
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState({});
@@ -1414,6 +1636,8 @@ function App() {
       });
   };
 
+  const unplacedOptionalTools = tools.filter((t) => !((layout.tool_placements || {})[t.id]) && t.is_optional);
+
   const hiddenTools = tools.filter((t) => {
     const p = (layout.tool_placements || {})[t.id];
     return p && p.hidden;
@@ -1448,19 +1672,8 @@ function App() {
         </div>
 
         {/* Navigation Items */}
-        <nav className="p-4 space-y-1.5 flex-1">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
-              activeTab === 'overview'
-                ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            <Icons.Dashboard />
-            <span>Dashboard Hub</span>
-          </button>
-
+                <nav className="p-4 space-y-1.5 flex-1 overflow-y-auto">
+          <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2 px-2">Settings</div>
           <button
             onClick={() => setActiveTab('global-config')}
             className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
@@ -1472,68 +1685,48 @@ function App() {
             <Icons.Settings />
             <span>Shared Controller Settings</span>
           </button>
-
-          <button
-            onClick={() => setActiveTab('tool-configs')}
-            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
-              activeTab === 'tool-configs'
-                ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            <Icons.ToolConfig />
-            <div className="flex items-center justify-between flex-1">
-              <span>Config Files Editor</span>
-              <span className="text-[10px] bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded font-mono">
-                {configCatalog.reduce((acc, curr) => acc + curr.files.length, 0)} files
-              </span>
-            </div>
-          </button>
-
-          <button
-            onClick={() => {
-              setActiveTab('logs');
-              if (!selectedToolLogs && tools.length > 0) {
-                openLogs(tools[0].id);
-              }
-            }}
-            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
-              activeTab === 'logs'
-                ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            <Icons.Terminal />
-            <span>Process Logs Console</span>
-          </button>
-
-          <div className="pt-2">
-            <button
-              onClick={() => setRecordingModalOpen(true)}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition cursor-pointer border ${
-                recordingState?.is_recording
-                  ? 'bg-red-50 text-red-700 font-semibold border-red-200'
-                  : 'text-gray-700 hover:bg-gray-100 border-transparent'
-              }`}
-              title="Open Prometheus live telemetry recorder"
-            >
-              <div className="flex items-center gap-3">
-                <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-red-600 animate-ping' : 'bg-red-500'}`}></span>
-                <span>Prometheus Recorder</span>
-              </div>
-              {recordingState?.is_recording ? (
-                <span className="text-[10px] bg-red-100 text-red-800 font-mono font-bold px-1.5 py-0.5 rounded">
-                  REC
-                </span>
-              ) : (
-                <span className="text-[10px] text-gray-400 font-mono">
-                  {recordingState?.frames_captured ? `${recordingState.frames_captured}f` : 'Idle'}
-                </span>
-              )}
-            </button>
+          
+          <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6 px-2 flex justify-between items-center">
+            <span>Installed Tools</span>
+            <span className="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold text-blue-700 bg-blue-100 rounded-full">{tools.filter(t => !t.is_optional || t.is_downloaded).length}</span>
           </div>
+          {tools.filter(t => !t.is_optional || t.is_downloaded).map(t => (
+            <button
+              key={t.id}
+              onClick={() => setActiveTab(t.id)}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
+                activeTab === t.id
+                  ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-center gap-3 truncate">
+                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${t.status === 'running' ? 'bg-success-500' : 'bg-gray-300'}`}></span>
+                <span className="truncate" title={t.name}>{t.name}</span>
+              </div>
+            </button>
+          ))}
+          
+          {tools.filter(t => t.is_optional && !t.is_downloaded).length > 0 && (
+            <>
+              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6 px-2">Marketplace</div>
+              {tools.filter(t => t.is_optional && !t.is_downloaded).map(t => (
+                <button
+                  key={t.id}
+                  onClick={() => setActiveTab(t.id)}
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
+                    activeTab === t.id
+                      ? 'bg-blue-50 text-blue-700 font-semibold shadow-2xs'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                  <span className="truncate" title={t.name}>{t.name}</span>
+                </button>
+              ))}
+            </>
+          )}
         </nav>
-
         {/* Footer Info */}
         <div className="p-4 border-t border-gray-200 bg-gray-50 text-xs text-gray-500">
           <div className="flex justify-between items-center mb-1">
@@ -1551,14 +1744,16 @@ function App() {
         {/* Header */}
         <header className="sticky top-0 z-20 h-[72px] bg-white border-b border-gray-200 px-8 flex items-center justify-between shadow-theme-xs">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 capitalize">
+                        <h2 className="text-xl font-bold text-gray-900 capitalize">
               {activeTab === 'overview' && 'Demo Control Hub'}
               {activeTab === 'global-config' && 'Shared Netris Controller Settings'}
               {activeTab === 'tool-configs' && 'Interactive Tool Configuration Files'}
               {activeTab === 'logs' && 'Live Process & Container Logs'}
+              {activeTab !== 'overview' && activeTab !== 'global-config' && activeTab !== 'tool-configs' && activeTab !== 'logs' && tools.find(t=>t.id===activeTab)?.name}
             </h2>
           </div>
 
+          {(activeTab === 'global-config' || activeTab === 'overview') && (
           <div className="flex items-center gap-3">
             {/* Quick Scenario Buttons */}
             <button
@@ -1602,6 +1797,7 @@ function App() {
               <Icons.Refresh />
             </button>
           </div>
+          )}
         </header>
 
         {/* Global Live Recording Alert Banner */}
@@ -1627,6 +1823,34 @@ function App() {
           {/* ========================================================================= */}
           {/* TAB 1: OVERVIEW / DASHBOARD                                               */}
           {/* ========================================================================= */}
+          {activeTab !== 'overview' && activeTab !== 'global-config' && activeTab !== 'tool-configs' && activeTab !== 'logs' && (
+            <ToolDetailView 
+              tool={tools.find(t => t.id === activeTab)}
+              onStart={handleStart}
+              onStop={handleStop}
+              onRestart={handleRestart}
+              fetchLogs={fetchLogs}
+              configCatalog={configCatalog}
+              fetchConfigFile={fetchConfigFile}
+              saveConfigFile={saveConfigFile}
+              openTerminal={t => setTerminalModalTool(t)}
+              actionLoading={actionLoading}
+              openSessionModal={openSessionModal}
+              handleUpdateTool={async (id) => {
+                setActionLoading(prev => ({ ...prev, [id]: true }));
+                try {
+                  const res = await fetch(`/api/tools/${id}/update`, { method: 'POST' });
+                  const data = await res.json();
+                  if (!res.ok) throw new Error(data.detail || data.message || "Update failed");
+                  notify(data.message || "Tool updated successfully!");
+                } catch (e) {
+                  notify("Update failed: " + e.message, 'error');
+                } finally {
+                  setActionLoading(prev => ({ ...prev, [id]: false }));
+                }
+              }}
+            />
+          )}
           {activeTab === 'overview' && (
             <>
               {/* KPI Summary Cards */}
@@ -1703,6 +1927,19 @@ function App() {
 
                 <div className="flex items-center gap-2.5">
                   {/* Archived / Hidden Tools Pill */}
+                  
+                  {unplacedOptionalTools.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setShowExtensionsDrawer((prev) => !prev)}
+                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                      title="Toggle remote extensions drawer"
+                    >
+                      <Icons.Popout className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Available Extensions ({unplacedOptionalTools.length})</span>
+                    </button>
+                  )}
+
                   {hiddenTools.length > 0 && (
                     <button
                       type="button"
@@ -2255,7 +2492,20 @@ function App() {
               </div>
 
               {/* Archived & Hidden Tools Section */}
-              {hiddenTools.length > 0 && (
+              
+                  {unplacedOptionalTools.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setShowExtensionsDrawer((prev) => !prev)}
+                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                      title="Toggle remote extensions drawer"
+                    >
+                      <Icons.Popout className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Available Extensions ({unplacedOptionalTools.length})</span>
+                    </button>
+                  )}
+
+                  {hiddenTools.length > 0 && (
                 <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-6 shadow-theme-xs">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -2355,14 +2605,14 @@ function App() {
 
               <form onSubmit={handleSaveGlobalConfig} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="netris_url" className="block text-sm font-medium text-gray-700 mb-1">
                     Netris Controller URL
                   </label>
                   <input
                     type="text"
                     value={globalConfig.netris_url}
                     onChange={(e) => setGlobalConfig({ ...globalConfig, netris_url: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-coral-500 text-sm font-mono"
+                    id="netris_url" name="netris_url" className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-coral-500 text-sm font-mono"
                     placeholder="https://adam-ctl.netris.io"
                     required
                   />
@@ -2370,7 +2620,7 @@ function App() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="netris_username" className="block text-sm font-medium text-gray-700 mb-1">
                       Netris Admin Username
                     </label>
                     <input
@@ -2378,18 +2628,19 @@ function App() {
                       value={globalConfig.netris_username}
                       onChange={(e) => setGlobalConfig({ ...globalConfig, netris_username: e.target.value })}
                       className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-coral-500 text-sm"
-                      placeholder="netris"
+                      id="netris_username" name="netris_username" placeholder="netris"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="netris_password" className="block text-sm font-medium text-gray-700 mb-1">
                       Netris Admin Password
                     </label>
                     <div className="relative">
                       <input
                         type={showPassword ? 'text' : 'password'}
+                        id="netris_password" name="netris_password" autoComplete="current-password"
                         value={globalConfig.netris_password}
                         onChange={(e) => setGlobalConfig({ ...globalConfig, netris_password: e.target.value })}
                         className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-coral-500 text-sm pr-16 font-mono"
