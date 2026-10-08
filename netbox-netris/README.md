@@ -9,6 +9,10 @@ summary: "Containerized bi-directional synchronization between NetBox (IPAM/DCIM
 updated: "2026-09-10"
 ---
 
+> **[WARNING] Demonstration Code Only**
+> This repository contains unsupported demonstration code for architectural illustration. It is a **possible implementation pattern**, not an official Netris product or supported tool. Use at your own risk.
+
+
 # NetBox ↔ Netris IPAM Bi-Directional Sync
 
 A turnkey, deployable integration bridging [NetBox](https://netboxlabs.com/) (DCIM/IPAM) and the [Netris Controller](https://netris.io/), guaranteeing that IP subnet planning and live physical fabric assignments remain continuously synchronized across systems.
@@ -29,6 +33,10 @@ Without automated synchronization, engineers must manually duplicate subnet rese
 - **Continuous Bi-Directional Mirroring**: Not a one-time migration. Polls both systems every 60 seconds to maintain synchronized state, supporting multiple VPCs.
 
 ---
+
+> **[WARNING] Demonstration Code Only**
+> This repository contains unsupported demonstration code for architectural illustration. It is a **possible implementation pattern**, not an official Netris product or supported tool. Use at your own risk.
+
 
 ## 2. Architecture & Data Flow
 
