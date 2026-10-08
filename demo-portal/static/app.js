@@ -906,6 +906,16 @@ function ToolDetailViewContent({
             </button>
           )}
           
+          {(tool.is_optional && tool.is_downloaded) && (
+            <button 
+              onClick={() => handleUpdateTool(tool.id)} 
+              disabled={actionLoading[tool.id]} 
+              className="px-4 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-sm font-semibold hover:bg-blue-100 shadow-theme-xs flex items-center gap-2"
+            >
+              <Icons.RefreshCw className={`w-3.5 h-3.5 ${actionLoading[tool.id] ? 'animate-spin' : ''}`} />
+              Update Extension
+            </button>
+          )}
           {tool.status === 'running' ? (
             <>
               <button onClick={() => onRestart(tool.id)} disabled={actionLoading[tool.id]} className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50">
@@ -2707,7 +2717,24 @@ function App() {
                 </div>
 
                 {/* Action Submit */}
-                <div className="pt-4 flex items-center justify-end">
+                <div className="pt-4 flex items-center justify-end gap-3">
+                  <button 
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        const res = await fetch('/api/system/update', { method: 'POST' });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.detail || data.message || "Update failed");
+                        alert(data.message || "Portal updated successfully! You may need to restart the backend.");
+                      } catch (e) {
+                        alert("Update failed: " + e.message);
+                      }
+                    }} 
+                    className="px-4 py-2.5 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-200 shadow-theme-xs flex items-center gap-2"
+                  >
+                    <Icons.RefreshCw className="w-4 h-4" />
+                    Update Demo Portal
+                  </button>
                   <button
                     type="submit"
                     disabled={configSaving}
