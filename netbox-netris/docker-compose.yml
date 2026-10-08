@@ -115,7 +115,7 @@ services:
       start_period: 20s
 
   sync-service:
-    build: ./sync-service
+    build: ./app
     restart: unless-stopped
     depends_on:
       netbox:
@@ -132,6 +132,6 @@ services:
       NETBOX_TOKEN_CACHE_PATH: /app/data/netbox_token
     volumes:
       - ./config:/app/config:ro
-      - ./data/sync-service:/app/data
+      - ./dat./app:/app/data
     ports:
       - "8090:8080"
