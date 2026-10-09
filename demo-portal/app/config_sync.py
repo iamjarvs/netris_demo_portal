@@ -211,38 +211,42 @@ def sync_global_to_all_tools(cfg: GlobalConfig) -> Dict[str, bool]:
             results["switch-isolation-cli"] = False
 
     # 6. cli-inspector: config.json
-    insp_dir = REPO_ROOT / "cli-inspector"
-    if insp_dir.exists():
-        try:
-            insp_cfg = insp_dir / "config.json"
-            insp_data = {}
-            if insp_cfg.exists():
-                with open(insp_cfg, "r", encoding="utf-8") as f:
-                    insp_data = json.load(f)
-            else:
-                insp_example = insp_dir / "config.example.json"
-                if insp_example.exists():
-                    with open(insp_example, "r", encoding="utf-8") as f:
+    insp_dirs = [
+        REPO_ROOT / "cli-inspector",
+        REPO_ROOT / "demo-portal" / "managed-tools" / "cli-inspector",
+    ]
+    for insp_dir in insp_dirs:
+        if insp_dir.exists():
+            try:
+                insp_cfg = insp_dir / "config.json"
+                insp_data = {}
+                if insp_cfg.exists():
+                    with open(insp_cfg, "r", encoding="utf-8") as f:
                         insp_data = json.load(f)
                 else:
-                    insp_data = {
-                        "ssh_jump_host": "adam-ctl.netris.io",
-                        "ssh_jump_port": 22,
-                        "ssh_jump_user": "ubuntu",
-                        "ssh_switch_user": "cumulus",
-                        "archive_dir": "~/.cli-inspector/archive",
-                    }
+                    insp_example = insp_dir / "config.example.json"
+                    if insp_example.exists():
+                        with open(insp_example, "r", encoding="utf-8") as f:
+                            insp_data = json.load(f)
+                    else:
+                        insp_data = {
+                            "ssh_jump_host": "adam-ctl.netris.io",
+                            "ssh_jump_port": 22,
+                            "ssh_jump_user": "ubuntu",
+                            "ssh_switch_user": "cumulus",
+                            "archive_dir": "~/.cli-inspector/archive",
+                        }
 
-            insp_data["netris_url"] = cfg.netris_url
-            insp_data["netris_username"] = cfg.netris_username
-            insp_data["netris_password"] = cfg.netris_password
+                insp_data["netris_url"] = cfg.netris_url
+                insp_data["netris_username"] = cfg.netris_username
+                insp_data["netris_password"] = cfg.netris_password
 
-            with open(insp_cfg, "w", encoding="utf-8") as f:
-                json.dump(insp_data, f, indent=2)
-            results["cli-inspector"] = True
-        except Exception as e:
-            logger.error("Failed to write cli-inspector config: %s", e)
-            results["cli-inspector"] = False
+                with open(insp_cfg, "w", encoding="utf-8") as f:
+                    json.dump(insp_data, f, indent=2)
+                results["cli-inspector"] = True
+            except Exception as e:
+                logger.error("Failed to write cli-inspector config: %s", e)
+                results["cli-inspector"] = False
 
     return results
 
@@ -369,7 +373,7 @@ TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
             {
                 "id": "config.json",
                 "name": "config.json (Netris & Jump Host Credentials)",
-                "path": REPO_ROOT / "cli-inspector" / "config.json",
+                "path": (REPO_ROOT / "demo-portal" / "managed-tools" / "cli-inspector" / "config.json") if (REPO_ROOT / "demo-portal" / "managed-tools" / "cli-inspector").exists() else (REPO_ROOT / "cli-inspector" / "config.json"),
                 "rel_path": "cli-inspector/config.json",
                 "format": "json",
                 "description": "Netris Controller API credentials, SSH jump host connection details, and switch SSH settings."

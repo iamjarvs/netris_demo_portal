@@ -559,6 +559,12 @@ def start_tool(
         if existing and existing.poll() is None:
             return True, f"Tool '{tool_id}' is already running (PID {existing.pid})."
 
+        try:
+            from app.config_sync import load_global_config, sync_global_to_all_tools
+            sync_global_to_all_tools(load_global_config())
+        except Exception as e:
+            logger.warning(f"Could not auto-sync global config: {e}")
+
         cmd = effective_cmd or meta.get("start_script") or meta["default_args"]
         proc_env = os.environ.copy()
         env_file = cwd / ".env"
