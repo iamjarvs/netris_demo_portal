@@ -18,7 +18,7 @@ logger = logging.getLogger("demo_portal")
 STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 
 app = FastAPI(
-    title="Demo Command Center",
+    title="Proof of Concept Evaluations",
     description="Centralized process management, health monitoring, and configuration portal for demo tools.",
     version="1.0.0",
 )
@@ -70,7 +70,7 @@ def serve_index():
     index_file = STATIC_DIR / "index.html"
     if index_file.exists():
         return FileResponse(index_file)
-    return {"message": "Demo Command Center API is running. Build the frontend or check /docs."}
+    return {"message": "Proof of Concept Evaluations API is running. Build the frontend or check /docs."}
 
 
 @app.get("/healthz")

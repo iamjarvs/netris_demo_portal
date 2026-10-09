@@ -77,6 +77,10 @@ while [[ $# -gt 0 ]]; do
             DO_BACKFILL="false"
             shift
             ;;
+        --sim-data)
+            CUSTOM_SIM_DATA="$2"
+            shift 2
+            ;;
         -r|--record)
             DURATION="${2:-300}"
             INTERVAL="${3:-15}"
@@ -133,7 +137,11 @@ fi
 # Mode-specific preparation
 if [ "$MODE" = "sim" ]; then
     export SIMULATION_MODE="true"
-    SIM_DATA_FILE="${SIM_DATA_FILE:-sim_data/telemetry_recording.json}"
+    if [ -n "$CUSTOM_SIM_DATA" ]; then
+        export SIM_DATA_FILE="$CUSTOM_SIM_DATA"
+    else
+        export SIM_DATA_FILE="${SIM_DATA_FILE:-sim_data/telemetry_recording.json}"
+    fi
 
     echo -e "${BOLD}${CYAN}[⚡ MODE] SIMULATION (100% Offline Replay)${NC}"
     echo -e "[*] Simulation Data File:     ${BOLD}${SIM_DATA_FILE}${NC}"

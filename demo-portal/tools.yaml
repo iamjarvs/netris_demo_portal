@@ -1,10 +1,4 @@
 tools:
-  - id: "switch-isolation-cli"
-    name: "Switch Isolation CLI"
-    type: "local"
-    path: "../switch-isolation-cli"
-    description: "Netris switch isolation tool"
-    optional: false
   - id: "netris-prometheus-exporter"
     name: "Prometheus Exporter"
     type: "git"

@@ -23,20 +23,18 @@ DEFAULT_CATEGORIES: List[Dict[str, Any]] = [
     {"id": "cat-workload", "name": "Tenant Workload", "order": 4, "collapsed": False},
     {"id": "cat-traffic", "name": "Traffic Simulation", "order": 5, "collapsed": False},
     {"id": "cat-ipam", "name": "IPAM & DCIM", "order": 6, "collapsed": False},
+    {"id": "cat-other", "name": "Other", "order": 7, "collapsed": True},
 ]
 
 TOOL_DEFAULT_CATEGORY_MAP: Dict[str, str] = {
     "fabric-builder-ui": "cat-control-plane",
     "provider-portal": "cat-control-plane",
-    "netris-slurm-cluster-sim": "cat-orchestration",
+    "netris-slurm-cluster-sim": "cat-other",
     "cli-inspector": "cat-assurance",
-    "switch-isolation-cli": "cat-assurance",
     "netris-prometheus-exporter": "cat-telemetry",
-    "chatsim": "cat-workload",
-    "gpu-ai-fabric-traffic-sim": "cat-traffic",
-    "netris-controller-gpu-traffic-sim": "cat-traffic",
+    "chatsim": "cat-other",
     "netbox-netris": "cat-ipam",
-    "remote-tf-viewer": "cat-control-plane",
+    "remote-tf-viewer": "cat-other",
 }
 
 
@@ -72,7 +70,7 @@ def get_default_layout() -> DashboardLayout:
 
         order = cat_counters.get(cat_id, 0)
         cat_counters[cat_id] = order + 1
-        tool_placements[tool_id] = ToolPlacement(category_id=cat_id, order=order, hidden=False)
+        tool_placements[tool_id] = ToolPlacement(category_id=cat_id, order=order, hidden=manager.TOOLS_METADATA[tool_id].get("hidden", False))
 
     return DashboardLayout(categories=categories, tool_placements=tool_placements)
 
@@ -111,7 +109,7 @@ def load_layout() -> DashboardLayout:
                 target_cat = layout.categories[0].id
             existing_in_cat = [p for p in layout.tool_placements.values() if p.category_id == target_cat]
             new_order = max([p.order for p in existing_in_cat], default=-1) + 1
-            layout.tool_placements[tool_id] = ToolPlacement(category_id=target_cat, order=new_order, hidden=False)
+            layout.tool_placements[tool_id] = ToolPlacement(category_id=target_cat, order=new_order, hidden=manager.TOOLS_METADATA[tool_id].get("hidden", False))
             modified = True
 
     # Check that each placed tool references a valid category

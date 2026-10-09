@@ -202,6 +202,46 @@ async function deleteCategoryApi(catId) {
 
 // --- Icons Component Helpers ---
 const Icons = {
+  Globe: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  ),
+  BarChart: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  ),
+  Terminal: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  ),
+  Database: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+    </svg>
+  ),
+  Box: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+    </svg>
+  ),
+  Store: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+  ),
+  ChevronLeft: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    </svg>
+  ),
+  ChevronRight: (props) => (
+    <svg {...props} className={props.className || "w-5 h-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    </svg>
+  ),
   RefreshCw: (props) => (
     <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -820,6 +860,154 @@ function TelemetryRecordingModal({ isOpen, onClose, notify, recordingState, setR
 
 
 
+function ConfigFormEditor({ content, format, onChange }) {
+  const [items, setItems] = React.useState([]);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!content) {
+      setItems([]);
+      return;
+    }
+    try {
+      if (format === 'json') {
+        const obj = JSON.parse(content);
+        const parsed = Object.keys(obj).map((k, idx) => ({
+          id: idx,
+          type: 'kv',
+          key: k,
+          value: typeof obj[k] === 'string' ? obj[k] : JSON.stringify(obj[k]),
+          isSecret: /password|secret|key|token|pass/i.test(k),
+          show: false
+        }));
+        setItems(parsed);
+      } else if (format === 'yaml') {
+        const parsed = content.split('\n').map((line, idx) => {
+          const match = line.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
+          if (match && !line.startsWith(' ')) {
+            return { id: idx, type: 'kv', key: match[1], value: match[2].replace(/^["'](.*)["']$/, '$1'), isSecret: /password|secret|key|token|pass/i.test(match[1]), show: false, raw: line };
+          }
+          return { id: idx, type: 'raw', raw: line };
+        });
+        setItems(parsed);
+      } else {
+        // shell / env
+        const parsed = content.split('\n').map((line, idx) => {
+          const match = line.match(/^([a-zA-Z0-9_.-]+)=(.*)$/);
+          if (match) {
+            return { id: idx, type: 'kv', key: match[1], value: match[2].replace(/^["'](.*)["']$/, '$1'), isSecret: /password|secret|key|token|pass/i.test(match[1]), show: false, raw: line };
+          }
+          return { id: idx, type: 'raw', raw: line };
+        });
+        setItems(parsed);
+      }
+      setError(null);
+    } catch (e) {
+      setError("Cannot parse this file format as a form. Please use the text editor fallback.");
+      setItems([{id: 0, type: 'raw', raw: content}]); // fallback
+    }
+  }, [content, format]);
+
+  const handleChange = (id, newVal) => {
+    const newItems = items.map(item => item.id === id ? { ...item, value: newVal } : item);
+    setItems(newItems);
+    
+    // Serialize back to string
+    let newContent = '';
+    if (format === 'json') {
+      try {
+        const obj = JSON.parse(content || '{}');
+        newItems.forEach(item => {
+           if (item.type === 'kv') {
+             try {
+               obj[item.key] = JSON.parse(item.value);
+             } catch(e) {
+               obj[item.key] = item.value;
+             }
+           }
+        });
+        newContent = JSON.stringify(obj, null, 2);
+      } catch (e) {
+        newContent = content; // Fallback
+      }
+    } else if (format === 'yaml') {
+      newContent = newItems.map(item => {
+        if (item.type === 'kv') {
+           return `${item.key}: ${item.value}`;
+        }
+        return item.raw;
+      }).join('\n');
+    } else {
+      newContent = newItems.map(item => {
+        if (item.type === 'kv') {
+           // wrap in quotes if there are spaces
+           const v = item.value.includes(' ') ? `"${item.value}"` : item.value;
+           return `${item.key}=${v}`;
+        }
+        return item.raw;
+      }).join('\n');
+    }
+    onChange(newContent);
+  };
+
+  const toggleShow = (id) => {
+    setItems(items.map(item => item.id === id ? { ...item, show: !item.show } : item));
+  };
+
+  const kvItems = items.filter(i => i.type === 'kv');
+
+  if (error || kvItems.length === 0) {
+    return (
+      <textarea 
+        value={content} 
+        onChange={e => onChange(e.target.value)}
+        className="flex-1 w-full bg-[#1E1E1E] text-[#D4D4D4] font-mono text-sm p-4 focus:outline-none resize-none"
+        spellCheck={false}
+      />
+    );
+  }
+
+  return (
+    <div className="flex-1 overflow-y-auto bg-transparent p-6">
+      <div className="max-w-4xl mx-auto space-y-4">
+        {kvItems.map(item => (
+          <div key={item.id} className="bg-gray-900/50 p-4 rounded-xl border border-gray-800 shadow-sm flex flex-col md:flex-row md:items-center gap-4">
+            <div className="md:w-1/3 flex-shrink-0">
+              <label className="block text-sm font-semibold text-gray-300 font-mono break-all">{item.key}</label>
+            </div>
+            <div className="flex-1 relative flex items-center">
+              {item.isSecret && !item.show ? (
+                <input 
+                  type="password" 
+                  value={item.value} 
+                  onChange={(e) => handleChange(item.id, e.target.value)}
+                  className="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500 font-mono pr-12"
+                />
+              ) : (
+                <input 
+                  type="text" 
+                  value={item.value} 
+                  onChange={(e) => handleChange(item.id, e.target.value)}
+                  className="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500 font-mono pr-12"
+                />
+              )}
+              {item.isSecret && (
+                <button 
+                  onClick={() => toggleShow(item.id)}
+                  className="absolute right-3 text-gray-500 hover:text-gray-300 text-xs font-semibold"
+                >
+                  {item.show ? 'HIDE' : 'SHOW'}
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
 function ToolDetailView(props) {
   return <ErrorBoundary><ToolDetailViewContent {...props} /></ErrorBoundary>;
 }
@@ -827,7 +1015,7 @@ function ToolDetailView(props) {
 function ToolDetailViewContent({
  tool, onStart, onStop, onRestart, fetchLogs, configCatalog, fetchConfigFile, saveConfigFile, openTerminal, actionLoading, openSessionModal, handleUpdateTool }) {
   const [logs, setLogs] = React.useState([]);
-  const [activeSubTab, setActiveSubTab] = React.useState('config');
+  const [activeSubTab, setActiveSubTab] = React.useState('overview');
   const [fileContent, setFileContent] = React.useState('');
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [fileDirty, setFileDirty] = React.useState(false);
@@ -836,6 +1024,13 @@ function ToolDetailViewContent({
 
   if (!tool) return null; const toolConfig = configCatalog.find(c => c.tool_id === tool.id);
   
+  const activeFileObj = toolConfig?.files.find(f => f.id === selectedFile);
+  const activeFileFormat = activeFileObj ? activeFileObj.format : 'shell';
+
+  React.useEffect(() => {
+    setActiveSubTab('overview');
+  }, [tool.id]);
+
   React.useEffect(() => {
     let interval;
     if (activeSubTab === 'logs') {
@@ -952,6 +1147,12 @@ function ToolDetailViewContent({
       {!isInstalling && (
       <div className="flex border-b border-gray-200 px-4">
         <button 
+          onClick={() => setActiveSubTab('overview')} 
+          className={`px-4 py-3 text-sm font-medium border-b-2 ${activeSubTab === 'overview' ? 'border-coral-600 text-coral-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+        >
+          Overview
+        </button>
+        <button 
           onClick={() => setActiveSubTab('config')} 
           className={`px-4 py-3 text-sm font-medium border-b-2 ${activeSubTab === 'config' ? 'border-coral-600 text-coral-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
         >
@@ -975,6 +1176,69 @@ function ToolDetailViewContent({
                <h3 className="text-lg font-medium text-gray-900 mb-1">Tool Not Installed</h3>
                <p className="text-sm">Click "Install & Start" above to clone and initialize this tool.</p>
              </div>
+          </div>
+        ) : activeSubTab === 'overview' ? (
+          <div className="flex-1 overflow-y-auto bg-gray-50 p-8 text-gray-800">
+            <div className="max-w-3xl mx-auto space-y-6">
+              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-theme-xs">
+                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">About this tool</h3>
+                <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{tool.description || 'No description available for this tool.'}</p>
+              </div>
+              
+              {tool.status === 'running' && (
+                <div className="bg-white rounded-xl border border-success-200 p-6 shadow-theme-xs">
+                  <h3 className="text-sm font-bold text-success-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-success-500"></span> Live Metrics & Endpoints
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                     <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">
+                        <div className="text-xs text-gray-500 mb-1">Process State</div>
+                        <div className="font-bold text-success-700 text-sm">Running</div>
+                     </div>
+                     {tool.uptime && (
+                       <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">
+                          <div className="text-xs text-gray-500 mb-1">Uptime</div>
+                          <div className="font-mono text-gray-800 text-sm">{tool.uptime}</div>
+                       </div>
+                     )}
+                     {tool.port && (
+                       <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">
+                          <div className="text-xs text-gray-500 mb-1">Local Port</div>
+                          <div className="font-mono text-gray-800 text-sm">{tool.port}</div>
+                       </div>
+                     )}
+                     {tool.popout_url && (
+                       <div className="p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner col-span-full">
+                          <div className="text-xs text-gray-500 mb-2">Web Interface</div>
+                          <a href={tool.popout_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 rounded-md text-xs font-semibold transition">
+                            Open {tool.name} in New Tab
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                          </a>
+                       </div>
+                     )}
+                  </div>
+                </div>
+              )}
+
+              {tool.credentials && tool.credentials.length > 0 && tool.credentials.some(c => !c.no_auth) && (
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-theme-xs">
+                  <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">Access Credentials</h3>
+                  <div className="space-y-3">
+                    {tool.credentials.filter(c => !c.no_auth).map((cred, idx) => (
+                      <div key={idx} className="flex flex-col gap-1 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <div className="text-xs text-gray-500 font-semibold">{cred.label || 'Login Info'}</div>
+                        <div className="text-sm text-gray-800">
+                          <span className="font-medium mr-2">User:</span> <code className="bg-white px-1.5 py-0.5 rounded border border-gray-200">{cred.username}</code>
+                        </div>
+                        <div className="text-sm text-gray-800">
+                          <span className="font-medium mr-2">Pass:</span> <code className="bg-white px-1.5 py-0.5 rounded border border-gray-200">{cred.password}</code>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         ) : activeSubTab === 'logs' ? (
           <div className="flex-1 overflow-y-auto p-4 font-mono text-xs text-gray-300">
@@ -1010,13 +1274,13 @@ function ToolDetailViewContent({
                       {fileSaving ? 'Saving...' : 'Save File'}
                     </button>
                   </div>
-                  <textarea 
-                    value={fileContent} 
-                    onChange={e => { setFileContent(e.target.value); setFileDirty(true); }}
-                    className="flex-1 w-full bg-[#1E1E1E] text-[#D4D4D4] font-mono text-sm p-4 focus:outline-none resize-none"
-                    spellCheck={false}
-                    disabled={loadingFile}
-                  />
+                  <div className="flex-1 overflow-auto bg-[#1E1E1E]">
+                    <ConfigFormEditor 
+                      content={fileContent} 
+                      format={activeFileFormat} 
+                      onChange={val => { setFileContent(val); setFileDirty(true); }} 
+                    />
+                  </div>
                 </div>
               </>
             ) : (
@@ -1051,8 +1315,18 @@ class ErrorBoundary extends React.Component {
 
 // --- App Root Component ---
 
+
+const getToolIcon = (tool) => {
+  const tid = tool.id.toLowerCase();
+  if (tid.includes('portal') || tid.includes('ui')) return <Icons.Globe />;
+  if (tid.includes('prometheus') || tid.includes('telemetry') || tid.includes('exporter')) return <Icons.BarChart />;
+  if (tid.includes('cli') || tid.includes('tf') || tid.includes('terraform')) return <Icons.Terminal />;
+  if (tid.includes('netbox') || tid.includes('ipam')) return <Icons.Database />;
+  return <Icons.Box />;
+};
+
 function App() {
-  const [activeTab, setActiveTab] = useState('global-config'); // overview, global-config, tool-configs, logs
+  const [activeTab, setActiveTab] = useState('overview'); // overview, global-config, tool-configs, logs, catalogue
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState({});
@@ -1099,6 +1373,9 @@ function App() {
   const [layout, setLayout] = useState({ categories: [], tool_placements: {} });
   const [layoutLoading, setLayoutLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isOtherOpen, setIsOtherOpen] = useState(false);
+  const [catalogueSearchQuery, setCatalogueSearchQuery] = useState('');
   const [showHiddenDrawer, setShowHiddenDrawer] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null); // { id, name }
   const [newCategoryModalOpen, setNewCategoryModalOpen] = useState(false);
@@ -1674,93 +1951,159 @@ function App() {
       )}
 
       {/* --- Sidebar (280px fixed) --- */}
-      <aside className="w-[280px] bg-white border-r border-gray-200 fixed top-0 bottom-0 left-0 flex flex-col z-30 shadow-theme-xs">
+      <aside className={`bg-white border-r border-gray-200 fixed top-0 bottom-0 left-0 flex flex-col z-30 shadow-theme-xs transition-all duration-300 ${isSidebarCollapsed ? 'w-[80px]' : 'w-[280px]'}`}>
         {/* Brand / Header */}
-        <div className="h-[72px] px-6 border-b border-gray-200 flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-coral-50 flex items-center justify-center border border-coral-200 shadow-2xs">
-            <div className="w-4 h-4 rounded-full bg-coral-500"></div>
+        <div className="h-[72px] px-4 border-b border-gray-200 flex items-center justify-between">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="w-9 h-9 rounded-xl bg-coral-50 flex items-center justify-center border border-coral-200 shadow-2xs flex-shrink-0">
+              <div className="w-4 h-4 rounded-full bg-coral-500"></div>
+            </div>
+            {!isSidebarCollapsed && (
+              <div className="whitespace-nowrap">
+                <h1 className="text-base font-bold text-gray-900 tracking-tight">Proof of Concept</h1>
+                <p className="text-[10px] text-gray-400">Netris & AI Fabric Hub</p>
+              </div>
+            )}
           </div>
-          <div>
-            <h1 className="text-base font-bold text-gray-900 tracking-tight">Demo Command Center</h1>
-            <p className="text-xs text-gray-400">Netris & AI Fabric Hub</p>
-          </div>
+          <button 
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition hidden md:block flex-shrink-0"
+            title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isSidebarCollapsed ? <Icons.ChevronRight className="w-4 h-4" /> : <Icons.ChevronLeft className="w-4 h-4" />}
+          </button>
         </div>
 
         {/* Navigation Items */}
-                <nav className="p-4 space-y-1.5 flex-1 overflow-y-auto">
-          <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2 px-2">Settings</div>
+        <nav className="p-3 space-y-1.5 flex-1 overflow-y-auto overflow-x-hidden">
           <button
-            onClick={() => setActiveTab('global-config')}
-            className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
-              activeTab === 'global-config'
+            onClick={() => setActiveTab('overview')}
+            title="Overview Hub"
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
+              activeTab === 'overview'
                 ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
                 : 'text-gray-700 hover:bg-gray-100'
-            }`}
+            } ${isSidebarCollapsed ? 'justify-center' : ''}`}
           >
-            <Icons.Settings />
-            <span>Shared Controller Settings</span>
+            <Icons.Dashboard className="w-5 h-5 flex-shrink-0" />
+            {!isSidebarCollapsed && <span>Overview Hub</span>}
           </button>
           
-          <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6 px-2 flex justify-between items-center">
-            <span>Installed Tools</span>
-            <span className="inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold text-blue-700 bg-blue-100 rounded-full">{tools.filter(t => !t.is_optional || t.is_downloaded).length}</span>
+          <div className={`text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6 px-2 flex items-center ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+            {!isSidebarCollapsed && <span>Installed Tools</span>}
+            <span className={`inline-flex items-center justify-center text-xs font-bold text-blue-700 bg-blue-100 rounded-full ${isSidebarCollapsed ? 'w-5 h-5' : 'px-2 py-0.5'}`}>
+              {tools.filter(t => (!t.is_optional || t.is_downloaded) && t.category !== 'Other').length}
+            </span>
           </div>
-          {tools.filter(t => !t.is_optional || t.is_downloaded).map(t => (
+          
+          {tools.filter(t => (!t.is_optional || t.is_downloaded) && t.category !== 'Other').map(t => (
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id)}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
+              title={t.name}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition relative group ${
                 activeTab === t.id
                   ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
                   : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              } ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}
             >
               <div className="flex items-center gap-3 truncate">
-                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${t.status === 'running' ? 'bg-success-500' : 'bg-gray-300'}`}></span>
-                <span className="truncate" title={t.name}>{t.name}</span>
+                <span className="flex-shrink-0 text-gray-500 group-hover:text-current">{getToolIcon(t)}</span>
+                {!isSidebarCollapsed && <span className="truncate text-left" title={t.name}>{t.name}</span>}
               </div>
+              {!isSidebarCollapsed && (
+                <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${t.status === 'running' ? 'bg-success-500' : 'bg-gray-300'}`}></span>
+              )}
+              {isSidebarCollapsed && t.status === 'running' && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-success-500 shadow-sm border border-white"></span>
+              )}
             </button>
           ))}
-          
-          {tools.filter(t => t.is_optional && !t.is_downloaded).length > 0 && (
-            <>
-              <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6 px-2">Marketplace</div>
-              {tools.filter(t => t.is_optional && !t.is_downloaded).map(t => (
-                <button
-                  key={t.id}
-                  onClick={() => setActiveTab(t.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition ${
-                    activeTab === t.id
-                      ? 'bg-blue-50 text-blue-700 font-semibold shadow-2xs'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                  <span className="truncate" title={t.name}>{t.name}</span>
-                </button>
-              ))}
-            </>
+
+          {/* Collapsible "Other" Section */}
+          {tools.filter(t => (!t.is_optional || t.is_downloaded) && t.category === 'Other').length > 0 && (
+            <div className="mt-4">
+              <button
+                onClick={() => {
+                  if (isSidebarCollapsed) setIsSidebarCollapsed(false);
+                  setIsOtherOpen(!isOtherOpen || isSidebarCollapsed);
+                }}
+                title="Other Tools"
+                className={`w-full flex items-center px-2 py-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-wider hover:bg-gray-100 rounded transition cursor-pointer ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}
+              >
+                {!isSidebarCollapsed && <span>Other Tools</span>}
+                <svg className={`w-3.5 h-3.5 transition-transform flex-shrink-0 ${isOtherOpen && !isSidebarCollapsed ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  {isSidebarCollapsed ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />}
+                </svg>
+              </button>
+              
+              {isOtherOpen && !isSidebarCollapsed && (
+                <div className="mt-1 space-y-1 pl-2 border-l-2 border-gray-100 ml-3">
+                  {tools.filter(t => (!t.is_optional || t.is_downloaded) && t.category === 'Other').map(t => (
+                    <button
+                      key={t.id}
+                      onClick={() => setActiveTab(t.id)}
+                      title={t.name}
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition ${
+                        activeTab === t.id
+                          ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
+                          : 'text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <span className="flex-shrink-0 w-4 h-4 text-gray-500">{getToolIcon(t)}</span>
+                        <span className="truncate text-xs" title={t.name}>{t.name}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
-        </nav>
-        {/* Footer Info */}
-        <div className="p-4 border-t border-gray-200 bg-gray-50 text-xs text-gray-500">
-          <div className="flex justify-between items-center mb-1">
-            <span className="font-medium text-gray-700">Port 8800 Active</span>
-            <span className="inline-flex items-center gap-1 text-success-600 font-medium">
-              <span className="w-2 h-2 rounded-full bg-success-500"></span> Online
-            </span>
+
+          <div className={`text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6 px-2 flex ${isSidebarCollapsed ? 'justify-center' : ''}`}>
+            {!isSidebarCollapsed && <span>Additional Tools</span>}
           </div>
-          <p className="text-gray-400">TailAdmin v2 &middot; Netris Architecture</p>
-        </div>
+          <button
+            onClick={() => setActiveTab('catalogue')}
+            title="Search Tool Catalogue"
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
+              activeTab === 'catalogue'
+                ? 'bg-blue-50 text-blue-700 font-semibold shadow-2xs'
+                : 'text-gray-700 hover:bg-gray-100'
+            } ${isSidebarCollapsed ? 'justify-center' : ''}`}
+          >
+            <Icons.Store className="w-5 h-5 flex-shrink-0" />
+            {!isSidebarCollapsed && <span>Search Tool Catalogue</span>}
+          </button>
+
+          <div className="mt-8 pt-4 border-t border-gray-100">
+            <div className={`text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 px-2 flex ${isSidebarCollapsed ? 'justify-center' : ''}`}>
+              {!isSidebarCollapsed && <span>Settings</span>}
+            </div>
+            <button
+              onClick={() => setActiveTab('global-config')}
+              title="Shared Controller Settings"
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
+                activeTab === 'global-config'
+                  ? 'bg-coral-50 text-coral-700 font-semibold shadow-2xs'
+                  : 'text-gray-700 hover:bg-gray-100'
+              } ${isSidebarCollapsed ? 'justify-center' : ''}`}
+            >
+              <Icons.Settings className="w-5 h-5 flex-shrink-0" />
+              {!isSidebarCollapsed && <span className="truncate">Shared Controller Settings</span>}
+            </button>
+          </div>
+        </nav>
       </aside>
 
       {/* --- Main Content Canvas --- */}
-      <main className="ml-[280px] flex-1 flex flex-col min-w-0">
+      <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isSidebarCollapsed ? "ml-[80px]" : "ml-[280px]"}`}>
         {/* Header */}
         <header className="sticky top-0 z-20 h-[72px] bg-white border-b border-gray-200 px-8 flex items-center justify-between shadow-theme-xs">
           <div>
                         <h2 className="text-xl font-bold text-gray-900 capitalize">
-              {activeTab === 'overview' && 'Demo Control Hub'}
+              {activeTab === 'overview' && 'Proof of Concept Evaluations'}
               {activeTab === 'global-config' && 'Shared Netris Controller Settings'}
               {activeTab === 'tool-configs' && 'Interactive Tool Configuration Files'}
               {activeTab === 'logs' && 'Live Process & Container Logs'}
@@ -1838,7 +2181,7 @@ function App() {
           {/* ========================================================================= */}
           {/* TAB 1: OVERVIEW / DASHBOARD                                               */}
           {/* ========================================================================= */}
-          {activeTab !== 'overview' && activeTab !== 'global-config' && activeTab !== 'tool-configs' && activeTab !== 'logs' && (
+          {activeTab !== 'overview' && activeTab !== 'global-config' && activeTab !== 'tool-configs' && activeTab !== 'logs' && activeTab !== 'catalogue' && (
             <ToolDetailView 
               tool={tools.find(t => t.id === activeTab)}
               onStart={handleStart}
@@ -1867,748 +2210,112 @@ function App() {
             />
           )}
           {activeTab === 'overview' && (
-            <>
-              {/* KPI Summary Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-theme-xs">
-                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Total Demo Tools</span>
-                  <div className="text-2xl font-bold text-gray-900 mt-1">{tools.length}</div>
-                  <span className="text-xs text-gray-500 mt-1 block">Full stack across AI cloud</span>
-                </div>
-
-                <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-theme-xs">
-                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Running Now</span>
-                  <div className="text-2xl font-bold text-success-600 mt-1 flex items-center gap-2">
-                    {runningCount}
-                    {runningCount > 0 && <span className="w-2.5 h-2.5 rounded-full bg-success-500 animate-ping"></span>}
-                  </div>
-                  <span className="text-xs text-gray-500 mt-1 block">Ready for customer demos</span>
-                </div>
-
-                <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-theme-xs">
-                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Stopped Tools</span>
-                  <div className="text-2xl font-bold text-gray-600 mt-1">{stoppedCount}</div>
-                  <span className="text-xs text-gray-500 mt-1 block">Standby / inactive</span>
-                </div>
-
-                <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-theme-xs">
-                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Target Controller</span>
-                  <div className="text-sm font-semibold text-gray-900 mt-1 truncate" title={globalConfig.netris_url}>
-                    {globalConfig.netris_url || 'Not configured'}
-                  </div>
-                  <span className="text-xs text-emerald-600 mt-1 block font-medium">Shared credentials synced</span>
+            <div className="max-w-5xl mx-auto w-full px-8 py-8 animate-in fade-in duration-300">
+              {/* Intro Section */}
+              <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-theme-sm text-center mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Welcome to Proof of Concept Evaluations</h2>
+                <p className="text-gray-600 max-w-2xl mx-auto mb-6">
+                  This hub provides centralized management and health monitoring for all Proof of Concept tools and integrations. 
+                  Launch, configure, and monitor evaluations tailored for AI Fabric and cloud networking seamlessly.
+                </p>
+                <div className="flex justify-center gap-4">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-sm font-medium text-gray-700 shadow-2xs">
+                    <span className="w-2.5 h-2.5 rounded-full bg-success-500 animate-pulse"></span>
+                    {runningCount} Tools Running
+                  </span>
+                  <span className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full text-sm font-medium text-gray-700 shadow-2xs">
+                    <span className="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+                    {stoppedCount} Tools Stopped
+                  </span>
                 </div>
               </div>
 
-              {/* Category Management & Search Toolbar */}
-              <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-theme-xs flex flex-wrap items-center justify-between gap-4">
-                <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
-                  {/* Search / Filter Input */}
-                  <div className="relative flex-1 max-w-md">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <Icons.Search className="w-4 h-4" />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Filter tools across categories..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-9 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral-500 focus:bg-white focus:border-transparent transition shadow-2xs"
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery('')}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-gray-400 hover:text-gray-600"
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-gray-900">Installed Tools</h3>
+              </div>
 
-                  {/* Add Custom Category Button */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setNewCategoryName('');
-                      setNewCategoryModalOpen(true);
-                    }}
-                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-coral-50 text-coral-700 hover:bg-coral-100 border border-coral-200 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                    title="Create a new custom category section"
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {tools.filter(t => (!t.is_optional || t.is_downloaded) && t.category !== 'Other').map(tool => (
+                  <div 
+                    key={tool.id} 
+                    onClick={() => setActiveTab(tool.id)}
+                    className="bg-white rounded-xl border border-gray-200 p-5 shadow-theme-xs hover:shadow-theme-md hover:border-coral-200 transition-all cursor-pointer flex flex-col justify-between group"
                   >
-                    <Icons.Plus className="w-3.5 h-3.5 text-coral-600" />
-                    <span>Add Category</span>
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2.5">
-                  {/* Archived / Hidden Tools Pill */}
-                  
-                  {unplacedOptionalTools.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setShowExtensionsDrawer((prev) => !prev)}
-                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                      title="Toggle remote extensions drawer"
-                    >
-                      <Icons.Popout className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>Available Extensions ({unplacedOptionalTools.length})</span>
-                    </button>
-                  )}
-
-                  {hiddenTools.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setShowHiddenDrawer((prev) => !prev)}
-                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                      title="Toggle archived/hidden tools drawer"
-                    >
-                      <Icons.EyeOff className="w-3.5 h-3.5 text-amber-600" />
-                      <span>Archived Tools ({hiddenTools.length})</span>
-                    </button>
-                  )}
-
-                  {/* Reset Layout to Default Button */}
-                  <button
-                    type="button"
-                    onClick={handleResetLayout}
-                    className="px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 hover:bg-gray-100 border border-gray-200 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                    title="Reset category order and tool placements back to default Netris demo flow"
-                  >
-                    <Icons.Reset className="w-3.5 h-3.5 text-gray-500" />
-                    <span>Reset Layout</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Categorized Sections */}
-              <div className="space-y-6">
-                {sortedCategories.map((cat, catIdx) => {
-                  const catTools = getToolsForCategory(cat.id);
-                  const runningInCat = catTools.filter((t) => t.is_running).length;
-                  const isEditing = editingCategory?.id === cat.id;
-                  const isDragTarget = dragOverCategoryId === cat.id;
-                  const isSectionDragTarget = dragOverCategorySectionId === cat.id;
-
-                  if (searchQuery.trim() && catTools.length === 0) return null;
-
-                  return (
-                    <div
-                      key={cat.id}
-                      onDragOver={(e) => {
-                        if (draggedCategoryId) {
-                          e.preventDefault();
-                          if (dragOverCategorySectionId !== cat.id) setDragOverCategorySectionId(cat.id);
-                        } else if (draggedToolId) {
-                          handleToolDragOver(e, cat.id);
-                        }
-                      }}
-                      onDrop={(e) => {
-                        if (draggedCategoryId) {
-                          handleCategoryDrop(e, cat.id);
-                        } else if (draggedToolId) {
-                          handleToolDrop(e, cat.id);
-                        }
-                      }}
-                      className={`bg-white rounded-2xl border transition shadow-theme-xs ${
-                        isDragTarget
-                          ? 'border-coral-500 ring-2 ring-coral-400/30 bg-coral-50/10'
-                          : isSectionDragTarget
-                          ? 'border-indigo-400 ring-2 ring-indigo-400/30'
-                          : 'border-gray-200'
-                      } overflow-hidden`}
-                    >
-                      {/* Section Header */}
-                      <div className="px-6 py-4 bg-gray-50/80 border-b border-gray-200/80 flex items-center justify-between gap-4 select-none">
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          {/* Drag Section Grip */}
-                          <div
-                            draggable="true"
-                            onDragStart={(e) => handleCategoryDragStart(e, cat.id)}
-                            onDragEnd={() => {
-                              setDraggedCategoryId(null);
-                              setDragOverCategorySectionId(null);
-                            }}
-                            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-200/60 rounded transition"
-                            title="Drag to reorder category section"
-                          >
-                            <Icons.GripVertical className="w-4 h-4 text-gray-400" />
-                          </div>
-
-                          {/* Quick Up/Down Shift */}
-                          <div className="flex items-center gap-0.5">
-                            <button
-                              type="button"
-                              onClick={() => handleMoveCategoryOrder(cat.id, -1)}
-                              disabled={catIdx === 0}
-                              className="p-1 text-gray-400 hover:text-gray-700 disabled:opacity-20 disabled:cursor-not-allowed rounded hover:bg-gray-200/60 transition"
-                              title="Move section up"
-                            >
-                              <Icons.ArrowUp className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleMoveCategoryOrder(cat.id, 1)}
-                              disabled={catIdx === sortedCategories.length - 1}
-                              className="p-1 text-gray-400 hover:text-gray-700 disabled:opacity-20 disabled:cursor-not-allowed rounded hover:bg-gray-200/60 transition"
-                              title="Move section down"
-                            >
-                              <Icons.ArrowDown className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-
-                          {/* Category Title (or Inline Edit Form) */}
-                          {isEditing ? (
-                            <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                              <input
-                                type="text"
-                                value={editingCategory.name}
-                                onChange={(e) => setEditingCategory({ ...editingCategory, name: e.target.value })}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') handleSaveRenameCategory(cat.id);
-                                  if (e.key === 'Escape') setEditingCategory(null);
-                                }}
-                                autoFocus
-                                className="px-2.5 py-1 text-sm font-bold border border-coral-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-coral-500 bg-white"
-                              />
-                              <button
-                                type="button"
-                                onClick={() => handleSaveRenameCategory(cat.id)}
-                                className="px-2.5 py-1 bg-coral-600 hover:bg-coral-700 text-white rounded-lg text-xs font-semibold"
-                              >
-                                Save
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setEditingCategory(null)}
-                                className="px-2.5 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg text-xs"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-2 truncate">
-                              <h3
-                                onClick={() => handleToggleCategoryCollapse(cat.id)}
-                                className="text-base font-bold text-gray-900 truncate cursor-pointer hover:text-coral-600 transition"
-                              >
-                                {cat.name}
-                              </h3>
-                              <button
-                                type="button"
-                                onClick={() => setEditingCategory({ id: cat.id, name: cat.name })}
-                                className="p-1 text-gray-400 hover:text-coral-600 hover:bg-gray-200/60 rounded transition cursor-pointer"
-                                title="Rename category"
-                              >
-                                <Icons.Pencil className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          )}
-
-                          {/* Count & Status Badges */}
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[11px] font-semibold bg-gray-200/70 text-gray-700 px-2 py-0.5 rounded-full">
-                              {catTools.length} {catTools.length === 1 ? 'tool' : 'tools'}
-                            </span>
-                            {runningInCat > 0 && (
-                              <span className="text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                {runningInCat} running
-                              </span>
-                            )}
-                          </div>
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-500 group-hover:text-coral-600 group-hover:bg-coral-50 transition-colors">
+                          {getToolIcon(tool)}
                         </div>
-
-                        {/* Right: Actions & Collapse Button */}
-                        <div className="flex items-center gap-2">
-                          {sortedCategories.length > 1 && (
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteCategory(cat.id)}
-                              className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer"
-                              title="Delete this category"
-                            >
-                              <Icons.Trash className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-
-                          <button
-                            type="button"
-                            onClick={() => handleToggleCategoryCollapse(cat.id)}
-                            className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-200/60 rounded-lg transition cursor-pointer"
-                            title={cat.collapsed ? 'Expand section' : 'Collapse section'}
-                          >
-                            {cat.collapsed ? (
-                              <Icons.ChevronRight className="w-4 h-4" />
-                            ) : (
-                              <Icons.ChevronDown className="w-4 h-4" />
-                            )}
-                          </button>
-                        </div>
+                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${tool.status === 'running' ? 'bg-success-100 text-success-700' : 'bg-gray-100 text-gray-600'}`}>
+                          {tool.status}
+                        </span>
                       </div>
-
-                      {/* Section Body */}
-                      {!cat.collapsed && (
-                        <div className="p-6">
-                          {catTools.length === 0 ? (
-                            <div
-                              onDragOver={(e) => handleToolDragOver(e, cat.id)}
-                              onDrop={(e) => handleToolDrop(e, cat.id)}
-                              className={`border-2 border-dashed rounded-xl p-8 text-center transition ${
-                                dragOverCategoryId === cat.id
-                                  ? 'border-coral-500 bg-coral-50/40 text-coral-700'
-                                  : 'border-gray-200 text-gray-400 bg-gray-50/40'
-                              }`}
-                            >
-                              <Icons.Folder className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                              <p className="text-xs font-semibold text-gray-600">No tools currently in this category</p>
-                              <p className="text-[11px] text-gray-400 mt-1">
-                                Drag demo tools here to assign them to this category.
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                              {catTools.map((tool) => {
-                                const isRunning = tool.is_running;
-                                const isBusy = actionLoading[tool.id];
-                                const hasSessionOptions = Boolean(tool.session_options);
-                                const creds = tool.credentials || [];
-                                const isBeingDragged = draggedToolId === tool.id;
-                                const isToolDropTarget = dragOverToolId === tool.id;
-
-                                return (
-                                  <div
-                                    key={tool.id}
-                                    onDragOver={(e) => handleToolDragOver(e, cat.id, tool.id)}
-                                    onDrop={(e) => handleToolDrop(e, cat.id, tool.id)}
-                                    className={`bg-white rounded-2xl border p-6 shadow-theme-xs hover:shadow-theme-sm transition flex flex-col justify-between relative ${
-                                      isBeingDragged
-                                        ? 'opacity-40 border-dashed border-coral-400'
-                                        : isToolDropTarget
-                                        ? 'border-coral-500 ring-2 ring-coral-400/40'
-                                        : 'border-gray-200'
-                                    }`}
-                                  >
-                                    <div>
-                                      {/* Top Row: Drag Handle, Category Pill, Status, Hide */}
-                                      <div className="flex items-center justify-between gap-2 mb-3">
-                                        <div className="flex items-center gap-1.5">
-                                          {/* Tool Drag Handle */}
-                                          <div
-                                            draggable="true"
-                                            onDragStart={(e) => handleToolDragStart(e, tool.id)}
-                                            onDragEnd={() => {
-                                              setDraggedToolId(null);
-                                              setDragOverCategoryId(null);
-                                              setDragOverToolId(null);
-                                            }}
-                                            className="cursor-grab active:cursor-grabbing p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded transition"
-                                            title="Drag to reorder or move between categories"
-                                          >
-                                            <Icons.GripVertical className="w-4 h-4 text-gray-400" />
-                                          </div>
-
-                                          {/* Move Category Button */}
-                                          <button
-                                            type="button"
-                                            onClick={() => setMoveCategoryModalTool(tool)}
-                                            className="text-[11px] font-medium bg-gray-100 text-gray-700 hover:bg-coral-50 hover:text-coral-700 border border-gray-200 hover:border-coral-200 px-2.5 py-0.5 rounded-full transition inline-flex items-center gap-1 cursor-pointer"
-                                            title="Click to move tool to another category"
-                                          >
-                                            <span>{cat.name}</span>
-                                            <Icons.ChevronDown className="w-3 h-3 text-gray-400" />
-                                          </button>
-                                        </div>
-
-                                        <div className="flex items-center gap-1.5">
-                                          {tool.id === 'netris-prometheus-exporter' && recordingState?.is_recording && (
-                                            <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 border border-red-200 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                                              <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
-                                              REC ({recordingState.frames_captured}f)
-                                            </span>
-                                          )}
-
-                                          {isRunning ? (
-                                            <span className="inline-flex items-center gap-1.5 bg-success-50 text-success-600 border border-emerald-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                                              <span className="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse"></span>
-                                              RUNNING
-                                            </span>
-                                          ) : tool.tool_type === 'interactive' ? (
-                                            <span className="bg-coral-50 text-coral-700 border border-coral-200 text-xs px-2.5 py-0.5 rounded-full font-semibold">
-                                              INTERACTIVE
-                                            </span>
-                                          ) : (
-                                            <span className="bg-gray-100 text-gray-500 text-xs px-2.5 py-0.5 rounded-full font-medium">
-                                              STOPPED
-                                            </span>
-                                          )}
-
-                                          {/* Hide/Remove Button */}
-                                          <button
-                                            type="button"
-                                            onClick={() => handleHideTool(tool.id)}
-                                            className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition cursor-pointer ml-1"
-                                            title="Hide tool from dashboard"
-                                          >
-                                            <Icons.EyeOff className="w-3.5 h-3.5" />
-                                          </button>
-                                        </div>
-                                      </div>
-
-                                      {/* Tool Name & Description */}
-                                      <h4 className="text-base font-bold text-gray-900">{tool.name}</h4>
-                                      <p className="text-xs text-gray-500 mt-1.5 leading-relaxed min-h-[38px]">
-                                        {tool.description}
-                                      </p>
-
-                                      {/* Port / Type Badges */}
-                                      <div className="flex flex-wrap items-center gap-2 mt-3.5 text-xs font-mono text-gray-600">
-                                        {tool.port ? (
-                                          <span className="bg-gray-50 border border-gray-200 px-2 py-1 rounded-md">
-                                            Port: <strong className="text-gray-900">{tool.port}</strong>
-                                          </span>
-                                        ) : (
-                                          <span className="bg-gray-50 border border-gray-200 px-2 py-1 rounded-md text-gray-400">
-                                            No HTTP Port
-                                          </span>
-                                        )}
-
-                                        {tool.uptime && (
-                                          <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md font-sans font-medium">
-                                            Uptime: {tool.uptime}
-                                          </span>
-                                        )}
-                                      </div>
-
-                                      {/* --- UI Login Credentials Bar (Directly Above Open App) --- */}
-                                      {creds.length > 0 && (
-                                        <div className="mt-4 p-2.5 rounded-xl bg-gray-50 border border-gray-200/80 flex flex-col gap-1.5">
-                                          <div className="flex items-center justify-between text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                                            <span className="flex items-center gap-1">
-                                              <Icons.Key className="w-3 h-3 text-coral-600" />
-                                              UI Login Credentials
-                                            </span>
-                                            {creds.some((c) => c.no_auth) && (
-                                              <span className="text-emerald-600 font-medium normal-case">Open Web UI</span>
-                                            )}
-                                          </div>
-
-                                          <div className="flex flex-wrap items-center gap-2 mt-0.5">
-                                            {creds.map((cred, cIdx) => {
-                                              if (cred.no_auth) {
-                                                return (
-                                                  <span
-                                                    key={cIdx}
-                                                    className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md text-xs font-medium"
-                                                  >
-                                                    🔓 No Login Required
-                                                  </span>
-                                                );
-                                              }
-
-                                              const passKey = `${tool.id}-pass-${cIdx}`;
-                                              const userKey = `${tool.id}-user-${cIdx}`;
-
-                                              return (
-                                                <div
-                                                  key={cIdx}
-                                                  className="inline-flex items-center gap-1.5 bg-white border border-gray-200 px-2.5 py-1 rounded-lg shadow-2xs text-xs"
-                                                >
-                                                  <span className="text-gray-400 font-medium text-[11px]">{cred.label}:</span>
-                                                  <button
-                                                    type="button"
-                                                    onClick={() => copyToClipboard(cred.username, userKey, setCopiedKey)}
-                                                    className="font-mono font-bold text-gray-900 hover:text-coral-600 transition inline-flex items-center gap-0.5"
-                                                    title="Click to copy username"
-                                                  >
-                                                    <span>{cred.username}</span>
-                                                    {copiedKey === userKey ? (
-                                                      <span className="text-emerald-600 font-bold text-[10px]">✓</span>
-                                                    ) : null}
-                                                  </button>
-
-                                                  <span className="text-gray-300 font-mono">/</span>
-
-                                                  <span className="font-mono text-gray-700 max-w-[130px] truncate" title={cred.password}>
-                                                    {cred.password}
-                                                  </span>
-
-                                                  <button
-                                                    type="button"
-                                                    onClick={() => copyToClipboard(cred.password, passKey, setCopiedKey)}
-                                                    className="p-1 text-gray-400 hover:text-coral-600 hover:bg-gray-100 rounded transition"
-                                                    title="Copy password to clipboard"
-                                                  >
-                                                    {copiedKey === passKey ? (
-                                                      <Icons.Check className="w-3 h-3 text-emerald-600" />
-                                                    ) : (
-                                                      <Icons.Copy className="w-3 h-3" />
-                                                    )}
-                                                  </button>
-                                                </div>
-                                              );
-                                            })}
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-
-                                    {/* Action Buttons Row */}
-                                    <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
-                                      {/* Left: Pop-Out, Interactive Terminal, Recording & Quick Config Actions */}
-                                      <div className="flex flex-wrap items-center gap-2">
-                                        {tool.id === 'switch-isolation-cli' || tool.id === 'cli-inspector' ? (
-                                          <div className="flex items-center gap-1.5">
-                                            <button
-                                              onClick={() => setTerminalModalTool(tool)}
-                                              className="px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs bg-coral-600 hover:bg-coral-700 text-white cursor-pointer"
-                                              title="Open interactive CLI session directly in browser"
-                                            >
-                                              <Icons.Terminal />
-                                              <span>Launch CLI ↗</span>
-                                            </button>
-
-                                            <button
-                                              onClick={() => handleLaunchNative(tool.id)}
-                                              className="px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
-                                              title="Open in native iTerm"
-                                            >
-                                              <Icons.Popout />
-                                              <span className="text-[11px]">iTerm</span>
-                                            </button>
-
-                                            {tool.popout_url && (
-                                              <button
-                                                onClick={() => window.open(tool.popout_url, '_blank')}
-                                                disabled={!isRunning}
-                                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
-                                                  isRunning
-                                                    ? 'bg-blue-600 hover:bg-blue-700 text-white cursor-pointer'
-                                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                }`}
-                                                title={isRunning ? `Open ${tool.name} Web Dashboard` : 'Start tool first to open Web Dashboard'}
-                                              >
-                                                <Icons.Popout />
-                                                <span>Web Dashboard ↗</span>
-                                              </button>
-                                            )}
-                                          </div>
-                                        ) : tool.popout_url ? (
-                                          <button
-                                            onClick={() => window.open(tool.popout_url, '_blank')}
-                                            disabled={!isRunning}
-                                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs ${
-                                              isRunning
-                                                ? 'bg-coral-600 hover:bg-coral-700 text-white cursor-pointer'
-                                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            }`}
-                                            title={isRunning ? `Open ${tool.name} in new browser tab` : 'Start tool first to open app'}
-                                          >
-                                            <Icons.Popout />
-                                            <span>Open App ↗</span>
-                                          </button>
-                                        ) : (
-                                          <span className="text-xs text-gray-400 italic px-1">Backend Daemon</span>
-                                        )}
-
-                                        {/* Telemetry Recording Trigger Button on Prometheus Card */}
-                                        {tool.id === 'netris-prometheus-exporter' && (
-                                          <button
-                                            onClick={() => setRecordingModalOpen(true)}
-                                            className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition shadow-2xs inline-flex items-center gap-1.5 cursor-pointer ${
-                                              recordingState?.is_recording
-                                                ? 'bg-red-600 border-red-700 text-white animate-pulse'
-                                                : 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100 hover:border-red-300'
-                                            }`}
-                                            title="Record live Netris telemetry for offline simulation looping"
-                                          >
-                                            <span className={`w-2 h-2 rounded-full ${recordingState?.is_recording ? 'bg-white animate-ping' : 'bg-red-600'}`}></span>
-                                            <span>{recordingState?.is_recording ? 'Recording Live...' : 'Record Telemetry'}</span>
-                                          </button>
-                                        )}
-
-                                        {/* Direct Config File Jump */}
-                                        <button
-                                          onClick={() => openConfigEditor(tool.id)}
-                                          className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 hover:text-coral-700 text-xs font-medium transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
-                                          title="Edit configuration files for this tool"
-                                        >
-                                          <Icons.FileCode className="w-3.5 h-3.5 text-gray-500" />
-                                          <span className="text-[11px]">Config</span>
-                                        </button>
-                                      </div>
-
-                                      {/* Right: Controls (Start, Session Options, Stop, Restart, Logs) */}
-                                      <div className="flex items-center gap-1.5">
-                                        {isRunning ? (
-                                          <>
-                                            <button
-                                              onClick={() => handleStop(tool.id)}
-                                              disabled={isBusy}
-                                              className="p-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 text-xs font-medium transition shadow-2xs cursor-pointer"
-                                              title="Stop application"
-                                            >
-                                              <Icons.Stop />
-                                            </button>
-                                            <button
-                                              onClick={() => handleRestart(tool.id)}
-                                              disabled={isBusy}
-                                              className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs font-medium transition shadow-2xs cursor-pointer"
-                                              title="Restart application"
-                                            >
-                                              <Icons.Refresh />
-                                            </button>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {/* Session Configurator Trigger Button */}
-                                            {hasSessionOptions && (
-                                              <button
-                                                onClick={() => openSessionModal(tool)}
-                                                disabled={isBusy}
-                                                className="p-1.5 rounded-lg border border-coral-200 text-coral-700 bg-coral-50 hover:bg-coral-100 text-xs font-medium transition shadow-2xs inline-flex items-center gap-1 cursor-pointer"
-                                                title="Configure session inputs before starting"
-                                              >
-                                                <Icons.Sliders className="w-3.5 h-3.5 text-coral-600" />
-                                                <span className="text-[11px] font-semibold">Session</span>
-                                              </button>
-                                            )}
-
-                                            <button
-                                              onClick={() => handleStart(tool.id)}
-                                              disabled={isBusy}
-                                              className="bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 px-3 py-1.5 rounded-lg text-xs font-semibold inline-flex items-center gap-1.5 transition shadow-theme-xs cursor-pointer"
-                                              title="Start program with defaults"
-                                            >
-                                              <Icons.Play />
-                                              <span>{isBusy ? 'Starting...' : 'Start'}</span>
-                                            </button>
-                                          </>
-                                        )}
-
-                                        <button
-                                          onClick={() => openLogs(tool.id)}
-                                          className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-100 text-xs font-medium transition shadow-2xs cursor-pointer"
-                                          title="Inspect live console logs"
-                                        >
-                                          <Icons.Terminal />
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                      <h4 className="text-base font-bold text-gray-900 mb-1 group-hover:text-coral-700 transition-colors">{tool.name}</h4>
+                      <p className="text-xs text-gray-500 line-clamp-2">{tool.description}</p>
                     </div>
-                  );
-                })}
-              </div>
-
-              {/* Archived & Hidden Tools Section */}
-              
-                  {unplacedOptionalTools.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setShowExtensionsDrawer((prev) => !prev)}
-                      className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 transition inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                      title="Toggle remote extensions drawer"
-                    >
-                      <Icons.Popout className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>Available Extensions ({unplacedOptionalTools.length})</span>
-                    </button>
-                  )}
-
-                  {hiddenTools.length > 0 && (
-                <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-6 shadow-theme-xs">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
-                        <Icons.EyeOff className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2">
-                          <span>Archived & Hidden Tools</span>
-                          <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">
-                            {hiddenTools.length}
-                          </span>
-                        </h4>
-                        <p className="text-xs text-gray-500">
-                          These demo tools are hidden from the active category view but remain fully installed and operable.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          hiddenTools.forEach((t) => handleRestoreTool(t.id));
-                        }}
-                        className="px-3 py-1.5 text-xs font-semibold text-coral-600 hover:bg-coral-50 border border-coral-200 rounded-lg transition cursor-pointer shadow-2xs"
-                      >
-                        Restore All to Dashboard
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setShowHiddenDrawer((prev) => !prev)}
-                        className="px-3.5 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition cursor-pointer shadow-2xs"
-                      >
-                        {showHiddenDrawer ? 'Hide Details' : 'Review Hidden Tools'}
-                      </button>
+                    <div className="mt-4 pt-3 border-t border-gray-100 flex items-center text-sm font-medium text-coral-600 group-hover:text-coral-700">
+                      Open Tool
+                      <svg className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
                     </div>
                   </div>
-
-                  {showHiddenDrawer && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 pt-5 border-t border-gray-100">
-                      {hiddenTools.map((tool) => (
-                        <div
-                          key={tool.id}
-                          className="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col justify-between"
-                        >
-                          <div>
-                            <div className="flex items-center justify-between gap-2 mb-1">
-                              <h5 className="text-xs font-bold text-gray-900">{tool.name}</h5>
-                              <span className="text-[10px] font-mono bg-gray-200 text-gray-600 px-1.5 py-0.5 rounded">
-                                {tool.tool_type}
-                              </span>
-                            </div>
-                            <p className="text-[11px] text-gray-500 line-clamp-2">{tool.description}</p>
-                          </div>
-
-                          <div className="mt-3 pt-2.5 border-t border-gray-200/80 flex items-center justify-between gap-2">
-                            <select
-                              defaultValue={layout.categories[0]?.id || ''}
-                              onChange={(e) => handleRestoreTool(tool.id, e.target.value)}
-                              className="text-[11px] bg-white border border-gray-300 rounded-lg px-2 py-1 text-gray-700 focus:outline-none focus:ring-1 focus:ring-coral-500"
-                            >
-                              <option disabled value="">Move to category...</option>
-                              {sortedCategories.map((c) => (
-                                <option key={c.id} value={c.id}>To: {c.name}</option>
-                              ))}
-                            </select>
-
-                            <button
-                              type="button"
-                              onClick={() => handleRestoreTool(tool.id)}
-                              className="px-3 py-1 bg-coral-600 hover:bg-coral-700 text-white text-[11px] font-semibold rounded-lg transition shadow-2xs cursor-pointer"
-                            >
-                              Restore
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-            </>
+                ))}
+              </div>
+            </div>
           )}
 
-          {/* ========================================================================= */}
-          {/* TAB 2: GLOBAL CONFIGURATION                                               */}
-          {/* ========================================================================= */}
+          {activeTab === 'catalogue' && (
+            <div className="max-w-6xl mx-auto w-full px-8 py-8 animate-in fade-in duration-300">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Search Tool Catalogue</h2>
+                  <p className="text-sm text-gray-500 mt-1">Browse and install additional Proof of Concept evaluations from the marketplace.</p>
+                </div>
+                <div className="relative max-w-sm w-full">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search catalogue..."
+                    value={catalogueSearchQuery}
+                    onChange={(e) => setCatalogueSearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-2xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {tools
+                  .filter(t => t.is_optional && !t.is_downloaded)
+                  .filter(t => t.name.toLowerCase().includes(catalogueSearchQuery.toLowerCase()) || t.description.toLowerCase().includes(catalogueSearchQuery.toLowerCase()))
+                  .map(tool => (
+                  <div key={tool.id} className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col shadow-theme-xs">
+                    <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center mb-4">
+                      {getToolIcon(tool)}
+                    </div>
+                    <h4 className="text-base font-bold text-gray-900 mb-2">{tool.name}</h4>
+                    <p className="text-xs text-gray-500 flex-1 mb-4">{tool.description}</p>
+                    <button
+                      onClick={() => setActiveTab(tool.id)}
+                      className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition"
+                    >
+                      View Details & Install
+                    </button>
+                  </div>
+                ))}
+                {tools.filter(t => t.is_optional && !t.is_downloaded).length === 0 && (
+                  <div className="col-span-full py-12 text-center bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+                    <Icons.Box className="w-10 h-10 text-gray-400 mx-auto mb-3" />
+                    <h3 className="text-gray-900 font-semibold mb-1">All Tools Installed</h3>
+                    <p className="text-gray-500 text-sm">There are no more tools available in the catalogue at this time.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {activeTab === 'global-config' && (
             <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-theme-xs max-w-3xl">
               <div className="mb-6">
@@ -2849,16 +2556,16 @@ function App() {
                         Loading configuration from disk...
                       </div>
                     ) : (
-                      <textarea
-                        rows={22}
-                        value={toolConfigContent}
-                        onChange={(e) => {
-                          setToolConfigContent(e.target.value);
-                          setFileDirty(true);
-                        }}
-                        className="w-full font-mono text-xs bg-gray-950 text-emerald-300 p-5 focus:outline-none focus:ring-2 focus:ring-coral-500 leading-relaxed resize-y"
-                        spellCheck="false"
-                      ></textarea>
+                      <div className="h-[480px] bg-gray-950 overflow-auto border border-gray-800">
+                        <ConfigFormEditor 
+                          content={toolConfigContent} 
+                          format={activeToolCatalogEntry?.files?.find(f => f.id === selectedFileId)?.format || 'shell'} 
+                          onChange={(val) => {
+                            setToolConfigContent(val);
+                            setFileDirty(true);
+                          }} 
+                        />
+                      </div>
                     )}
                   </div>
 
@@ -3112,7 +2819,7 @@ function App() {
       {/* ========================================================================= */}
       {/* MODAL 2: LIVE PROCESS LOGS INSPECTOR                                      */}
       {/* ========================================================================= */}
-      {selectedToolLogs && activeTab !== 'logs' && (
+      {selectedToolLogs && activeTab !== 'logs' && activeTab !== 'catalogue' && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-theme-lg max-w-4xl w-full flex flex-col max-h-[85vh] overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">

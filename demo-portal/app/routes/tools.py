@@ -58,6 +58,15 @@ def restart_tool(tool_id: str):
     return ActionResponse(success=True, message=msg, tool_id=tool_id)
 
 
+@router.post("/{tool_id}/update", response_model=ActionResponse)
+def update_tool(tool_id: str):
+    """Update a specific demo tool (git pull)."""
+    success, msg = manager.update_tool(tool_id)
+    if not success:
+        raise HTTPException(status_code=400, detail=msg)
+    return ActionResponse(success=True, message=msg, tool_id=tool_id)
+
+
 @router.get("/{tool_id}/logs", response_model=LogResponse)
 def get_tool_logs(tool_id: str, limit: int = Query(default=100, ge=1, le=1000)):
     """Retrieve in-memory logs for a tool."""
@@ -212,7 +221,11 @@ async def terminal_websocket(websocket: WebSocket, tool_id: str):
 @router.post("/netris-prometheus-exporter/record", response_model=ActionResponse)
 def start_telemetry_recording(req: RecordRequest):
     """Trigger background telemetry recording from Netris Controller for offline looping."""
-    success, msg = manager.start_telemetry_recording(duration=req.duration, interval=req.interval)
+    success, msg = manager.start_telemetry_recording(
+        duration=req.duration, 
+        interval=req.interval,
+        output_file=req.output_file
+    )
     if not success:
         raise HTTPException(status_code=400, detail=msg)
     return ActionResponse(success=True, message=msg, tool_id="netris-prometheus-exporter")

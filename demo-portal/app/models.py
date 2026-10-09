@@ -20,6 +20,7 @@ class ToolInfo(BaseModel):
     summary_command: str
     is_optional: bool = False
     is_downloaded: bool = True
+    commits_behind: Optional[int] = None
     credentials: List[Dict[str, Any]] = Field(default_factory=list)
     session_options: Optional[Dict[str, Any]] = None
 

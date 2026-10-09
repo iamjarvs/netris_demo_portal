@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/adam/.gemini/antigravity/scratch/netris-demo-tools/demo-portal/app/main.py", line 10, in <module>
+    from app import manager
+ModuleNotFoundError: No module named 'app'

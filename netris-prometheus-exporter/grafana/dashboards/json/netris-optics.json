@@ -755,6 +755,11 @@
         "label": "Device",
         "multi": true,
         "name": "device_name",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "options": [],
         "query": {
           "query": "label_values(netris_device_info{device_role=~\"leaf|spine|oob_leaf\"}, device_name)",

@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY config.py netris_client.py sim_client.py record.py enricher.py exporter.py ./
+COPY app/ ./app/
 
 EXPOSE 9101
 

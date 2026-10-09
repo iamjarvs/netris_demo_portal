@@ -32,7 +32,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
     "netris-slurm-cluster-sim": {
         "id": "netris-slurm-cluster-sim",
         "name": "Slurm Dynamic Cluster Orchestrator",
-        "category": "Workload Orchestration",
+        "category": "Other",
         "description": "Simulates Slurm HPC job scheduling, dynamically provisioning and dismantling Netris Server Clusters & RoCEv2 V-Nets.",
         "tool_type": "subprocess",
         "port": 8088,
@@ -58,7 +58,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
     "chatsim": {
         "id": "chatsim",
         "name": "Meridian ChatSim Console",
-        "category": "Tenant Workload",
+        "category": "Other",
         "description": "In-cluster AI chat assistant prop running on compute nodes, reflecting real tenant branding, Netris VPC, and active GPU rails.",
         "tool_type": "subprocess",
         "port": 8765,
@@ -96,47 +96,6 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "cwd": REPO_ROOT / "netbox-netris",
         "summary_command": "./start-netbox-integration.sh",
     },
-    "gpu-ai-fabric-traffic-sim": {
-        "id": "gpu-ai-fabric-traffic-sim",
-        "name": "GPU AI Fabric Traffic Simulator",
-        "category": "Traffic Simulation",
-        "description": "Containerized multi-rail RoCEv2 iPerf3 collective traffic generator (Ring-AllReduce, MoE All-to-All, Incast) across mock GPU nodes.",
-        "tool_type": "docker",
-        "port": None,
-        "popout_url": None,
-        "health_endpoint": None,
-        "start_script": ["docker", "compose", "up", "-d"],
-        "stop_script": ["docker", "compose", "down"],
-        "cwd": REPO_ROOT / "gpu-ai-fabric-traffic-sim",
-        "summary_command": "./start.sh",
-    },
-    "netris-controller-gpu-traffic-sim": {
-        "id": "netris-controller-gpu-traffic-sim",
-        "name": "Controller GPU Fabric Runner",
-        "category": "Hardware Traffic Sim",
-        "description": "Netris Controller automation discovering VPC GPU hosts, deploying offline iPerf3 binaries, and running bare-metal traffic.",
-        "tool_type": "remote",
-        "port": None,
-        "popout_url": None,
-        "health_endpoint": None,
-        "start_script": ["./deploy.sh"],
-        "stop_script": [],
-        "cwd": REPO_ROOT / "netris-controller-gpu-traffic-sim",
-        "summary_command": "./deploy.sh",
-    },
-    "switch-isolation-cli": {
-        "id": "switch-isolation-cli",
-        "name": "Switch Isolation & Assurance CLI",
-        "category": "Fabric Assurance & Isolation",
-        "description": "Interactive terminal utility demonstrating physical Top-of-Rack switch isolation (EVPN/VXLAN & Pure VRF) and dynamic VPC draining.",
-        "tool_type": "interactive",
-        "port": None,
-        "popout_url": None,
-        "health_endpoint": None,
-        "default_args": ["./run.sh"],
-        "cwd": REPO_ROOT / "switch-isolation-cli",
-        "summary_command": "./run.sh",
-    },
     "cli-inspector": {
         "id": "cli-inspector",
         "name": "Cumulus Switch CLI Inspector & Config Audit",
@@ -173,7 +132,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
     "remote-tf-viewer": {
         "id": "remote-tf-viewer",
         "name": "Remote Terraform Explorer (VS Code)",
-        "category": "Cloud Control Plane",
+        "category": "Other",
         "description": "Opens VS Code via Remote-SSH connected directly to the Netris Controller to explore and edit live Spectrum-X Day-0 Terraform manifests.",
         "tool_type": "subprocess",
         "port": None,
@@ -252,78 +211,6 @@ SESSION_OPTIONS_REGISTRY: Dict[str, Dict[str, Any]] = {
             }
         ]
     },
-    "gpu-ai-fabric-traffic-sim": {
-        "title": "GPU AI Fabric Traffic Session Configuration",
-        "description": "Select collective RoCEv2 pattern, duration, and maximum bandwidth limits across pretend GPU containers.",
-        "fields": [
-            {
-                "id": "pattern",
-                "label": "Collective Communication Pattern",
-                "type": "select",
-                "default": "ring-allreduce",
-                "options": [
-                    {"value": "ring-allreduce", "label": "Ring-AllReduce (Synchronous circular ring)"},
-                    {"value": "all-to-all", "label": "MoE All-to-All (Distributed expert shuffle)"},
-                    {"value": "incast", "label": "Incast Many-to-One (Checkpoint burst)"},
-                    {"value": "multi-rail", "label": "8-Rail Independent Saturation"}
-                ]
-            },
-            {
-                "id": "duration",
-                "label": "Traffic Duration (seconds)",
-                "type": "number",
-                "default": 5,
-                "min": 1,
-                "max": 300
-            },
-            {
-                "id": "max_bandwidth",
-                "label": "Aggregate Bandwidth Cap",
-                "type": "select",
-                "default": "",
-                "options": [
-                    {"value": "", "label": "Uncapped / Line Rate (~400 Gbps)"},
-                    {"value": "400M", "label": "400 Mbps (Lab Limit)"},
-                    {"value": "1G", "label": "1 Gbps"},
-                    {"value": "2G", "label": "2 Gbps"}
-                ]
-            }
-        ]
-    },
-    "netris-controller-gpu-traffic-sim": {
-        "title": "Controller Remote Traffic Session Configuration",
-        "description": "Execute collective traffic simulation across remote bare-metal HGX servers from the Netris Controller.",
-        "fields": [
-            {
-                "id": "pattern",
-                "label": "Collective Pattern",
-                "type": "select",
-                "default": "ring-allreduce",
-                "options": [
-                    {"value": "ring-allreduce", "label": "Ring-AllReduce"},
-                    {"value": "moe-alltoall", "label": "MoE All-to-All"}
-                ]
-            },
-            {
-                "id": "duration",
-                "label": "Iteration Duration (seconds)",
-                "type": "number",
-                "default": 5
-            },
-            {
-                "id": "max_bandwidth",
-                "label": "Bandwidth Cap (e.g. 400M)",
-                "type": "text",
-                "default": "400M"
-            },
-            {
-                "id": "continuous",
-                "label": "Run Continuous Background Loop",
-                "type": "boolean",
-                "default": False
-            }
-        ]
-    }
 }
 
 

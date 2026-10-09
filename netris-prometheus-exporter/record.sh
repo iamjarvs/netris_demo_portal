@@ -29,7 +29,7 @@ fi
 
 DURATION="${1:-300}"
 INTERVAL="${2:-15}"
-OUTPUT="sim_data/telemetry_recording.json"
+OUTPUT="${3:-sim_data/telemetry_recording.json}"
 
 echo -e "[*] Recording Duration: ${BOLD}${DURATION} seconds${NC}"
 echo -e "[*] Frame Interval:     ${BOLD}${INTERVAL} seconds${NC}"
