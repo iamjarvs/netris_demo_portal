@@ -709,6 +709,48 @@ def restart_tool(tool_id: str) -> tuple[bool, str]:
     return start_tool(tool_id)
 
 
+def update_tool(tool_id: str) -> tuple[bool, str]:
+    """Update a git-managed tool in place (pull latest), cloning it if it is not yet present."""
+    meta = TOOLS_METADATA.get(tool_id)
+    if not meta:
+        return False, f"Tool '{tool_id}' not found."
+
+    cwd = Path(meta["cwd"])
+    git_url = meta.get("url")
+
+    if not cwd.exists():
+        if not git_url:
+            return False, f"Tool '{tool_id}' is not installed and has no git URL to clone from."
+        _append_log(tool_id, f"Cloning {git_url} into {cwd}...")
+        cwd.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            subprocess.run(["git", "clone", git_url, str(cwd)], check=True, capture_output=True, text=True, timeout=300)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+            err = (getattr(e, "stderr", "") or str(e)).strip()
+            _append_log(tool_id, f"Clone failed: {err}")
+            return False, f"Failed to clone {git_url}: {err}"
+        _append_log(tool_id, "Clone complete.")
+        return True, f"{meta.get('name', tool_id)} installed from {git_url}."
+
+    if not (cwd / ".git").exists():
+        return False, f"'{cwd}' is not a git repository, so it cannot be updated automatically."
+
+    _append_log(tool_id, "Updating: git pull --rebase --autostash ...")
+    try:
+        res = subprocess.run(
+            ["git", "pull", "--rebase", "--autostash"],
+            cwd=cwd, check=True, capture_output=True, text=True, timeout=300,
+        )
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+        err = (getattr(e, "stderr", "") or str(e)).strip()
+        _append_log(tool_id, f"Update failed: {err}")
+        return False, f"Git update failed: {err}"
+
+    out = res.stdout.strip() or "Already up to date."
+    _append_log(tool_id, out)
+    return True, f"{meta.get('name', tool_id)} updated: {out.splitlines()[-1]}"
+
+
 def get_logs(tool_id: str, limit: int = 100) -> List[str]:
     """Get the latest log lines for a tool."""
     buf = _LOG_BUFFERS[tool_id]
