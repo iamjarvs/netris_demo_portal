@@ -55,9 +55,9 @@ graph TD
     subgraph TargetTools ["Managed Repository Tools"]
         T1["gpu-ai-fabric-traffic-sim/"]
         T2["netris-controller-gpu-traffic-sim/"]
-        T3["netris-prometheus-exporter/"]
+        T3["managed-tools/netris-prometheus-exporter/"]
         T4["netris-slurm-cluster-sim/"]
-        T5["netbox-netris/"]
+        T5["managed-tools/netbox-netris/"]
         T6["provider-portal/"]
         T7["chatsim/"]
     end
@@ -113,9 +113,9 @@ When you save settings in the **Shared Controller Settings** tab, the portal aut
 
 | Target File | Configuration Variables Written |
 |---|---|
-| `netris-prometheus-exporter/netris.var` | `NETRIS_BASE_URL`, `NETRIS_USERNAME`, `NETRIS_PASSWORD`, `NETRIS_VERIFY_SSL` |
-| `netris-prometheus-exporter/.env` | `NETRIS_BASE_URL`, `NETRIS_USERNAME`, `NETRIS_PASSWORD`, `NETRIS_VERIFY_SSL` |
-| `netbox-netris/.env` | `NETRIS_URL`, `NETRIS_USER`, `NETRIS_PASSWORD` |
+| `managed-tools/netris-prometheus-exporter/netris.var` | `NETRIS_BASE_URL`, `NETRIS_USERNAME`, `NETRIS_PASSWORD`, `NETRIS_VERIFY_SSL` |
+| `managed-tools/netris-prometheus-exporter/.env` | `NETRIS_BASE_URL`, `NETRIS_USERNAME`, `NETRIS_PASSWORD`, `NETRIS_VERIFY_SSL` |
+| `managed-tools/netbox-netris/.env` | `NETRIS_URL`, `NETRIS_USER`, `NETRIS_PASSWORD` |
 | `provider-portal/.env` | Controller endpoint credentials and operator authentication |
 | `netris-slurm-cluster-sim/.env` | `NETRIS_URL`, `NETRIS_USERNAME`, `NETRIS_PASSWORD`, `DEFAULT_TENANT`, `DEFAULT_SITE` |
 

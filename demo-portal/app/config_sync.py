@@ -11,6 +11,7 @@ from app.models import GlobalConfig
 logger = logging.getLogger("config_sync")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+MANAGED_TOOLS_DIR = REPO_ROOT / "demo-portal" / "managed-tools"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 CONFIG_FILE = DATA_DIR / "global_config.json"
 
@@ -28,7 +29,7 @@ def load_global_config() -> GlobalConfig:
 
     # Fallback: check netbox-netris/.env or netris-prometheus-exporter/netris.var
     cfg = GlobalConfig()
-    netbox_env = REPO_ROOT / "netbox-netris" / ".env"
+    netbox_env = MANAGED_TOOLS_DIR / "netbox-netris" / ".env"
     if netbox_env.exists():
         try:
             with open(netbox_env, "r", encoding="utf-8") as f:
@@ -60,7 +61,7 @@ def sync_global_to_all_tools(cfg: GlobalConfig) -> Dict[str, bool]:
     save_global_config(cfg)
 
     # 1. netris-prometheus-exporter: netris.var & .env
-    prom_dir = REPO_ROOT / "netris-prometheus-exporter"
+    prom_dir = MANAGED_TOOLS_DIR / "netris-prometheus-exporter"
     if prom_dir.exists():
         try:
             var_file = prom_dir / "netris.var"
@@ -92,7 +93,7 @@ def sync_global_to_all_tools(cfg: GlobalConfig) -> Dict[str, bool]:
             results["netris-prometheus-exporter"] = False
 
     # 2. netbox-netris: .env
-    netbox_dir = REPO_ROOT / "netbox-netris"
+    netbox_dir = MANAGED_TOOLS_DIR / "netbox-netris"
     if netbox_dir.exists():
         try:
             netbox_env = netbox_dir / ".env"
@@ -212,8 +213,7 @@ def sync_global_to_all_tools(cfg: GlobalConfig) -> Dict[str, bool]:
 
     # 6. cli-inspector: config.json
     insp_dirs = [
-        REPO_ROOT / "cli-inspector",
-        REPO_ROOT / "demo-portal" / "managed-tools" / "cli-inspector",
+        MANAGED_TOOLS_DIR / "cli-inspector",
     ]
     for insp_dir in insp_dirs:
         if insp_dir.exists():
@@ -259,7 +259,7 @@ TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
             {
                 "id": "config.env",
                 "name": "config.env (Telemetry, Ports & Simulation)",
-                "path": REPO_ROOT / "netris-prometheus-exporter" / "config.env",
+                "path": MANAGED_TOOLS_DIR / "netris-prometheus-exporter" / "config.env",
                 "rel_path": "netris-prometheus-exporter/config.env",
                 "format": "shell",
                 "description": "General settings: refresh intervals, simulation replay data file, and Grafana admin credentials."
@@ -267,7 +267,7 @@ TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
             {
                 "id": "netris.var",
                 "name": "netris.var (Netris Controller Credentials)",
-                "path": REPO_ROOT / "netris-prometheus-exporter" / "netris.var",
+                "path": MANAGED_TOOLS_DIR / "netris-prometheus-exporter" / "netris.var",
                 "rel_path": "netris-prometheus-exporter/netris.var",
                 "format": "shell",
                 "description": "Netris Controller target URL, API credentials, and TLS verification settings."
@@ -281,7 +281,7 @@ TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
             {
                 "id": ".env",
                 "name": ".env (NetBox & PostgreSQL Secrets)",
-                "path": REPO_ROOT / "netbox-netris" / ".env",
+                "path": MANAGED_TOOLS_DIR / "netbox-netris" / ".env",
                 "rel_path": "netbox-netris/.env",
                 "format": "shell",
                 "description": "NetBox secret key, generated superuser password, Redis credentials, and Netris connection parameters."
@@ -289,7 +289,7 @@ TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
             {
                 "id": "config.yaml",
                 "name": "config/config.yaml (IPAM & Sync Rules)",
-                "path": REPO_ROOT / "netbox-netris" / "config" / "config.yaml",
+                "path": MANAGED_TOOLS_DIR / "netbox-netris" / "config" / "config.yaml",
                 "rel_path": "netbox-netris/config/config.yaml",
                 "format": "yaml",
                 "description": "Bidirectional polling frequencies, NetBox custom field mappings, and Site/Tenant translation rules."
@@ -373,7 +373,7 @@ TOOL_CONFIG_REGISTRY: Dict[str, Dict[str, Any]] = {
             {
                 "id": "config.json",
                 "name": "config.json (Netris & Jump Host Credentials)",
-                "path": (REPO_ROOT / "demo-portal" / "managed-tools" / "cli-inspector" / "config.json") if (REPO_ROOT / "demo-portal" / "managed-tools" / "cli-inspector").exists() else (REPO_ROOT / "cli-inspector" / "config.json"),
+                "path": MANAGED_TOOLS_DIR / "cli-inspector" / "config.json",
                 "rel_path": "cli-inspector/config.json",
                 "format": "json",
                 "description": "Netris Controller API credentials, SSH jump host connection details, and switch SSH settings."

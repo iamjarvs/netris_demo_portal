@@ -18,6 +18,7 @@ from app.models import ToolInfo
 logger = logging.getLogger("tool_manager")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+MANAGED_TOOLS_DIR = REPO_ROOT / "demo-portal" / "managed-tools"
 
 VENV_PYTHON = REPO_ROOT / "demo-portal" / ".venv" / "bin" / "python3"
 PYTHON_EXE = str(VENV_PYTHON) if VENV_PYTHON.exists() else "python3"
@@ -79,7 +80,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "health_endpoint": "http://localhost:3000/api/health",
         "start_script": ["./start.sh", "--sim"],
         "stop_script": ["./stop.sh"],
-        "cwd": REPO_ROOT / "netris-prometheus-exporter",
+        "cwd": MANAGED_TOOLS_DIR / "netris-prometheus-exporter",
         "summary_command": "./start.sh --sim",
     },
     "netbox-netris": {
@@ -93,7 +94,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "health_endpoint": "http://localhost:8090/health",
         "start_script": ["./start.sh"],
         "stop_script": ["./stop.sh"],
-        "cwd": REPO_ROOT / "netbox-netris",
+        "cwd": MANAGED_TOOLS_DIR / "netbox-netris",
         "summary_command": "./start-netbox-integration.sh",
     },
     "cli-inspector": {
@@ -109,7 +110,7 @@ TOOLS_METADATA: Dict[str, Dict[str, Any]] = {
         "stop_script": [],
         "default_args": ["./start.sh"],
         "cli_args": ["./run.sh"],
-        "cwd": REPO_ROOT / "cli-inspector",
+        "cwd": MANAGED_TOOLS_DIR / "cli-inspector",
         "summary_command": "./start.sh",
         "cli_summary_command": "./run.sh",
     },
@@ -235,7 +236,7 @@ def get_tool_credentials(tool_id: str) -> List[Dict[str, Any]]:
         creds.append({"label": "Customer", "username": cust_user, "password": cust_pass, "role": "customer"})
 
     elif tool_id == "netbox-netris":
-        env_path = REPO_ROOT / "netbox-netris" / ".env"
+        env_path = MANAGED_TOOLS_DIR / "netbox-netris" / ".env"
         superuser_pass = "admin"
         if env_path.exists():
             try:
@@ -247,7 +248,7 @@ def get_tool_credentials(tool_id: str) -> List[Dict[str, Any]]:
         creds.append({"label": "Superuser", "username": "admin", "password": superuser_pass, "role": "admin"})
 
     elif tool_id == "netris-prometheus-exporter":
-        conf_path = REPO_ROOT / "netris-prometheus-exporter" / "config.env"
+        conf_path = MANAGED_TOOLS_DIR / "netris-prometheus-exporter" / "config.env"
         g_user, g_pass = "admin", "admin"
         if conf_path.exists():
             try:
@@ -289,7 +290,7 @@ def get_tool_credentials(tool_id: str) -> List[Dict[str, Any]]:
         creds.append({"label": "SSH Jump Host", "username": jump_user, "password": "••••••••", "notes": jump_host})
 
     elif tool_id == "cli-inspector":
-        conf_path = REPO_ROOT / "cli-inspector" / "config.json"
+        conf_path = MANAGED_TOOLS_DIR / "cli-inspector" / "config.json"
         n_user, jump_host, jump_user = "netris", "adam-ctl.netris.io", "ubuntu"
         if conf_path.exists():
             try:
@@ -785,7 +786,7 @@ def start_telemetry_recording(duration: int = 300, interval: int = 15) -> tuple[
         if _RECORDING_STATE["is_recording"]:
             return False, "A telemetry recording session is already active."
 
-        prom_dir = REPO_ROOT / "netris-prometheus-exporter"
+        prom_dir = MANAGED_TOOLS_DIR / "netris-prometheus-exporter"
         output_rel = "sim_data/telemetry_recording.json"
         output_abs = prom_dir / output_rel
         output_abs.parent.mkdir(parents=True, exist_ok=True)
@@ -878,7 +879,7 @@ def get_telemetry_recording_status() -> Dict[str, Any]:
             state["elapsed_seconds"] = round(elapsed, 1)
             dur = max(1, state["duration"])
             state["progress_pct"] = min(99.0, round((elapsed / dur) * 100, 1))
-            prom_dir = REPO_ROOT / "netris-prometheus-exporter"
+            prom_dir = MANAGED_TOOLS_DIR / "netris-prometheus-exporter"
             out_file = prom_dir / state["output_file"]
             if out_file.exists():
                 state["file_size_mb"] = round(out_file.stat().st_size / (1024 * 1024), 2)

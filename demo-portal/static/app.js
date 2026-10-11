@@ -2422,8 +2422,8 @@ function App() {
                 {/* Target Destination File List */}
                 <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 text-xs text-gray-600 space-y-1.5 mt-4">
                   <span className="font-bold text-gray-800 block mb-1">Auto-Propagation Targets on Disk:</span>
-                  <div>&bull; <code className="font-mono text-gray-800">netris-prometheus-exporter/netris.var</code> and <code className="font-mono text-gray-800">.env</code></div>
-                  <div>&bull; <code className="font-mono text-gray-800">netbox-netris/.env</code></div>
+                  <div>&bull; <code className="font-mono text-gray-800">managed-tools/netris-prometheus-exporter/netris.var</code> and <code className="font-mono text-gray-800">.env</code></div>
+                  <div>&bull; <code className="font-mono text-gray-800">managed-tools/netbox-netris/.env</code></div>
                   <div>&bull; <code className="font-mono text-gray-800">provider-portal/.env</code></div>
                   <div>&bull; <code className="font-mono text-gray-800">netris-slurm-cluster-sim/.env</code></div>
                 </div>
